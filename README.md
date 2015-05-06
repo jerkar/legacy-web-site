@@ -1,2 +1,1 @@
-# jerkar.github.io
-Site for Jerkar org
+Html static site for Jerkar org
