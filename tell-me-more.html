@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Jerkar</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Java build tool">
+    <meta name="author" content="Jerome Angibaud">
+    <meta name="keywords" content="build,java,tool,automation,maven,ant,gradle,buildr,make,compiler,tester,jacoco">
+    <meta name="generator" content="JBake">
+
+    <!-- Le styles -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/asciidoctor.css" rel="stylesheet">
+    <link href="css/base.css" rel="stylesheet">
+    <link href="css/prettify.css" rel="stylesheet">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="js/html5shiv.min.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+    <!--<link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">-->
+    <link rel="shortcut icon" href="favicon.ico">
+  </head>
+  <body onload="prettyPrint()">
+    <div id="wrap">
+
+	<!-- Fixed navbar -->
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="">Jerkar</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="feed.xml">Subscribe</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="#">Action</a></li>
+                <li><a href="#">Another action</a></li>
+                <li><a href="#">Something else here</a></li>
+                <li class="divider"></li>
+                <li class="dropdown-header">Nav header</li>
+                <li><a href="#">Separated link</a></li>
+                <li><a href="#">One more separated link</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+    <div class="container">
+	<p><h2>What is Jerkar ?</h2><p>Jerkar is both a Java framework for building project and an automation tool.<br/></p><p>As a framework Jerkar provides :</p>
+<ul>
+  <li>compact fluent style API for performing all kind of build related stuff (File manipulation, compiling, launching unit test, compute dependencies, read/publish to maven repo, ...)</li>
+  <li>a set of pluggable template classes to inherit from for defining builds</li>
+  <li>built-in plugins for Eclipse, test coverage or <em>SonarQube</em> analysis</li>
+  <li>scaffolding for creating quickly project from scratch</li>
+  <li>set of conventions that, in common case, allow Jerkar to deduce everything from your project structure (not a single line of script/configuration required for building your project)</li>
+  <li>full compatibility with <em>Maven</em> and <em>Ivy</em></li>
+</ul><p>As an automation tool it provides :</p>
+<ul>
+  <li>the ability to threat Java source as script : Java sources are compiled on-the-fly prior to be instantiated and method invoked</li>
+  <li>full dependency management to compile "scripts" (script dependencies can be made upon Maven repositories)</li>
+  <li>multi-project handling to allow "script" dependency between projects</li>
+  <li>multi-level parameter injection (via user-local, system-wide property files or by passing argument in the command line)</li>
+</ul><p>These two parts are seamlessly integrated to form a unique product that make incredibly easy to build Java projects.<br/><br/>Of course Jerkar can be used for any automation purpose so as a generic build tool (for LINT and minimize javascript for example)</p><h2>What make Jerkar a simpler, stronger and faster tool for building Java project ?</h2><p>With Jerkar, build script are plain old java class. This leads in tremendous benefits :</p>
+<ul>
+  <li>it's quite easy to add logic in build scripts</li>
+  <li>when editing script, Java developer leverage of compilation, code-completion and debug facilities provided by the IDE</li>
+  <li>the script can be launched/debugged from the IDE as any class providing a Main method</li>
+  <li>the tool is quite simple and performant : in essence, Jerkar engine simply performs direct method invocations on build classes</li>
+  <li>Java developers don't have an extra language or XML soup to master</li>
+  <li>scripts can directly leverage of any Java 3rd party libraries without needing to wrap it in a plugin or a specific component</li>
+  <li>it's straightforward to extend Jerkar</li>
+  <li>refactoring build script is easy and safe (thanks to statically typed nature of Java)</li>
+  <li>developer can leverage of regular Java mechanism (Inheritance, composition, jar module dependency) to re-use build element or share settings</li>
+</ul></p>
+
+	<hr />
+
+		</div>
+		<div id="push"></div>
+    </div>
+    
+    <div id="footer">
+      <div class="container">
+        <p class="muted credit">&copy; 2014 | Mixed with <a href="http://getbootstrap.com/">Bootstrap v3.1.1</a> | Baked with <a href="http://jbake.org">JBake v2.3.2</a></p>
+      </div>
+    </div>
+    
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="js/jquery-1.11.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/prettify.js"></script>
+    
+  </body>
+</html>
