@@ -17,13 +17,13 @@ As a framework Jerkar provides :
 
 As an automation tool it provides :
 
-* the ability to threat Java source as script : Java sources are compiled on-the-fly prior to be instantiated and method invoked
+* the ability to threat Java sources as scripts : Java sources are compiled on-the-fly prior to be instantiated and method invoked
 * full dependency management to compile "scripts" (script dependencies can be made upon Maven repositories)   
 * multi-project handling to allow "script" dependency between projects
 * multi-level parameter injection (via user-local, system-wide property files or by passing argument in the command line)
 
 These two parts are seamlessly integrated to form a unique product that make incredibly easy to build Java projects.<br/>
-Of course Jerkar can be used for any automation purpose so as a generic build tool (for LINT and minimize javascript for example)
+Of course Jerkar can be used for any automation purpose so as a generic build tool
 
 
 ## What make Jerkar a simpler, stronger and faster tool for building Java project ?
