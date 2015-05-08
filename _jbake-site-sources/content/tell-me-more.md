@@ -23,10 +23,10 @@ As an automation tool it provides :
 * multi-level parameter injection (via user-local, system-wide property files or by passing argument in the command line)
 
 These two parts are seamlessly integrated to form a unique product that make incredibly easy to build Java projects.<br/>
-Of course Jerkar can be used for any automation purpose so as a generic build tool
+Of course Jerkar can be used for any automation purpose such as a generic build tool.
 
 
-## What make Jerkar a simpler, stronger and faster tool for building Java project ?
+## What makes Jerkar so nice for building Java project ?
 With Jerkar, build script are plain old java class. This leads in tremendous benefits :
 
 * it's quite easy to add logic in build scripts
