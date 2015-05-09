@@ -4,29 +4,32 @@ status=published
 ~~~~~~
 
 ## What is Jerkar ?
-Jerkar is both a Java framework for building project and an automation tool.<br/>
+Jerkar is both a Java framework for building project and an automation tool. It falls in the same tool category than <i>Ant/Ivy</i>,
+ <i>Maven</i> or <i>Gradle</i>.<br/>
 
 As a framework Jerkar provides :
 
-* compact fluent style API for performing all kind of build related stuff (File manipulation, compiling, launching unit test, compute dependencies, read/publish to maven repo, ...)
-* a set of pluggable template classes to inherit from for defining builds
-* built-in plugins for Eclipse, test coverage or _SonarQube_ analysis
-* scaffolding for creating quickly project from scratch
-* set of conventions that, in common case, allow Jerkar to deduce everything from your project structure (not a single line of script/configuration required for building your project)
+* compact fluent style API for performing all kind of build related stuff (file manipulation, compilation, testing, managing dependencies, read/publish to maven repo, ...)
+* a set of template classes for defining builds
+* a pluggable architecture
 * full compatibility with _Maven_ and _Ivy_
+* a set of conventions that, in common case, allows Jerkar to deduce everything from your project structure (not a single line of script/configuration required for building your project)
+* built-in plugins for Eclipse, test coverage or _SonarQube_ analysis
+* ability to get project build information from the IDE meta-data (Eclipse _.classpath_ for example)
+* scaffolding for creating quickly project from scratch
 
 As an automation tool it provides :
 
-* the ability to threat Java sources as scripts : Java sources are compiled on-the-fly prior to be instantiated and method invoked
+* the ability to threat Java sources as scripts : Java sources are compiled on-the-fly prior to be instantiated then method invoked
 * full dependency management to compile "scripts" (script dependencies can be made upon Maven repositories)   
-* multi-project handling to allow "script" dependency between projects
+* multi-project handling to feature "script" dependency between projects
 * multi-level parameter injection (via user-local, system-wide property files or by passing argument in the command line)
 
 These two parts are seamlessly integrated to form a unique product that make incredibly easy to build Java projects.<br/>
 Of course Jerkar can be used for any automation purpose such as a generic build tool.
 
 
-## What makes Jerkar so nice for building Java project ?
+## Why use Jerkar ?
 With Jerkar, build script are plain old java class. This leads in tremendous benefits :
 
 * it's quite easy to add logic in build scripts
