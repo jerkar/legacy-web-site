@@ -44,7 +44,7 @@ With Jerkar, build scripts are **plain old java classes**. This bare metal appro
 ## What about Java cons ?
 So far, the two main reasons invoked why Java not favored to write build scripts is that :
 
-1. build scripts written in Java would need to be compiled them self prior to be executed
+1. build scripts written in Java would need to be compiled themselves prior to be executed
 2. Java is verbose
 
 Jerkar overcomes these two points by :

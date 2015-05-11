@@ -1,6 +1,8 @@
 <#include "header.ftl">
 	
 	<#include "menu.ftl">
+	
+	<img class="center-block" src="img/underconstruction.gif"/>
 
 	 <!-- Marketing content -->
 	 <div class="jumbotron">
@@ -20,7 +22,7 @@
         <p class="lead">This leads in unrivaled <strong>ease</strong>, <strong>flexibility</strong> and 
         		<strong>solidity</strong> for building Java projects or organization wide systems.</p>
         <a class="btn btn-large btn-success" href="tell-me-more.html">Tell me more</a>
-        <a class="btn btn-large btn-success" href="binaries/jerkar-distrib.zip">Download</a>
+        <a class="btn btn-large btn-success" href="download.html">Download</a>
         <p></p>
         <div class="alert alert-info">
 			<strong>Latest News: </strong>Ready for experimental use</a>
@@ -31,7 +33,7 @@
 			
 	  </div>
 	  
-	  <img src="img/Under_construction_pointer.jpg" height="100" width="200"/>
+	  
 	
 <!--	<#include "sitemap.ftl"> -->
 
