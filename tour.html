@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Tour</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Java build tool">
+    <meta name="author" content="Jerome Angibaud">
+    <meta name="keywords" content="build,java,tool,automation,maven,ant,gradle,buildr,sbt,make,compiler,tester,jacoco">
+    <meta name="generator" content="JBake">
+
+    <!-- Le styles -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <!-- <link href="css/bootstrap.min.css" rel="stylesheet">  -->
+    <link href="css/asciidoctor.css" rel="stylesheet">
+    <link href="css/base.css" rel="stylesheet">
+    <link href="css/prettify.css" rel="stylesheet">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="js/html5shiv.min.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+    <!--<link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">-->
+    <link rel="shortcut icon" href="favicon.ico">
+  </head>
+  <body onload="prettyPrint()">
+    <div id="wrap">
+
+	<!-- Fixed navbar -->
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">Jerkar</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="about.html">About</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Documentation<b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="#">Action</a></li>
+                <li><a href="#">Another action</a></li>
+                <li><a href="#">Something else here</a></li>
+                <li class="divider"></li>
+                <li class="dropdown-header">Nav header</li>
+                <li><a href="#">Separated link</a></li>
+                <li><a href="#">One more separated link</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+       
+        
+      </div>
+    </div>
+    <div class="container">
+	<p><h1>Welcome to Jerkar tour</h1><p>With Jerkar you can write free form build definition (ala <em>Ant</em>) or templated ones (ala <em>Maven</em>). In the following section,<br/>we will illustrate different different approach to use Jerkar.<br/>As Jerkar uses a very small set of concept, at the end of this section, you should have well understood most of the Jerkar principles.<br/><br/></p><h4>Ant style build</h4><p>If you like to have complete control over your build, you may prefere the <em>Ant</em> build style.<br/>The price is that you have to <em>write explicitly</em> what your build is doing. </p><p>This example mimics the <a href="http://ant.apache.org/manual/tutorial-HelloWorldWithAnt.html">tutorial ANT build script</a> </p>
+<pre><code class="Java">public class AntStyleBuild extends JkBuild {
+	
+	File src = baseDir(&quot;src&quot;);
+	File buildDir = baseDir(&quot;build&quot;);
+	File classDir = new File(buildDir, &quot;classes&quot;);
+	File jarFile = new File(buildDir, &quot;jar/&quot; + this.baseDir().root().getName() + &quot;.jar&quot;);
+	String className = &quot;my.mainClass&quot;;
+	JkClasspath classpath = JkClasspath.of(baseDir().include(&quot;libs/*.jar&quot;));
+	File reportDir = new File(buildDir, &quot;junitRreport&quot;);
+	
+	@Override
+	public void doDefault() {
+		clean();run();
+	}
+	
+	public void compile() {
+		JkJavaCompiler.ofOutput(classDir).withClasspath(classpath).andSourceDir(src).compile();
+		JkFileTree.of(src).exclude(&quot;**/*.java&quot;).copyTo(classDir);
+	}
+	
+	public void jar() {
+		compile();
+		JkManifest.empty().addMainClass(&quot;my.main.RunClass&quot;).writeToStandardLocation(classDir);
+		JkZipper.of(classDir).to(jarFile);
+	}	
+	
+	public void run() {
+		jar();
+		JkJavaProcess.of(jarFile).andClasspath(classpath).runSync();
+	}
+	
+	public void cleanBuild() {
+		clean();jar();
+	}
+	
+	public void junit() {
+		jar();
+		JkUnit.ofFork(classpath.and(jarFile))
+				.withClassesToTest(JkFileTree.of(classDir).include(&quot;**/*Test.class&quot;))
+				.withReportDir(reportDir)
+				.withReport(JunitReportDetail.FULL)
+				.run();
+	}
+	
+	public static void main(String[] args) {
+		new AntStyleBuild().doDefault();
+	}
+	
+}
+</code></pre><p>From this build definition, we can execute Jerkar the following way :</p>
+<ul>
+  <li>write a <code>main</code> method in your script and launch it within your IDE.</li>
+  <li>execute the <code>org.jerkar.JkMain.main</code> method in your IDE but with the root of your project as working directory. In this mode you<br/>can pass arguments as you would do with the command line.</li>
+  <li>executing a command line in a shell (or on a build server)</li>
+</ul><p>To execute command line, open a shell and go under the project root directory. From there you can :</p>
+<ul>
+  <li>execute <code>jerkar doDefault</code> =&gt; instantiate <code>JkJavaBuild</code> and invoke the <code>doDefault</code> method.</li>
+  <li>execute <code>jerkar</code> =&gt; do the same, the <code>doDefault</code> method is invoked when none is specified</li>
+  <li>execute <code>jerkar clean junit</code>=&gt; instantiate <code>JkJavaBuild</code> and invoke the <code>clean</code> then <code>junit</code> method.</li>
+</ul><p>Note that Jerkar can look quite similar to <em>Ant</em>. All zero-arg public method returning <code>void</code> are callable by Jerkar and<br/>all build definition must extends <code>org.jerkar.JkBuild</code>.</p><p><br/></p><h4>Maven style build</h4><p>For Java project you may directly extend <code>JkJavaBuild</code> template class which implements common methods for you.<br/>All you need is to implement what is specific.</p>
+<pre><code>public class MavenStyleBuild extends JkJavaBuild {
+	
+	@Override
+	public JkModuleId moduleId() {
+		return JkModuleId.of(&quot;org.jerkar&quot;, &quot;script-samples&quot;);
+	}
+
+	@Override
+	protected JkVersion defaultVersion() {
+		return JkVersion.ofName(&quot;0.3-SNAPSHOT&quot;);
+	}
+
+	@Override
+	// Optional : needless if you use only local dependencies
+	protected JkDependencies dependencies() {
+		return JkDependencies
+				.builder()
+				.on(GUAVA, &quot;18.0&quot;)  // Popular modules are available as Java constant
+				.on(JERSEY_SERVER, &quot;1.19&quot;)
+				.on(&quot;com.orientechnologies:orientdb-client:2.0.8&quot;)
+				.on(JUNIT, &quot;4.11&quot;).scope(TEST).on(MOCKITO_ALL, &quot;1.9.5&quot;)
+				.scope(TEST).build();
+	}
+
+}
+</code></pre><p>This example is for demo purpose. Some settings can be omitted by respecting naming conventions...<br/><br/></p><h4>Conventional style build</h4><p>If you follow conventions (project folder named as <em>groupName.projectName</em> ), the above script is reduced to :</p>
+<pre><code>public class BuildSampleClassic extends JkJavaBuild {
+	
+	@Override  // Optional :  needless if you use only local dependencies
+	protected JkDependencies dependencies() {
+		return JkDependencies.builder() 
+			.on(GUAVA, &quot;18.0&quot;)  
+			.on(JERSEY_SERVER, &quot;1.19&quot;)
+			.on(&quot;com.orientechnologies:orientdb-client:2.0.8&quot;)
+			.on(JUNIT, &quot;4.11&quot;).scope(TEST)
+			.on(MOCKITO_ALL, &quot;1.9.5&quot;).scope(TEST)
+		.build();
+	}	
+}
+</code></pre><p>From here you can :</p>
+<ul>
+  <li>execute <code>jerkar doDefault</code> =&gt; invoke the <code>JkJavaBuild#doDefault</code> method which lead in clean, compile, compile tests, run tests and pack (produce jar and source jar).</li>
+  <li>execute <code>jerkar -fatJar=true -forkTests=true</code> =&gt; do the same but inject the <code>true</code> value to <code>JkJavaBuild#fatJar</code> and <code>JkJavaBuild#forkTests</code> fields. It leads in producing a fat-jar<br/>(jar file containg all the runtime dependencies) and running unit tests in a forked process.</li>
+  <li>execute <code>jerkar -fatJar -forkTests</code> =&gt; do the same, when field values are not mentioned, Jerkar uses a default value (true for boolean fields)</li>
+  <li><p>execute <code>jerkar jacoco#</code> =&gt; will instantiate the <a href="org.jerkar.plugins-jacoco/src/main/java/org/jerkar/plugins/jacoco/JkBuildPluginJacoco.java">jacoco plugin</a> and bind it to the <code>BuidSampleClassic</code> instance. This plugin alter the <code>JkJavaBuild#unitTest</code> method<br/>in such a way that tests are run with Jacoco to produce a test coverage report. '#' is the mark of plugin in Jerkar command line.</p></li>
+  <li>execute <code>jerkar jacoco# -jacoco#produceHtml</code> =&gt; will do the same but also set the <code>JkBuildPluginJacoco#produceHtml</code>field to <code>true</code>. It leads in producing<br/>an html report along the standard jacoco.exec binary report</li>
+  <li><p>execute <code>jerkar doDefault sonar#verify jacoco#</code> =&gt; do the default + execute the method <code>verify</code> method located in the <a href="org.jerkar.plugins-sonar/src/main/java/org/jerkar/plugins/sonar/JkBuildPluginSonar.java">sonar plugin</a>.<br/>Analysis is launched on a local SonarQube server unless you specify specific Sonar settings. Sonar will leverage of jacoco report.</p></li>
+  <li>execute <code>jerkar doDefault sonar#verify -sonar.host.url=http://my.sonar.host:8080</code> to specify a SonarQube server host. <code>-myProp=value</code> is the way<br/>in Jerkar to pass parameters (called options) through the command line.</li>
+</ul><p>If you want the full method along available options on any build, simply type <code>jerkar help</code> and/or <code>jerkar helpPlugins</code>.</p><p>Note that there is other way for passing option than using the command line. You can define them at three other level :<br/>- Coded in the build script itself<br/>- In option.properties file located in Jerkar install directory<br/>- In option.properties file located in [user home]/.jerkar directory</p><p>Note that in the complete source code, you'll find a <code>main</code> method. It's mainly intended to run the whole script friendly in your favorite IDE.<br/>It's even faster cause you skip the script compile phase.</p><h4>Parametrized build</h4><p>___<br/>You can set parameter in the build script itself and add your own custom parameters..<br/>The following example define three possible sonar servers to run analysis on. It also forces the sonar project branch.<br/>````java<br/>public class BuildSampleSonarParametrized extends JkJavaBuild {</p>
+<pre><code>@JkOption(&quot;Sonar server environment&quot;)
+protected SonarEnv sonarEnv = SonarEnv.DEV;
+
+@Override
+protected void init() {
+    JkBuildPluginSonar sonarPlugin = new JkBuildPluginSonar()
+       .prop(JkSonar.HOST_URL, sonarEnv.url)  // set one of the predefined host
+       .prop(JkSonar.BRANCH, &quot;myBranch&quot;);  // set the project branch
+    this.plugins.activate(sonarPlugin);
+}
+
+@Override  
+protected JkDependencies dependencies() {
+    return JkDependencies.builder()
+       .on(GUAVA, &quot;18.0&quot;)  
+       .on(JUNIT, &quot;4.11&quot;).scope(TEST)
+    .build();
+}
+
+@Override
+public void doDefault() {
+    clean();compile();unitTest();
+    verify(); 
+}
+
+public enum SonarEnv {
+    DEV(&quot;dev.myhost:81&quot;),
+    QA(&quot;qa.myhost:81&quot;),
+    PROD(&quot;prod.myhost:80&quot;);
+
+    public final String url;
+
+    SonarEnv(String url) {
+       this.url = url;
+    }
+}
+</code></pre><p>}<br/>``` </p><p>The Sonar plugin is activated programatically in the script so it is not required anymore to mention it in the build script.<br/>So <code>jerkar</code> alone performs a clean, compile, test and sonar analysis on the default sonar environment (DEV).<br/><code>jerkar -sonarEnv=PROD</code>run it upon the the PROD environment. </p></p>
+
+	<hr />
+
+		</div>
+		<div id="push"></div>
+    </div>
+    
+    <div id="footer">
+      <div class="container">
+        <p class="muted credit">&copy; 2014 | Mixed with <a href="http://getbootstrap.com/">Bootstrap v3.1.1</a> | Baked with <a href="http://jbake.org">JBake v2.3.2</a></p>
+      </div>
+    </div>
+    
+    <div class="github hidden-phone hidden-tablet">
+		<a href="https://github.com/jerkar/jerkar"><img style="position: fixed; top: 0; right: 0; border: 0; z-index: 1050;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png" alt="Fork me on GitHub"></a>
+	</div>
+    
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="js/jquery-1.11.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/prettify.js"></script>
+    
+  </body>
+</html>
