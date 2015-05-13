@@ -39,7 +39,7 @@ With Jerkar, build scripts are **plain old java classes**. This bare metal appro
 * scripts can directly leverage of any Java **3rd party libraries** without needing to wrap it in a plugin or a specific component
 * it's straightforward to extend
 * **refactoring** build script is easy and safe (thanks to statically typed nature of Java) 
-* developers can leverage the regular Java mechanisms (Inheritance, composition, jar module dependency) to **re-use build elements** or share settings
+* scripts can be developers can leverage the regular Java mechanisms (Inheritance, composition, jar module dependency) to **re-use build elements** or share settings
 
 ## What about Java cons ?
 So far, the two main reasons invoked why Java not favored to write build scripts is that :
