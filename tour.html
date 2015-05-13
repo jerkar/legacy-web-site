@@ -75,10 +75,11 @@
 	<p><h1>Welcome to Jerkar tour</h1><p>With Jerkar you can write free form build definition (ala <em>Ant</em>) or templated ones (ala <em>Maven</em>). In the following section,<br/>we will illustrate different different approach to use Jerkar.<br/>As Jerkar uses a very small set of concept, at the end of this section, you should have well understood most of the Jerkar principles.<br/><br/></p><h4>Ant style build</h4><p>If you like to have complete control over your build, you may prefere the <em>Ant</em> build style.<br/>The price is that you have to <em>write explicitly</em> what your build is doing. </p><p>This example mimics the <a href="http://ant.apache.org/manual/tutorial-HelloWorldWithAnt.html">tutorial ANT build script</a> </p>
 <pre><code class="Java">public class AntStyleBuild extends JkBuild {
 	
+	String name = &quot;myProject&quot;;
 	File src = baseDir(&quot;src&quot;);
-	File buildDir = baseDir(&quot;build&quot;);
+	File buildDir = baseDir(&quot;build/output&quot;);
 	File classDir = new File(buildDir, &quot;classes&quot;);
-	File jarFile = new File(buildDir, &quot;jar/&quot; + this.baseDir().root().getName() + &quot;.jar&quot;);
+	File jarFile = new File(buildDir, &quot;jar/&quot; + name + &quot;.jar&quot;);
 	String className = &quot;my.mainClass&quot;;
 	JkClasspath classpath = JkClasspath.of(baseDir().include(&quot;libs/*.jar&quot;));
 	File reportDir = new File(buildDir, &quot;junitRreport&quot;);
@@ -124,9 +125,9 @@
 }
 </code></pre><p>From this build definition, we can execute Jerkar the following way :</p>
 <ul>
-  <li>write a <code>main</code> method in your script and launch it within your IDE.</li>
-  <li>execute the <code>org.jerkar.JkMain.main</code> method in your IDE but with the root of your project as working directory. In this mode you<br/>can pass arguments as you would do with the command line.</li>
-  <li>executing a command line in a shell (or on a build server)</li>
+  <li>launch the <code>AntStyleBuild.main</code> within your IDE</li>
+  <li>launch the <code>org.jerkar.JkMain.main</code> method within your IDE. In this mode you<br/>can pass arguments as you would do with the command line</li>
+  <li>execute a command line in a shell (or on a build server)</li>
 </ul><p>To execute command line, open a shell and go under the project root directory. From there you can :</p>
 <ul>
   <li>execute <code>jerkar doDefault</code> =&gt; instantiate <code>JkJavaBuild</code> and invoke the <code>doDefault</code> method.</li>

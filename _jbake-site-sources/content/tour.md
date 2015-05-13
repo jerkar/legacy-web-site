@@ -20,10 +20,11 @@ This example mimics the [tutorial ANT build script](http://ant.apache.org/manual
 ```Java
 public class AntStyleBuild extends JkBuild {
 	
+	String name = "myProject";
 	File src = baseDir("src");
-	File buildDir = baseDir("build");
+	File buildDir = baseDir("build/output");
 	File classDir = new File(buildDir, "classes");
-	File jarFile = new File(buildDir, "jar/" + this.baseDir().root().getName() + ".jar");
+	File jarFile = new File(buildDir, "jar/" + name + ".jar");
 	String className = "my.mainClass";
 	JkClasspath classpath = JkClasspath.of(baseDir().include("libs/*.jar"));
 	File reportDir = new File(buildDir, "junitRreport");
@@ -71,10 +72,10 @@ public class AntStyleBuild extends JkBuild {
 
 From this build definition, we can execute Jerkar the following way :
 
-- write a `main` method in your script and launch it within your IDE.
-- execute the `org.jerkar.JkMain.main` method in your IDE but with the root of your project as working directory. In this mode you
-can pass arguments as you would do with the command line.
-- executing a command line in a shell (or on a build server)  
+- launch the `AntStyleBuild.main` within your IDE
+- launch the `org.jerkar.JkMain.main` method within your IDE. In this mode you
+can pass arguments as you would do with the command line
+- execute a command line in a shell (or on a build server)  
 
 To execute command line, open a shell and go under the project root directory. From there you can :
 
