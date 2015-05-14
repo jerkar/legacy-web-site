@@ -72,8 +72,16 @@
       </div>
     </div>
     <div class="container">
-	<p><h1>Welcome to Jerkar tour</h1><p>With Jerkar you can write free form build definition (ala <em>Ant</em>) or templated ones (ala <em>Maven</em>). In the following section,<br/>we will illustrate different different approach to use Jerkar.<br/>As Jerkar uses a very small set of concept, at the end of this section, you should have well understood most of the Jerkar principles.<br/><br/></p><h4>Ant style build</h4><p>If you like to have complete control over your build, you may prefere the <em>Ant</em> build style.<br/>The price is that you have to <em>write explicitly</em> what your build is doing. </p><p>This example mimics the <a href="http://ant.apache.org/manual/tutorial-HelloWorldWithAnt.html">tutorial ANT build script</a> </p>
+	<p><h1>Welcome to Jerkar tour</h1><p>With Jerkar you can write free form build definition (ala <em>Ant</em>), templated ones (ala <em>Maven</em>) or rely on conventions only (no build script needed). In the following section,<br/>we will illustrate different different approach to use Jerkar. </p><h3>Principles</h3><p>Jerkar is quite simpe in its principle. You write a class extending <code>org.jerkar.JkBuild</code> in the <em>build/def</em> folder of your project then you can execute any public zero arg methods from the command line by executing <code>jerkar myMethod1 myOtherMethod</code> at the root folder of your project.<br/>To accomplish this, Jerkar :</p>
+<ul>
+  <li>compiles every java sources found under the <em>build/def</em> folder</li>
+  <li>instantiates the first compiled class found implementing <code>org.jerkar.JkBuild</code>. If none the <code>org.jerkar.builtins.javabuild.JkJavaBuild</code>class is instantiated</li>
+  <li>invokes specified methods on the created instance. If no method is specified then the <code>doDefault</code>method is invoked</li>
+</ul><p>You can also set any instance field annotated with <code>JkOption</code> from the command line by typing <code>jerkar myMethod -myField=foo</code>.<br/><br/></p><h4>Ant style</h4><p>If you like to have complete control over your build, you may prefere the <em>Ant</em> build style.<br/>The price is that you have to <em>write explicitly</em> what your build is doing. </p><p>This example mimics the <a href="http://ant.apache.org/manual/tutorial-HelloWorldWithAnt.html">tutorial ANT build script</a> </p>
 <pre><code class="Java">public class AntStyleBuild extends JkBuild {
+
+	@JkOption(&quot;Skip test if true&quot;)
+	boolean skipTest;
 	
 	String name = &quot;myProject&quot;;
 	File src = baseDir(&quot;src&quot;);
@@ -86,7 +94,7 @@
 	
 	@Override
 	public void doDefault() {
-		clean();run();
+		clean();jar();run();
 	}
 	
 	public void compile() {
@@ -100,13 +108,18 @@
 		JkZipper.of(classDir).to(jarFile);
 	}	
 	
+	@JkDoc(&quot;Run the application&quot;)
 	public void run() {
-		jar();
 		JkJavaProcess.of(jarFile).andClasspath(classpath).runSync();
 	}
 	
 	public void cleanBuild() {
-		clean();jar();
+		clean();
+		if (skipTest) {
+			jar();
+		} else {
+			junit();
+		}
 	}
 	
 	public void junit() {
@@ -125,23 +138,18 @@
 }
 </code></pre><p>From this build definition, we can execute Jerkar the following way :</p>
 <ul>
-  <li>launch the <code>AntStyleBuild.main</code> within your IDE</li>
-  <li>launch the <code>org.jerkar.JkMain.main</code> method within your IDE. In this mode you<br/>can pass arguments as you would do with the command line</li>
-  <li>execute a command line in a shell (or on a build server)</li>
-</ul><p>To execute command line, open a shell and go under the project root directory. From there you can :</p>
-<ul>
-  <li>execute <code>jerkar doDefault</code> =&gt; instantiate <code>JkJavaBuild</code> and invoke the <code>doDefault</code> method.</li>
-  <li>execute <code>jerkar</code> =&gt; do the same, the <code>doDefault</code> method is invoked when none is specified</li>
-  <li>execute <code>jerkar clean junit</code>=&gt; instantiate <code>JkJavaBuild</code> and invoke the <code>clean</code> then <code>junit</code> method.</li>
-</ul><p>Note that Jerkar can look quite similar to <em>Ant</em>. All zero-arg public method returning <code>void</code> are callable by Jerkar and<br/>all build definition must extends <code>org.jerkar.JkBuild</code>.</p><p><br/></p><h4>Maven style build</h4><p>For Java project you may directly extend <code>JkJavaBuild</code> template class which implements common methods for you.<br/>All you need is to implement what is specific.</p>
+  <li>launch/debug the <code>AntStyleBuild main</code> within your IDE</li>
+  <li>launch/debug the <code>org.jerkar.JkMain main</code> method within your IDE. In this mode you<br/>can pass arguments as you would for the command line</li>
+  <li>execute a command line in a shell (or on a build server) as <code>jerkar doDefault</code> or <code>jerkar cleanBuild -skipTest=true</code>.</li>
+</ul><p><br/></p><h4>Maven style</h4><p>For Java project you may directly extend <code>JkJavaBuild</code> template class which implements common methods for you.<br/>All you need is to implement what is specific.</p>
 <pre><code>public class MavenStyleBuild extends JkJavaBuild {
 	
-	@Override
+	@Override  // optional
 	public JkModuleId moduleId() {
 		return JkModuleId.of(&quot;org.jerkar&quot;, &quot;script-samples&quot;);
 	}
 
-	@Override
+	@Override  // optional
 	protected JkVersion defaultVersion() {
 		return JkVersion.ofName(&quot;0.3-SNAPSHOT&quot;);
 	}
@@ -159,7 +167,7 @@
 	}
 
 }
-</code></pre><p>This example is for demo purpose. Some settings can be omitted by respecting naming conventions...<br/><br/></p><h4>Conventional style build</h4><p>If you follow conventions (project folder named as <em>groupName.projectName</em> ), the above script is reduced to :</p>
+</code></pre><p>This example is for demo purpose. Some settings can be omitted by respecting naming conventions...<br/><br/></p><h4>Conventional style</h4><p>If you follow conventions (project folder named as <em>groupName.projectName</em> ), the above script is reduced to :</p>
 <pre><code>public class BuildSampleClassic extends JkJavaBuild {
 	
 	@Override  // Optional :  needless if you use only local dependencies
@@ -173,53 +181,26 @@
 		.build();
 	}	
 }
-</code></pre><p>From here you can :</p>
+</code></pre><p><br/></p><h4>100% Conventional style !!!</h4><p>If you use only local dependencies (jar dependencies located as bellow), you don't even need to write a build file.<br/>Note that local dependencies have to be located in subfolder corresponding to its scope (build, compile, runtime,...).</p><p><img src="img/full-convention-project.png" alt="Project layout full convention""/></p>
+<hr/><h3>What can you do now ?</h3><p>From a java project having a build definition as above (or just fully conventional), you can perform many tasks :</p><h4>Basic tasks</h4>
 <ul>
-  <li>execute <code>jerkar doDefault</code> =&gt; invoke the <code>JkJavaBuild#doDefault</code> method which lead in clean, compile, compile tests, run tests and pack (produce jar and source jar).</li>
-  <li>execute <code>jerkar -fatJar=true -forkTests=true</code> =&gt; do the same but inject the <code>true</code> value to <code>JkJavaBuild#fatJar</code> and <code>JkJavaBuild#forkTests</code> fields. It leads in producing a fat-jar<br/>(jar file containg all the runtime dependencies) and running unit tests in a forked process.</li>
-  <li>execute <code>jerkar -fatJar -forkTests</code> =&gt; do the same, when field values are not mentioned, Jerkar uses a default value (true for boolean fields)</li>
-  <li><p>execute <code>jerkar jacoco#</code> =&gt; will instantiate the <a href="org.jerkar.plugins-jacoco/src/main/java/org/jerkar/plugins/jacoco/JkBuildPluginJacoco.java">jacoco plugin</a> and bind it to the <code>BuidSampleClassic</code> instance. This plugin alter the <code>JkJavaBuild#unitTest</code> method<br/>in such a way that tests are run with Jacoco to produce a test coverage report. '#' is the mark of plugin in Jerkar command line.</p></li>
-  <li>execute <code>jerkar jacoco# -jacoco#produceHtml</code> =&gt; will do the same but also set the <code>JkBuildPluginJacoco#produceHtml</code>field to <code>true</code>. It leads in producing<br/>an html report along the standard jacoco.exec binary report</li>
-  <li><p>execute <code>jerkar doDefault sonar#verify jacoco#</code> =&gt; do the default + execute the method <code>verify</code> method located in the <a href="org.jerkar.plugins-sonar/src/main/java/org/jerkar/plugins/sonar/JkBuildPluginSonar.java">sonar plugin</a>.<br/>Analysis is launched on a local SonarQube server unless you specify specific Sonar settings. Sonar will leverage of jacoco report.</p></li>
-  <li>execute <code>jerkar doDefault sonar#verify -sonar.host.url=http://my.sonar.host:8080</code> to specify a SonarQube server host. <code>-myProp=value</code> is the way<br/>in Jerkar to pass parameters (called options) through the command line.</li>
-</ul><p>If you want the full method along available options on any build, simply type <code>jerkar help</code> and/or <code>jerkar helpPlugins</code>.</p><p>Note that there is other way for passing option than using the command line. You can define them at three other level :<br/>- Coded in the build script itself<br/>- In option.properties file located in Jerkar install directory<br/>- In option.properties file located in [user home]/.jerkar directory</p><p>Note that in the complete source code, you'll find a <code>main</code> method. It's mainly intended to run the whole script friendly in your favorite IDE.<br/>It's even faster cause you skip the script compile phase.</p><h4>Parametrized build</h4><p>___<br/>You can set parameter in the build script itself and add your own custom parameters..<br/>The following example define three possible sonar servers to run analysis on. It also forces the sonar project branch.<br/>````java<br/>public class BuildSampleSonarParametrized extends JkJavaBuild {</p>
-<pre><code>@JkOption(&quot;Sonar server environment&quot;)
-protected SonarEnv sonarEnv = SonarEnv.DEV;
-
-@Override
-protected void init() {
-    JkBuildPluginSonar sonarPlugin = new JkBuildPluginSonar()
-       .prop(JkSonar.HOST_URL, sonarEnv.url)  // set one of the predefined host
-       .prop(JkSonar.BRANCH, &quot;myBranch&quot;);  // set the project branch
-    this.plugins.activate(sonarPlugin);
-}
-
-@Override  
-protected JkDependencies dependencies() {
-    return JkDependencies.builder()
-       .on(GUAVA, &quot;18.0&quot;)  
-       .on(JUNIT, &quot;4.11&quot;).scope(TEST)
-    .build();
-}
-
-@Override
-public void doDefault() {
-    clean();compile();unitTest();
-    verify(); 
-}
-
-public enum SonarEnv {
-    DEV(&quot;dev.myhost:81&quot;),
-    QA(&quot;qa.myhost:81&quot;),
-    PROD(&quot;prod.myhost:80&quot;);
-
-    public final String url;
-
-    SonarEnv(String url) {
-       this.url = url;
-    }
-}
-</code></pre><p>}<br/>``` </p><p>The Sonar plugin is activated programatically in the script so it is not required anymore to mention it in the build script.<br/>So <code>jerkar</code> alone performs a clean, compile, test and sonar analysis on the default sonar environment (DEV).<br/><code>jerkar -sonarEnv=PROD</code>run it upon the the PROD environment. </p></p>
+  <li><code>jerkar help</code> : outputs on console available methods and option for Jerkar in the current project</li>
+  <li><code>jerkar doDefault publish</code> : cleans, compiles, unit tests and produces artifacts then <code>publish</code> produced artifacts on a remote repository.</li>
+  <li><code>jerkar -fatJar=true -forkTests=true</code> : same but also produces a fat-jar (jar file containg all the runtime dependencies) and runs unit tests in a forked process.</li>
+  <li><code>jerkar -fatJar -forkTests</code> : same, when field values are not mentioned, Jerkar uses a default value (true for boolean fields)</li>
+</ul><p>The last will result in the following artifact creation :<br/><img src="img/output.png" alt="Created artifacts""/></p><h4>Pluggin tasks</h4><p>Template classes (<code>JkBuild</code> and <code>JkJavaBuild</code>) enable plugability by providing hooks on several methods.<br/>A plugin is just a class extending <code>JkBuildPlugin</code> or <code>JkJavaBuildPlugin</code> and overriding default hook methods. Plugins can also provide their own methods.</p>
+<ul>
+  <li>To activate a plugin on the command line, just mention the name of the plugin followed by a <code>#</code>.</li>
+  <li>To parameter a plugin, just mention <code>-pluginName#fieldName=value</code>.</li>
+  <li>To launch a method of a plugin, just mention <code>-pluginName#methodName</code>, note that the plugin does not need to be activated for invoking a plugin method.</li>
+  <li>To display information about available plugins in current Jerkar instance, simply execute <code>jerkar helpPlugins</code>.</li>
+</ul><h5>Examples</h5><p>Jerkar is shipped with <a href="http://www.eclemma.org/jacoco">Jacoco</a> and <a href="http://www.sonarqube.org/">SonarQube</a> plugins out of the box.<br/>This is how you can leverage these plugins : </p>
+<ul>
+  <li><code>jerkar jacoco#</code> : does <code>doDefault</code> but unit tests will be instrumented by Jacoco code coverage tool</li>
+  <li><code>jerkar jacoco# -jacoco#produceHtml</code> : same but also set the <code>JkBuildPluginJacoco#produceHtml</code> field to <code>true</code>. It leads in producing<br/>an html report along the standard jacoco.exec binary report</li>
+  <li><p><code>jerkar doDefault sonar#verify</code> : does the default + execute the <code>verify</code> method located in the sonar plugin (launch a sonar analysis)<br/>Analysis is launched on a local SonarQube server unless you specify specific Sonar settings. Sonar will leverage of jacoco report</p></li>
+  <li><code>jerkar doDefault verify sonar# jacoco#</code> : launches the <code>doDefault</code> and <code>verify</code> methods and activates the jacoco and sonar plugins. Sonar plugin hooks the <code>JkBuild verify</code> method by launching a SonarQube analysis</li>
+</ul></p>
 
 	<hr />
 

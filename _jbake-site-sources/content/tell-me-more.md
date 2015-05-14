@@ -4,15 +4,17 @@ status=published
 ~~~~~~
 
 ## What is Jerkar ?
-Jerkar is both a Java framework for building project and an automation tool. It falls in the same category than <i>Ant/Ivy</i>,
- <i>Maven</i> or <i>Gradle</i>.<br/>
+Jerkar is both a **Java framework** for building project and an **automation tool**. It falls in the same category than <i>Ant/Ivy</i>,
+ <i>Maven</i> or <i>Gradle</i>.
+ In other words, it's a **pure Java** build tool.
+ <br/>
 
 As a **framework** Jerkar provides :
 
 * compact **fluent style API** for performing all kind of build related stuff (file manipulation, compilation, testing, managing dependencies, read/publish to _Maven/Ivy_ repo, ...)
 * a set of template classes for defining builds
-* a **pluggable architecture**
-* full compatibility with **_Maven_ and _Ivy_**
+* a **plugable architecture**
+* full compatibility with **_Maven_ and _Ivy_** (Jerkar uses <a href="http://ant.apache.org/ivy">Ivy</a> under the hood)
 * a set of **conventions** that, in common cases, allows Jerkar to deduce everything from your project structure (not a single line of script/configuration required for building your project)
 * built-in plugins for ***Eclipse***, ***Jacoco*** or ***SonarQube*** analysis
 * ability to get project build information from the **IDE meta-data** (Eclipse _.classpath_ for example)

@@ -17,7 +17,7 @@
         </div>
         <br/>
         
-        <p class="lead">Write your build definitions in <strong>Java</strong> (instead of XML or script language) 
+        <p class="lead">Write your build definitions in <strong>pure Java</strong> (instead of XML or script language) 
         		and leverage directly the power, robustness and simplicity of the language.<p/>
         <p class="lead">This leads in unrivaled <strong>ease</strong>, <strong>flexibility</strong> and 
         		<strong>solidity</strong> for building Java projects or organization wide systems.</p>
