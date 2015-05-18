@@ -136,7 +136,7 @@
 </code></pre><p>From this build definition, we can execute Jerkar the following way :</p>
 <ul>
   <li>launch/debug the <code>AntStyleBuild main</code> within your IDE</li>
-  <li>launch/debug the <code>org.jerkar.JkMain main</code> method within your IDE. In this mode you<br/>can pass arguments as you would for the command line</li>
+  <li>launch/debug the <code>org.jerkar.JkMain main</code> method within your IDE. In this mode you can pass arguments as you would for the command line</li>
   <li>execute a command line in a shell (or on a build server) as <code>jerkar doDefault</code> or <code>jerkar cleanBuild -forkTests=true</code>.</li>
 </ul><p><br/></p><h4>Templated builds (ala <em>Maven</em>)</h4><p>For Java project you may directly extend <code>JkJavaBuild</code> template class which implements common methods for you.<br/>All you need is to implement what is specific.</p>
 <pre><code>public class MavenStyleBuild extends JkJavaBuild {
