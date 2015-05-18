@@ -6,7 +6,7 @@ status=published
 
 # Welcome to Jerkar tour
 
-With Jerkar you can write free form build definition (ala _Ant_), templated ones (ala _Maven_) or rely on conventions only (no build script needed). In the following section, 
+With Jerkar you can write task based build definition (ala _Ant_), templated ones (ala _Maven_) or rely on conventions only (no build script needed). In the following section, 
 we will illustrate different different approach to use Jerkar. 
 
 
@@ -21,7 +21,7 @@ To accomplish this, Jerkar :
 You can also set any instance field annotated with `JkOption` from the command line by typing `jerkar myMethod -myField=foo`.
 <br/>
 
-#### Ant style
+#### Task based builds (ala *Ant*)
 If you like to have complete control over your build, you may prefere the _Ant_ build style. 
 The price is that you have to *write explicitly* what your build is doing. 
 
@@ -93,7 +93,7 @@ can pass arguments as you would for the command line
 - execute a command line in a shell (or on a build server)  as `jerkar doDefault` or `jerkar cleanBuild -skipTest=true`.
 
 <br/>
-#### Maven style
+#### Templated builds (ala *Maven*)
 For Java project you may directly extend `JkJavaBuild` template class which implements common methods for you. 
 All you need is to implement what is specific.
 
@@ -128,9 +128,9 @@ public class MavenStyleBuild extends JkJavaBuild {
 This example is for demo purpose. Some settings can be omitted by respecting naming conventions...
 <br/>
 
-#### Conventional style
+#### Templated builds with conventions
 
-If you follow conventions (project folder named as _groupName.projectName_ ), the above script is reduced to :
+If you follow conventions (as project folder named as _groupName.projectName_ and version stored in a _version.txt_ file), the above script is reduced to :
 
 ```
 public class BuildSampleClassic extends JkJavaBuild {
