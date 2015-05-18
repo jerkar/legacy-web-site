@@ -54,7 +54,7 @@ Jerkar overcomes these two points by :
 * **compiling scripts on-the-fly** prior to execute them
 * providing **compact fluent API and sensitive templates** to minimize developers efforts and script verbosity.
 
-Jerkar scripts reveals to be **much more concise than their equivalent XML** based tool and roughly equivalent to script written with dynamic languages. Have a look at [Jerkar tour](./tour.html).
+Jerkar scripts reveal to be **much more concise than their equivalent XML** based tool and roughly equivalent to script written with dynamic languages. Have a look at [Jerkar tour](./tour.html).
 Beside the script compilation phase duration is not significant (less than 1 second in most of cases).  
 
 Another point is that **all** Jerkar public class are prefixed with `Jk`. So it makes convenient to distinguish them when using IDE auto-completion.
