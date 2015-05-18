@@ -30,8 +30,8 @@ This example mimics the [tutorial ANT build script](http://ant.apache.org/manual
 ```Java
 public class AntStyleBuild extends JkBuild {
 
-	@JkOption("Skip test if true")
-	boolean skipTest;
+	@JkOption("Run tests in forked process if true")
+	boolean forkTests;
 	
 	String name = "myProject";
 	File src = baseDir("src");
@@ -65,19 +65,16 @@ public class AntStyleBuild extends JkBuild {
 	
 	public void cleanBuild() {
 		clean();
-		if (skipTest) {
-			jar();
-		} else {
-			junit();
-		}
+		junit();
 	}
 	
 	public void junit() {
 		jar();
-		JkUnit.ofFork(classpath.and(jarFile))
+		JkUnit.of(classpath.and(jarFile))
 				.withClassesToTest(JkFileTree.of(classDir).include("**/*Test.class"))
 				.withReportDir(reportDir)
 				.withReport(JunitReportDetail.FULL)
+				.fork(forkTest)
 				.run();
 	}
 	

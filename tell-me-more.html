@@ -89,15 +89,15 @@
   <li>multi-level parameter injection (via user-local, system-wide property files or by passing argument in the command line)</li>
 </ul><p>These two parts are seamlessly integrated to form a unique product that make <strong>incredibly easy</strong> to build Java projects.<br/><br/>Of course Jerkar can be used for any automation purpose such as a generic build tool.</p><h2>What makes Jerkar special ?</h2><p>With Jerkar, build scripts are <strong>plain old java classes</strong>. This bare metal approach leads in tremendous benefits :</p>
 <ul>
-  <li>for Java developers, it's quite <strong>easy to add logic</strong> in build scripts</li>
+  <li>for Java developers, it's <strong>trivial to add logic</strong> in build scripts</li>
   <li>when editing script, Java developers leverage of <strong>compilation</strong>, <strong>code-completion</strong> and <strong>debug</strong> facilities provided by their <strong>IDE</strong></li>
   <li>Java developers don't have to master an extra language or XML soup</li>
-  <li>scripts can be launched/debugged directly from the IDE as any class providing a Main method</li>
-  <li>the tool is quite <strong>simple and fast</strong> : in essence, Jerkar engine simply performs direct method invocations on build classes</li>
+  <li>scripts can be <strong>launched/debugged</strong> directly from the IDE as any class providing a Main method</li>
+  <li>the tool is quite <strong>simple and fast</strong> : in essence, Jerkar engine simply performs direct method invocations on build classes. <strong>No black box</strong> : it's quite easy to discover what the build is actually doing under the hood. <strong>Jerkar source code and javadoc</strong> is a primary source of documentation.</li>
   <li>scripts can directly leverage of any Java <strong>3rd party libraries</strong> without needing to wrap it in a plugin or a specific component</li>
   <li>it's straightforward to extend</li>
   <li><strong>refactoring</strong> build script is easy and safe (thanks to statically typed nature of Java)</li>
-  <li>scripts can be developers can leverage the regular Java mechanisms (Inheritance, composition, jar module dependency) to <strong>re-use build elements</strong> or share settings</li>
+  <li>scripts leverage the regular Java mechanisms (Inheritance, composition, jar module dependency) to <strong>re-use build elements</strong> or share settings</li>
 </ul><h2>What about Java cons ?</h2><p>So far, the two main reasons invoked why Java not favored to write build scripts is that :</p>
 <ol>
   <li>build scripts written in Java would need to be compiled themselves prior to be executed</li>
@@ -105,8 +105,8 @@
 </ol><p>Jerkar overcomes these two points by :</p>
 <ul>
   <li><strong>compiling scripts on-the-fly</strong> prior to execute them</li>
-  <li>providing compact fluent API and sensitive templates to minimize developers efforts and script verbosity.</li>
-</ul><p>Jerkar scripts reveals to be <strong>much more concise than their equivalent XML</strong> based tool and roughly equivalent to script written with dynamic languages.<br/>Beside the script compilation phase duration is not significant (less than 1 second in most of cases) . </p></p>
+  <li>providing <strong>compact fluent API and sensitive templates</strong> to minimize developers efforts and script verbosity.</li>
+</ul><p>Jerkar scripts reveals to be <strong>much more concise than their equivalent XML</strong> based tool and roughly equivalent to script written with dynamic languages. Have a look at <a href="./tour.html">Jerkar tour</a>.<br/>Beside the script compilation phase duration is not significant (less than 1 second in most of cases). </p><p>Another point is that <strong>all</strong> Jerkar public class are prefixed with <code>Jk</code>. So it makes convenient to distinguish them when using IDE auto-completion.</p></p>
 
 	<hr />
 

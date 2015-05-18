@@ -80,8 +80,8 @@
 </ul><p>You can also set any instance field annotated with <code>JkOption</code> from the command line by typing <code>jerkar myMethod -myField=foo</code>.<br/><br/></p><h4>Ant style</h4><p>If you like to have complete control over your build, you may prefere the <em>Ant</em> build style.<br/>The price is that you have to <em>write explicitly</em> what your build is doing. </p><p>This example mimics the <a href="http://ant.apache.org/manual/tutorial-HelloWorldWithAnt.html">tutorial ANT build script</a> </p>
 <pre><code class="Java">public class AntStyleBuild extends JkBuild {
 
-	@JkOption(&quot;Skip test if true&quot;)
-	boolean skipTest;
+	@JkOption(&quot;Run tests in forked process if true&quot;)
+	boolean forkTests;
 	
 	String name = &quot;myProject&quot;;
 	File src = baseDir(&quot;src&quot;);
@@ -115,19 +115,16 @@
 	
 	public void cleanBuild() {
 		clean();
-		if (skipTest) {
-			jar();
-		} else {
-			junit();
-		}
+		junit();
 	}
 	
 	public void junit() {
 		jar();
-		JkUnit.ofFork(classpath.and(jarFile))
+		JkUnit.of(classpath.and(jarFile))
 				.withClassesToTest(JkFileTree.of(classDir).include(&quot;**/*Test.class&quot;))
 				.withReportDir(reportDir)
 				.withReport(JunitReportDetail.FULL)
+				.fork(forkTest)
 				.run();
 	}
 	
