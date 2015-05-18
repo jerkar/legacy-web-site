@@ -90,7 +90,7 @@ From this build definition, we can execute Jerkar the following way :
 - launch/debug the `AntStyleBuild main` within your IDE
 - launch/debug the `org.jerkar.JkMain main` method within your IDE. In this mode you
 can pass arguments as you would for the command line
-- execute a command line in a shell (or on a build server)  as `jerkar doDefault` or `jerkar cleanBuild -skipTest=true`.
+- execute a command line in a shell (or on a build server)  as `jerkar doDefault` or `jerkar cleanBuild -forkTests=true`.
 
 <br/>
 #### Templated builds (ala *Maven*)
