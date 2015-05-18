@@ -75,8 +75,8 @@
 	<p><h1>Welcome to Jerkar tour</h1><p>With Jerkar you can write free form build definition (ala <em>Ant</em>), templated ones (ala <em>Maven</em>) or rely on conventions only (no build script needed). In the following section,<br/>we will illustrate different different approach to use Jerkar. </p><h3>Principles</h3><p>Jerkar is quite simpe in its principle. You write a class extending <code>org.jerkar.JkBuild</code> in the <em>build/def</em> folder of your project then you can execute any public zero arg methods from the command line by executing <code>jerkar myMethod1 myOtherMethod</code> at the root folder of your project.<br/>To accomplish this, Jerkar :</p>
 <ul>
   <li>compiles every java sources found under the <em>build/def</em> folder</li>
-  <li>instantiates the first compiled class found implementing <code>org.jerkar.JkBuild</code>. If none the <code>org.jerkar.builtins.javabuild.JkJavaBuild</code>class is instantiated</li>
-  <li>invokes specified methods on the created instance. If no method is specified then the <code>doDefault</code>method is invoked</li>
+  <li>instantiates the first compiled class found implementing <code>org.jerkar.JkBuild</code>. If none the <code>org.jerkar.builtins.javabuild.JkJavaBuild</code> class is instantiated</li>
+  <li>invokes specified methods on the created instance. If no method is specified then the <code>doDefault</code> method is invoked</li>
 </ul><p>You can also set any instance field annotated with <code>JkOption</code> from the command line by typing <code>jerkar myMethod -myField=foo</code>.<br/><br/></p><h4>Ant style</h4><p>If you like to have complete control over your build, you may prefere the <em>Ant</em> build style.<br/>The price is that you have to <em>write explicitly</em> what your build is doing. </p><p>This example mimics the <a href="http://ant.apache.org/manual/tutorial-HelloWorldWithAnt.html">tutorial ANT build script</a> </p>
 <pre><code class="Java">public class AntStyleBuild extends JkBuild {
 
@@ -182,7 +182,7 @@
 <hr/><h3>What can you do now ?</h3><p>From a java project having a build definition as above (or just fully conventional), you can perform many tasks :</p><h4>Basic tasks</h4>
 <ul>
   <li><code>jerkar help</code> : outputs on console available methods and option for Jerkar in the current project</li>
-  <li><code>jerkar doDefault publish</code> : cleans, compiles, unit tests and produces artifacts then <code>publish</code> produced artifacts on a remote repository.</li>
+  <li><code>jerkar doDefault publish</code> : cleans, compiles, unit tests and produces artifacts (that was actually do the <code>JkJavaBuild#doDefault</code>method) then <code>publish</code> produced artifacts on a remote repository.</li>
   <li><code>jerkar -fatJar=true -forkTests=true</code> : same but also produces a fat-jar (jar file containg all the runtime dependencies) and runs unit tests in a forked process.</li>
   <li><code>jerkar -fatJar -forkTests</code> : same, when field values are not mentioned, Jerkar uses a default value (true for boolean fields)</li>
 </ul><p>The last will result in the following artifact creation :<br/><img src="img/output.png" alt="Created artifacts""/></p><h4>Pluggin tasks</h4><p>Template classes (<code>JkBuild</code> and <code>JkJavaBuild</code>) enable plugability by providing hooks on several methods.<br/>A plugin is just a class extending <code>JkBuildPlugin</code> or <code>JkJavaBuildPlugin</code> and overriding default hook methods. Plugins can also provide their own methods.</p>

@@ -15,8 +15,8 @@ Jerkar is quite simpe in its principle. You write a class extending `org.jerkar.
 To accomplish this, Jerkar :
 
 * compiles every java sources found under the _build/def_ folder
-* instantiates the first compiled class found implementing `org.jerkar.JkBuild`. If none the `org.jerkar.builtins.javabuild.JkJavaBuild`class is instantiated
-* invokes specified methods on the created instance. If no method is specified then the `doDefault`method is invoked 
+* instantiates the first compiled class found implementing `org.jerkar.JkBuild`. If none the `org.jerkar.builtins.javabuild.JkJavaBuild` class is instantiated
+* invokes specified methods on the created instance. If no method is specified then the `doDefault` method is invoked 
 
 You can also set any instance field annotated with `JkOption` from the command line by typing `jerkar myMethod -myField=foo`.
 <br/>
@@ -164,7 +164,7 @@ From a java project having a build definition as above (or just fully convention
 #### Basic tasks
     
 - `jerkar help` : outputs on console available methods and option for Jerkar in the current project
-- `jerkar doDefault publish` : cleans, compiles, unit tests and produces artifacts then `publish` produced artifacts on a remote repository.
+- `jerkar doDefault publish` : cleans, compiles, unit tests and produces artifacts (that was actually do the `JkJavaBuild#doDefault`method) then `publish` produced artifacts on a remote repository.
 - `jerkar -fatJar=true -forkTests=true` : same but also produces a fat-jar (jar file containg all the runtime dependencies) and runs unit tests in a forked process.
 - `jerkar -fatJar -forkTests` : same, when field values are not mentioned, Jerkar uses a default value (true for boolean fields)
 
