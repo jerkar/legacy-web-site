@@ -30,13 +30,5 @@
 			<strong>Latest News: </strong>Ready for experimental use</a>
 		</div>
       </div>
-      
-      <div class="page-header">
-			
-	  </div>
-	  
-	  
-	
-<!--	<#include "sitemap.ftl"> -->
 
 <#include "footer.ftl">
