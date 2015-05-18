@@ -3,6 +3,7 @@ package jerkar.github.io;
 import java.io.File;
 
 import org.jerkar.JkBuild;
+import org.jerkar.JkDoc;
 import org.jerkar.JkFileTree;
 import org.jerkar.JkJavaProcess;
 import org.jerkar.JkLog;
@@ -31,6 +32,12 @@ public class SiteBuild extends JkBuild {
 	
 	@Override
 	public void doDefault() {
+		jbake();
+	}
+	
+	@JkDoc({"Generates the site and imports documentation inside.", 
+		    "You must have the Jerkar repo (containing the documentation) in your git home."})
+	public void full() {
 		copyCurrentDoc();
 		jbake();
 		copyCurrentDist();
