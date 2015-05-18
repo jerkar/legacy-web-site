@@ -179,14 +179,14 @@
 	}	
 }
 </code></pre><p><br/></p><h4>100% Conventional style !!!</h4><p>If you use only local dependencies (jar dependencies located as bellow), you don't even need to write a build file.<br/>Note that local dependencies have to be located in subfolder corresponding to its scope (build, compile, runtime,...).</p><p><img src="img/full-convention-project.png" alt="Project layout full convention""/></p>
-<hr/><h3>What can you do now ?</h3><p>From a java project having a build definition as above (or just fully conventional), you can perform many tasks :</p><h4>Basic tasks</h4>
+<hr/><h3>What can you do now ?</h3><p>From a java project having a build definition as above (or just fully conventional), you can perform :</p><h4>Basic tasks</h4>
 <ul>
-  <li><code>jerkar help</code> : outputs on console available methods and option for Jerkar in the current project</li>
-  <li><code>jerkar</code> : cleans, compiles, unit tests and produces artifacts (that is what actually does the <code>JkJavaBuild#doDefault</code> method)</li>
-  <li><code>jerkar doDefault publish</code> : same then <code>publish</code> produced artifacts on a remote repository.</li>
-  <li><code>jerkar -fatJar=true -forkTests=true</code> : same but also produces a fat-jar (jar file containg all the runtime dependencies) and runs unit tests in a forked process.</li>
+  <li><code>jerkar help</code> : outputs on console available methods and options for Jerkar in the current project</li>
+  <li><code>jerkar</code> : cleans, compiles, unit tests and produces artifacts (this is what <code>JkJavaBuild#doDefault</code> method does)</li>
+  <li><code>jerkar doDefault publish</code> : same then <code>publish</code> produced artifacts on a remote repository</li>
+  <li><code>jerkar -fatJar=true -forkTests=true</code> : same but also produces a fat-jar (jar file containing all the runtime dependencies) and runs unit tests in a forked process</li>
   <li><code>jerkar -fatJar -forkTests</code> : same, when field values are not mentioned, Jerkar uses a default value (true for boolean fields)</li>
-</ul><p>The last will result in the following artifact creation :<br/><img src="img/output.png" alt="Created artifacts""/></p><h4>Pluggin tasks</h4><p>Template classes (<code>JkBuild</code> and <code>JkJavaBuild</code>) enable plugability by providing hooks on several methods.<br/>A plugin is just a class extending <code>JkBuildPlugin</code> or <code>JkJavaBuildPlugin</code> and overriding default hook methods. Plugins can also provide their own methods.</p>
+</ul><p>The last will result in the following artifact creation :<br/><img src="img/output.png" alt="Created artifacts""/></p><h4>Plugin tasks</h4><p>Template classes (<code>JkBuild</code> and <code>JkJavaBuild</code>) enable plugability by providing hooks on several methods.<br/>A plugin is just a class extending <code>JkBuildPlugin</code> or <code>JkJavaBuildPlugin</code> and overriding default hook methods. Plugins can also provide their own methods.</p>
 <ul>
   <li>To activate a plugin on the command line, just mention the name of the plugin followed by a <code>#</code>.</li>
   <li>To parameter a plugin, just mention <code>-pluginName#fieldName=value</code>.</li>
