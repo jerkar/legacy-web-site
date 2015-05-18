@@ -124,7 +124,7 @@
 				.withClassesToTest(JkFileTree.of(classDir).include(&quot;**/*Test.class&quot;))
 				.withReportDir(reportDir)
 				.withReport(JunitReportDetail.FULL)
-				.fork(forkTest)
+				.forked(forkTest)
 				.run();
 	}
 	

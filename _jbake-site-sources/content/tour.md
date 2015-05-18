@@ -74,7 +74,7 @@ public class AntStyleBuild extends JkBuild {
 				.withClassesToTest(JkFileTree.of(classDir).include("**/*Test.class"))
 				.withReportDir(reportDir)
 				.withReport(JunitReportDetail.FULL)
-				.fork(forkTest)
+				.forked(forkTest)
 				.run();
 	}
 	
