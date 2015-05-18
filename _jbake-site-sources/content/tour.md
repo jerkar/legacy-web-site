@@ -164,7 +164,8 @@ From a java project having a build definition as above (or just fully convention
 #### Basic tasks
     
 - `jerkar help` : outputs on console available methods and option for Jerkar in the current project
-- `jerkar doDefault publish` : cleans, compiles, unit tests and produces artifacts (that was actually do the `JkJavaBuild#doDefault`method) then `publish` produced artifacts on a remote repository.
+- `jerkar` : cleans, compiles, unit tests and produces artifacts (that is what actually does the `JkJavaBuild#doDefault` method)
+- `jerkar doDefault publish` : same then `publish` produced artifacts on a remote repository.
 - `jerkar -fatJar=true -forkTests=true` : same but also produces a fat-jar (jar file containg all the runtime dependencies) and runs unit tests in a forked process.
 - `jerkar -fatJar -forkTests` : same, when field values are not mentioned, Jerkar uses a default value (true for boolean fields)
 

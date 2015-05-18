@@ -182,7 +182,8 @@
 <hr/><h3>What can you do now ?</h3><p>From a java project having a build definition as above (or just fully conventional), you can perform many tasks :</p><h4>Basic tasks</h4>
 <ul>
   <li><code>jerkar help</code> : outputs on console available methods and option for Jerkar in the current project</li>
-  <li><code>jerkar doDefault publish</code> : cleans, compiles, unit tests and produces artifacts (that was actually do the <code>JkJavaBuild#doDefault</code>method) then <code>publish</code> produced artifacts on a remote repository.</li>
+  <li><code>jerkar</code> : cleans, compiles, unit tests and produces artifacts (that is what actually does the <code>JkJavaBuild#doDefault</code> method)</li>
+  <li><code>jerkar doDefault publish</code> : same then <code>publish</code> produced artifacts on a remote repository.</li>
   <li><code>jerkar -fatJar=true -forkTests=true</code> : same but also produces a fat-jar (jar file containg all the runtime dependencies) and runs unit tests in a forked process.</li>
   <li><code>jerkar -fatJar -forkTests</code> : same, when field values are not mentioned, Jerkar uses a default value (true for boolean fields)</li>
 </ul><p>The last will result in the following artifact creation :<br/><img src="img/output.png" alt="Created artifacts""/></p><h4>Pluggin tasks</h4><p>Template classes (<code>JkBuild</code> and <code>JkJavaBuild</code>) enable plugability by providing hooks on several methods.<br/>A plugin is just a class extending <code>JkBuildPlugin</code> or <code>JkJavaBuildPlugin</code> and overriding default hook methods. Plugins can also provide their own methods.</p>
