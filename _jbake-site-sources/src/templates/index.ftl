@@ -8,7 +8,7 @@
 	 <div class="jumbotron">
 	 	<div class="container">
 	 		<div class="col-md-3">
-	 			<img src="img/logo_palm01.png"/>
+	 			<img src="img/logo.png"/>
 	 		</div>
 	 		<div class="col-md-9">
         		<h1>Jerkar</h1>
@@ -30,5 +30,10 @@
 			<strong>Latest News: </strong>Ready for experimental use</a>
 		</div>
       </div>
+      
+       <div class="github hidden-phone hidden-tablet">
+		<a href="https://github.com/jerkar/jerkar"><img style="position: fixed; top: 0; right: 0; border: 0; z-index: 1050;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png" alt="Fork me on GitHub"></a>
+	</div>
+      
 
 <#include "footer.ftl">

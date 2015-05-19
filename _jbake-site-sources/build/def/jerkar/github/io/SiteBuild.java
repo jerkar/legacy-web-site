@@ -16,13 +16,13 @@ public class SiteBuild extends JkBuild {
 	JkFileTree jbakeDir = baseDir().sub("build/binaries/jbake-2.3.2");
 	JkFileTree siteBase = JkFileTree.of(baseDir("..")); 
 	
-	JkFileTree currentDocDir = JkFileTree.of(baseDir("../../jerkar/org.jerkar.core/src/main/doc"));
-	JkFileTree currentJavadocDir = JkFileTree.of(baseDir("../../jerkar/org.jerkar.distrib-all/build/output/javadoc-all"));
-	File jerkarDist = siteBase.file("../jerkar/org.jerkar.distrib-all/build/output/jerkar-distrib.zip");
+	JkFileTree latestDocDir = JkFileTree.of(baseDir("../../jerkar/org.jerkar.core/src/main/doc"));
+	JkFileTree latestJavadocDir = JkFileTree.of(baseDir("../../jerkar/org.jerkar.distrib-all/build/output/javadoc-all"));
+	File latestDist = siteBase.file("../jerkar/org.jerkar.distrib-all/build/output/jerkar-distrib.zip");
 	
-	JkFileTree siteDocumentation = baseDir().sub("src/content/documentation");
-	File siteCurrentDistFolder = siteBase.file("binaries");
-	JkFileTree siteCurrentDocDir = baseDir().sub("content/documentation");
+	JkFileTree siteSourceDocDir = baseDir().sub("src/content/documentation");
+	File siteDistDir = siteBase.file("binaries");
+	JkFileTree siteTargetDocDir = baseDir().sub("content/documentation");
 	
 	@Override
 	public void clean() {
@@ -45,9 +45,9 @@ public class SiteBuild extends JkBuild {
 	}
 	
 	public void copyCurrentDoc() {
-		JkFileTree targetDocDir = siteDocumentation.sub("latest");
-		for (File file : currentDocDir.include("**/*.md")) {
-			String relativePath = currentDocDir.relativePath(file);
+		JkFileTree targetDocDir = siteSourceDocDir.sub("latest");
+		for (File file : latestDocDir.include("**/*.md")) {
+			String relativePath = latestDocDir.relativePath(file);
 			File copied = targetDocDir.file(relativePath);
 			JkLog.startln("Importing doc file " + file + " to " + copied.getPath());
 			JkUtilsFile.writeString(copied, header(copied), false);
@@ -58,11 +58,11 @@ public class SiteBuild extends JkBuild {
 	}
 	
 	public void copyCurrentDist() {
-		JkUtilsFile.copyFileToDir(jerkarDist, siteCurrentDistFolder, JkLog.infoStream());
+		JkUtilsFile.copyFileToDir(latestDist, siteDistDir, JkLog.infoStream());
 	}
 	
 	public void copyCurrentJavadoc() {
-		JkUtilsFile.copyDirContent(currentJavadocDir.root(), siteBase.file("javadoc/latest"), false);
+		JkUtilsFile.copyDirContent(latestJavadocDir.root(), siteBase.file("javadoc/latest"), false);
 	}
 	
 	public void jbake() {
