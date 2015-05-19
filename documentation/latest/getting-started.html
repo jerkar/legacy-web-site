@@ -74,9 +74,9 @@
 	<p><h1>Getting Started</h1>
 <hr/><h2>How to install Jerkar</h2>
 <ol>
-  <li>unzip the <a href="http://jerkar.github.io/binaries/jerkar-distrib.zip">distribution archive</a> to the directory you want to install Jerkar : let's call it <code>[Jerkar install dir]</code></li>
+  <li>unzip the <a href="http://jerkar.github.io/binaries/jerkar-distrib.zip">distribution archive</a> to the directory you want to install Jerkar : let's call it <code>[Jerkar Home]</code></li>
   <li>make sure that either a valid <em>JDK</em> (6 or above) is on your <em>PATH</em> environment variable or that a <em>JAVA_HOME</em> variable is pointing on</li>
-  <li>add <code>[Jerkar install dir]</code> to your <em>PATH</em> environment variable</li>
+  <li>add <code>[Jerkar Home]</code> to your <em>PATH</em> environment variable</li>
   <li>execute <code>jerkar</code> in the command line. You should get an output starting by :</li>
 </ol>
 <pre><code>
@@ -91,14 +91,19 @@
 <ol>
   <li>create a directory named as <em>groupName.projectName</em>. You can use only <em>projectName</em> if your project has no group</li>
   <li>under this directory, execute <code>jerkar scaffold</code>. This generates the project structures.</li>
-  <li>If you are an Eclipse user, you can execute <code>jerkar eclipse#generateFiles</code> to generate <code>.project</code> and <code>.classpath</code> files.<br/><br/></li>
-</ol><h2>How to setup Jerkar on existing Java project</h2>
+</ol>
+<p class="alert alert-success">
+	<strong>Eclipse users : </strong> You can execute <code>jerkar eclipse#generateFiles</code> to generate <small>.project</small> and <small>.classpath</small> files.
+</p><h2>How to setup Jerkar on existing Java project</h2>
 <ol>
-  <li>add the <code>Jerkar install dir]/org.jerkar.core-fat.jar</code> lib to your project build-path on your IDE and attach the source code (<code>[Jerkar install dir]/lib-sources</code>). This jar includes Jerkar core along plugins classes.</li>
-  <li>create a <code>build/def</code> folder at the base of your project and make it a source folder in your IDE. In Jerkar, all build related stuff (build definition, local 3rd party libs, produced artifacts,...) lies under <code>[Jerkar install dir]/build</code> directory</li>
-  <li>write the build definition class extending JkJavaBuild in this directory (in whatever package)</li>
+  <li>add the <code>[Jerkar Home]/org.jerkar.core-fat.jar</code> lib to your project build-path on your IDE and attach the source code (<code>[Jerkar Home]/lib-sources</code>). This jar includes Jerkar core along plugins classes</li>
+  <li>create a <code>build/def</code> folder at the base of your project and make it a source folder in your IDE. In Jerkar, all build related stuff (build definition, local 3rd party libs, produced artifacts,...) lie here</li>
+  <li>write the build definition class extending <code>JkJavaBuild</code> in this directory (in whatever package)</li>
   <li>launch the <code>org.jerkar.Main</code> class in your IDE or type <code>jerkar</code> in the command line (with the root of your project as working directory)</li>
-</ol><p>If your project respect conventions, does not need managed dependencies and don't do any specific things, you can even skip 2) and 3).</p></p>
+</ol>
+<p class="alert alert-success">
+If your project is <a href="../../tour.html#100conventional">100% conventional</a>, you can even skip steps <strong>2.</strong> and <strong>3.</strong>.
+</p></p>
 
 	<hr />
 

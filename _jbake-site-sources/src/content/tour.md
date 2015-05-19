@@ -4,13 +4,12 @@ type=page
 status=published
 ~~~~~~
 
-# Welcome to Jerkar tour
+# Enjoy the Jerkar tour !
+--------------------------
 
-With Jerkar you can write task based build definition (ala _Ant_), templated ones (ala _Maven_) or rely on conventions only (no build script needed). In the following section, 
-we will illustrate different different approach to use Jerkar. 
+This page will give you a concrete idea on how Jerkar is working and what you can do with.
 
-
-### Principles
+## Principles
 Jerkar is quite simpe in its principle. You write a class extending `org.jerkar.JkBuild` in the _build/def_ folder of your project then you can execute any public zero arg methods from the command line by executing `jerkar myMethod1 myOtherMethod` at the root folder of your project.
 To accomplish this, Jerkar :
 
@@ -21,7 +20,12 @@ To accomplish this, Jerkar :
 You can also set any instance field annotated with `JkOption` from the command line by typing `jerkar myMethod -myField=foo`.
 <br/>
 
-#### Task based builds (ala *Ant*)
+## Build styles
+
+With Jerkar you can write task based build definition (ala _Ant_), templated ones (ala _Maven_) or rely on conventions only (no build script needed). In the following section, 
+we will illustrate different different approach to use Jerkar. 
+
+### Task based builds (ala *Ant*)
 If you like to have complete control over your build, you may prefere the _Ant_ build style. 
 The price is that you have to *write explicitly* what your build is doing. 
 
@@ -92,7 +96,7 @@ From this build definition, we can execute Jerkar the following way :
 - execute a command line in a shell (or on a build server)  as `jerkar doDefault` or `jerkar cleanBuild -forkTests=true`.
 
 <br/>
-#### Templated builds (ala *Maven*)
+### Templated builds (ala *Maven*)
 For Java project you may directly extend `JkJavaBuild` template class which implements common methods for you. 
 All you need is to implement what is specific.
 
@@ -127,7 +131,7 @@ public class MavenStyleBuild extends JkJavaBuild {
 This example is for demo purpose. Some settings can be omitted by respecting naming conventions...
 <br/>
 
-#### Templated builds with conventions
+### Templated builds with conventions
 
 If you follow conventions (as project folder named as _groupName.projectName_ and version stored in a _version.txt_ file), the above script is reduced to :
 
@@ -146,21 +150,21 @@ public class BuildSampleClassic extends JkJavaBuild {
 	}	
 }
 ```
-<br/>
-#### 100% Conventional style !!!
+<a name="100conventional"></a><br/>
+### 100% conventional style !!!
 
 If you use only local dependencies (jar dependencies located as bellow), you don't even need to write a build file.
 Note that local dependencies have to be located in subfolder corresponding to its scope (build, compile, runtime,...).
 
 ![Project layout full convention](img/full-convention-project.png)
 
-----
+<br/>
 
-### What can you do now ?
+## What can you do now ?
 
 From a java project having a build definition as above (or just fully conventional), you can perform :
 
-#### Basic tasks
+### Basic tasks
     
 - `jerkar help` : outputs on console available methods and options for Jerkar in the current project
 - `jerkar` : cleans, compiles, unit tests and produces artifacts (this is what `JkJavaBuild#doDefault` method does)
@@ -171,7 +175,7 @@ From a java project having a build definition as above (or just fully convention
 The last will result in the following artifact creation :
 ![Created artifacts](img/output.png)
 
-#### Plugin tasks
+### Plugin tasks
 
 Template classes (`JkBuild` and `JkJavaBuild`) enable plugability by providing hooks on several methods. 
 A plugin is just a class extending `JkBuildPlugin`  or `JkJavaBuildPlugin` and overriding default hook methods. Plugins can also provide their own methods.
@@ -181,7 +185,7 @@ A plugin is just a class extending `JkBuildPlugin`  or `JkJavaBuildPlugin` and o
 - To launch a method of a plugin, just mention `-pluginName#methodName`, note that the plugin does not need to be activated for invoking a plugin method.
 - To display information about available plugins in current Jerkar instance, simply execute `jerkar helpPlugins`.
 
-##### Examples
+### Examples
 
 Jerkar is shipped with <a href="http://www.eclemma.org/jacoco">Jacoco</a> and <a href="http://www.sonarqube.org/">SonarQube</a> plugins out of the box.
 This is how you can leverage these plugins : 
