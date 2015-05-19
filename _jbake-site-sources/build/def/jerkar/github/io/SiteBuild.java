@@ -26,7 +26,7 @@ public class SiteBuild extends JkBuild {
 	
 	@Override
 	public void clean() {
-		siteBase.exclude(".*/**", "_*/**").deleteAll();
+		siteBase.exclude(".*/**", "_*/**", "binaries/**").deleteAll();
 	}
 	
 	@Override
