@@ -26,8 +26,7 @@ public class SiteBuild extends JkBuild {
 	
 	@Override
 	public void clean() {
-		super.clean();
-		siteBase.exclude("_*/**", ".*").deleteAll();
+		siteBase.exclude(".*/**", "_*/**").deleteAll();
 	}
 	
 	@Override
@@ -38,6 +37,7 @@ public class SiteBuild extends JkBuild {
 	@JkDoc({"Generates the site and imports documentation inside.", 
 		    "You must have the Jerkar repo (containing the documentation) in your git home."})
 	public void full() {
+		clean();
 		copyCurrentDoc();
 		jbake();
 		copyCurrentDist();
@@ -80,6 +80,10 @@ public class SiteBuild extends JkBuild {
 			.append("status=published\n")
 			.append("~~~~~~\n\n");
 		return result.toString();
+	}
+	
+	public static void main(String[] args) {
+		new SiteBuild().clean();
 	}
 
 }
