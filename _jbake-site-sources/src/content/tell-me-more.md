@@ -8,7 +8,7 @@ status=published
 ## What is Jerkar ?
 Jerkar is both a **Java framework** for building project and an **automation tool**. It falls in the same category than <i>Ant/Ivy</i>,
  <i>Maven</i> or <i>Gradle</i>.
- In other words, it's a **pure Java** build tool.
+ In other words, it's a rich featured **pure Java** build tool.
  <br/>
 
 As a **framework** Jerkar provides :
@@ -31,7 +31,7 @@ As an **automation tool** it provides :
 * multi-level **parameter injection** (via user-local, system-wide property files or by passing argument in the command line)
 
 These two parts are seamlessly integrated to form a unique product that make **incredibly easy** to build Java projects.<br/>
-Of course Jerkar can be used for any automation purpose such as a generic build tool.
+Of course Jerkar can be used for any automation purpose , as an example, [Jerkar is used](https://github.com/jerkar/jerkar.github.io/blob/master/_jbake-site-sources/build/def/jerkar/github/io/SiteBuild.java) to generate this site.
 
 
 ## What makes Jerkar special ?
@@ -48,7 +48,7 @@ With Jerkar, build scripts are **plain old java classes**. This bare metal appro
 * scripts leverage the regular Java mechanisms (Inheritance, composition, jar module dependency) to **re-use build elements** or share settings
 
 ## What about Java cons ?
-So far, the two main reasons invoked why Java not favored to write build scripts is that :
+So far, the two main reasons invoked why Java not favored to write build scripts are :
 
 1. build scripts written in Java would need to be compiled themselves prior to be executed
 2. Java is verbose

@@ -22,8 +22,7 @@ You can also set any instance field annotated with `JkOption` from the command l
 
 ## Build styles
 
-With Jerkar you can write task based build definition (ala _Ant_), templated ones (ala _Maven_) or rely on conventions only (no build script needed). In the following section, 
-we will illustrate different different approach to use Jerkar. 
+With Jerkar you can write task based build definition (ala _Ant_), templated ones (ala _Maven_) or rely on conventions only (no build script needed). In the following section, we will illustrate different different approach to use Jerkar. 
 
 ### Task based builds (ala *Ant*)
 If you like to have complete control over your build, you may prefere the _Ant_ build style. 

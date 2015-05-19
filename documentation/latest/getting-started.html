@@ -88,7 +88,7 @@
 | |_| | ____| |   |  _ (/ ___ | |
  \___/|_____)_|   |_| \_)_____|_|
                                      The 100% Java build tool.
-</code></pre><p><br/></p><h2>How scaffold a Jerkar project</h2>
+</code></pre><p><br/></p><h2>How to scaffold a Jerkar project</h2>
 <ol>
   <li>create a directory named as <em>groupName.projectName</em>. You can use only <em>projectName</em> if your project has no group</li>
   <li>under this directory, execute <code>jerkar scaffold</code>. This generates the project structures.</li>
@@ -98,10 +98,10 @@
 </p><h2>How to setup Jerkar on existing Java project</h2>
 <ol>
   <li>add the <code>[Jerkar Home]/org.jerkar.core-fat.jar</code> lib to your project build-path on your IDE and attach the source code (<code>[Jerkar Home]/lib-sources</code>). This jar includes Jerkar core along plugins classes</li>
-  <li>create a <code>build/def</code> folder at the base of your project and make it a source folder in your IDE. In Jerkar, all build related stuff (build definition, local 3rd party libs, produced artifacts,...) lie here</li>
-  <li>write the build definition class extending <code>JkJavaBuild</code> in this directory (in whatever package)</li>
+  <li>create a <code>build/def</code> folder at the base of your project and make it a source folder in your IDE. In Jerkar, all build related stuff (build definition, local 3rd party libs, produced artifacts,...) lie in <code>build</code> directory located at the root of your project</li>
+  <li>write the build definition class extending <code>JkJavaBuild</code> in the <code>build/def</code> folder (in whatever package)</li>
   <li>launch the <code>org.jerkar.Main</code> class in your IDE or type <code>jerkar</code> in the command line (with the root of your project as working directory)</li>
-</ol>
+</ol><p>As Jerkar builds itself, you can have a look at <a href="https://github.com/jerkar/jerkar/tree/master/org.jerkar.core">how Jerkar project is structured</a>.</p>
 <p class="alert alert-success">
 If your project is <a href="../../tour.html#100conventional">100% conventional</a>, you can even skip steps <strong>2.</strong> and <strong>3.</strong>.
 </p></p>
