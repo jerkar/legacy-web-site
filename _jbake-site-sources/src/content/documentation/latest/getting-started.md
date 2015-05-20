@@ -1,5 +1,5 @@
 title=getting-started
-date=2015-05-19
+date=2015-05-20
 type=page
 status=published
 ~~~~~~
