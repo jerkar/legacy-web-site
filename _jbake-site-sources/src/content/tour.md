@@ -204,7 +204,7 @@ public class DistribAllBuild extends JkBuildDependencySupport {
 }
 ```
 <div class="alert alert-info" role="alert">
-<strong>Note that you can reuse external build elements in a statically typed way !!! </<strong>
+<strong>Note that you can reuse external build elements in a statically typed way !!! </strong>
 </div>
 
 ## Zero build file, out of the box features
