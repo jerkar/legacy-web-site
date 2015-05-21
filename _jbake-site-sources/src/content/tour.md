@@ -177,7 +177,7 @@ public class SeleniumTaskBuild extends JkJavaBuild {
 }
 ```
 ### Multi-project builds
-In a multi project context, Jerkar build instances from different project can use each other.
+In a multi project context, build instances, from different projects, can use each other.
 In general, the build dependency schema is the same than for the code.
 
 ```
@@ -204,13 +204,12 @@ public class DistribAllBuild extends JkBuildDependencySupport {
 }
 ```
 <div class="alert alert-info" role="alert">
-Note that you can reuse external builds element in a statically typed manner !!! 
+<strong>Note that you can reuse external builds element in a statically typed manner !!! </<strong>
 </div>
 
 ## Zero build file, out of the box features
 
-This section answer to the question : <blockquote>What can you do without writing build file or just declaring dependencies ?</blockquote>
-From a java project having a build definition as above (or just fully conventional), you can perform :
+This section answer to the following question : <blockquote>What Jerkar can do for me if I haven't written build file or have just a build file declaring dependencies only ?</blockquote>
 
 Yep, with Jerkar, if you don't have written any build file or just have a build file containing dependency definition, you can yet perform pretty sophisticated tasks. 
 
