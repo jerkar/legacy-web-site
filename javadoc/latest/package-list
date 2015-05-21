@@ -1,10 +1,12 @@
 org.jerkar
+org.jerkar.annotation
 org.jerkar.builtins.eclipse
 org.jerkar.builtins.javabuild
 org.jerkar.builtins.javabuild.testing.junit
 org.jerkar.builtins.jee
 org.jerkar.depmanagement
 org.jerkar.depmanagement.ivy
+org.jerkar.file
 org.jerkar.plugins.jacoco
 org.jerkar.plugins.sonar
 org.jerkar.publishing

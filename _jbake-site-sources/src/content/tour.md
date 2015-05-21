@@ -271,5 +271,6 @@ war.zip().to(warFileDest);
 `from` method returns another `JkFileTree` but rooted at the specified relative path. 
 `importXxx` method copies specified element at the root of the file tree.
 
-`JkFileTreeSet`, `JkPath` (sequence of files), `JkZipper`, `JkFileFilter`, `JkFileFilters` and `JkUtilsFile` are the other players for manipulate files.
+`JkFileTreeSet`, `JkPath` (sequence of files), `JkZipper`, `JkFileFilter` and `JkUtilsFile` are the other players for manipulate files.
+All belong to `org.jerkar.file` package.
 
