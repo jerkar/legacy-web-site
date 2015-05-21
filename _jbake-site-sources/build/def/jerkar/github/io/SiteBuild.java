@@ -13,16 +13,16 @@ import org.jerkar.utils.JkUtilsTime;
 
 public class SiteBuild extends JkBuild {
 	
-	JkFileTree jbakeDir = baseDir().sub("build/binaries/jbake-2.3.2");
+	JkFileTree jbakeDir = baseDir().from("build/binaries/jbake-2.3.2");
 	JkFileTree siteBase = JkFileTree.of(baseDir("..")); 
 	
 	JkFileTree latestDocDir = JkFileTree.of(baseDir("../../jerkar/org.jerkar.core/src/main/doc"));
 	JkFileTree latestJavadocDir = JkFileTree.of(baseDir("../../jerkar/org.jerkar.distrib-all/build/output/javadoc-all"));
 	File latestDist = siteBase.file("../jerkar/org.jerkar.distrib-all/build/output/jerkar-distrib.zip");
 	
-	JkFileTree siteSourceDocDir = baseDir().sub("src/content/documentation");
+	JkFileTree siteSourceDocDir = baseDir().from("src/content/documentation");
 	File siteDistDir = siteBase.file("binaries");
-	JkFileTree siteTargetDocDir = baseDir().sub("content/documentation");
+	JkFileTree siteTargetDocDir = baseDir().from("content/documentation");
 	
 	@Override
 	public void clean() {
@@ -45,7 +45,7 @@ public class SiteBuild extends JkBuild {
 	}
 	
 	public void copyCurrentDoc() {
-		JkFileTree targetDocDir = siteSourceDocDir.sub("latest");
+		JkFileTree targetDocDir = siteSourceDocDir.from("latest");
 		for (File file : latestDocDir.include("**/*.md")) {
 			String relativePath = latestDocDir.relativePath(file);
 			File copied = targetDocDir.file(relativePath);

@@ -179,7 +179,42 @@
 		.build();
 	}	
 }
-</code></pre><p><a name="100conventional"></a><br/></p><h3>100% conventional style !!!</h3><p>If you use only local dependencies (jar dependencies located as bellow), you don't even need to write a build file.<br/>Note that local dependencies have to be located in subfolder corresponding to its scope (build, compile, runtime,...).</p><p><img src="img/full-convention-project.png" alt="Project layout full convention""/></p><p><br/></p><h2>What can you do now ?</h2><p>From a java project having a build definition as above (or just fully conventional), you can perform :</p><h3>Basic tasks</h3>
+</code></pre><h3><a name="100conventional"></a><br/>100% conventional style !!!</h3><p>If you use only local dependencies (jar dependencies located as bellow), you don't even need to write a build file.<br/>Note that local dependencies have to be located in subfolder corresponding to its scope (build, compile, runtime,...).</p><p><img src="img/full-convention-project.png" alt="Project layout full convention""/></p><h3>Eclipse style</h3><p>If Eclipse is your IDE, you can just reuse information from the <em>.classpath</em> file by using the Eclipse plugin.<br/>Project name, source folders and dependencies can be deducted from this file. Just activate the Eclipse plugin (see below).</p><h3>Custom builds with third parties</h3><p>Your build class can depend itself from managed dependencies </p>
+<pre><code>@JkImport(&quot;org.seleniumhq.selenium:selenium-java:2.45.0&quot;)
+public class SeleniumTaskBuild extends JkJavaBuild {
+	
+	@JkDoc(&quot;Performs some load test using Selenium&quot;)
+	public void seleniumLoadTest() {
+		WebDriver driver = new FirefoxDriver();
+		// ....
+	}
+}
+</code></pre><h3>Multi-project builds</h3><p>In a multi project context, Jerkar build instances from different project can use each other.<br/>In general, the build dependency schema is the same than for the code.</p>
+<pre><code>// This is the master project for building the Jerkar full distribution
+public class DistribAllBuild extends JkBuildDependencySupport {
+	
+	@JkProject(&quot;../org.jerkar.plugins-sonar&quot;)
+	PluginsSonarBuild pluginsSonar;
+	
+	@JkProject(&quot;../org.jerkar.plugins-jacoco&quot;)
+	PluginsJacocoBuild pluginsJacoco;
+	
+	public void doDefault() {
+		super.doDefault();
+		multiProjectDependencies().invokeDoDefaultMethodOnAllSubProjects();
+		CoreBuild core = pluginsJacoco.core;  // The core project is got by transitivity
+		
+		JkFileTree sourceDir = ...;
+		sourceDir.importFiles(pluginsSonar.packer().jarSourceFile(), pluginsJacoco.packer().jarSourceFile());
+		...
+	} 
+	
+	
+}
+</code></pre>
+<div class="alert alert-info" role="alert">
+Note that you can reuse external builds element in a statically typed manner !!! 
+</div><h2>Zero build file, out of the box features</h2><p>This section answer to the question : <blockquote>What can you do without writing build file or just declaring dependencies ?</blockquote><br/>From a java project having a build definition as above (or just fully conventional), you can perform :</p><p>Yep, with Jerkar, if you don't have written any build file or just have a build file containing dependency definition, you can yet perform pretty sophisticated tasks. </p><h3>Basic tasks</h3>
 <ul>
   <li><code>jerkar help</code> : outputs on console available methods and options for Jerkar in the current project</li>
   <li><code>jerkar</code> : cleans, compiles, unit tests and produces artifacts (this is what <code>JkJavaBuild#doDefault</code> method does)</li>
@@ -192,13 +227,18 @@
   <li>To parameter a plugin, just mention <code>-pluginName#fieldName=value</code>.</li>
   <li>To launch a method of a plugin, just mention <code>-pluginName#methodName</code>, note that the plugin does not need to be activated for invoking a plugin method.</li>
   <li>To display information about available plugins in current Jerkar instance, simply execute <code>jerkar helpPlugins</code>.</li>
-</ul><h3>Examples</h3><p>Jerkar is shipped with <a href="http://www.eclemma.org/jacoco">Jacoco</a> and <a href="http://www.sonarqube.org/">SonarQube</a> plugins out of the box.<br/>This is how you can leverage these plugins : </p>
+</ul><h3>Examples</h3><p>Jerkar is shipped with <a href="http://eclipse.org/">Eclipse</a>, <a href="http://www.eclemma.org/jacoco">Jacoco</a> and <a href="http://www.sonarqube.org/">SonarQube</a> plugins out of the box.<br/>This is how you can leverage these plugins : </p>
 <ul>
   <li><code>jerkar jacoco#</code> : does <code>doDefault</code> but unit tests will be instrumented by Jacoco code coverage tool</li>
   <li><code>jerkar jacoco# -jacoco#produceHtml</code> : same but also set the <code>JkBuildPluginJacoco#produceHtml</code> field to <code>true</code>. It leads in producing<br/>an html report along the standard jacoco.exec binary report</li>
   <li><p><code>jerkar doDefault sonar#verify</code> : does the default + execute the <code>verify</code> method located in the sonar plugin (launch a sonar analysis)<br/>Analysis is launched on a local SonarQube server unless you specify specific Sonar settings. Sonar will leverage of jacoco report</p></li>
   <li><code>jerkar doDefault verify sonar# jacoco#</code> : launches the <code>doDefault</code> and <code>verify</code> methods and activates the jacoco and sonar plugins. Sonar plugin hooks the <code>JkBuild verify</code> method by launching a SonarQube analysis</li>
-</ul></p>
+</ul><h2>Power of the build API</h2><p>Jerkar framework comes with a fluent style API making a joy to perform all kind of thing generally encountered in build domain.<br/>Almost all classes coming from this API are <strong>immutable</strong> providing a high degree of robustness and reusability.</p><p>To have more insight, please visit <a href="http://jerkar.github.io/javadoc/latest/index.html">Javadoc</a>.</p><h3>File manipulation &amp; selection</h3><p>The <code>JkFileTree</code> class allow to define a set of files having a common root folder and to performs numerous operation on.<br/>The following code, show how to construct a <em>war</em> file from dispersed elements.</p>
+<pre><code>JkFileTree war = JkFileTree.of(warDir).importDirContent(webappContentDir)
+	.from(&quot;WEB-INF/classes&quot;).importDirContent(build.classDir())
+	.from(&quot;../lib&quot;).importFiles(JkFileTree.of(libDir).include(&quot;**/*.jar&quot;);
+war.zip().to(warFileDest);
+</code></pre><p><code>from</code> method returns another <code>JkFileTree</code> but rooted at the specified relative path.<br/><code>importXxx</code> method copies specified element at the root of the file tree.</p><p><code>JkFileTreeSet</code>, <code>JkPath</code> (sequence of files), <code>JkZipper</code>, <code>JkFileFilter</code>, <code>JkFileFilters</code> and <code>JkUtilsFile</code> are the other players for manipulate files.</p></p>
 
 	<hr />
 
