@@ -21,6 +21,7 @@ public class ImplicitMenu {
 				String header = JkUtilsString.repeat("#", i) + " ";
 				if (line.startsWith(header)) {
 					String name = line.substring(header.length());
+					name = name.contains(">") ? JkUtilsString.substringAfterLast(name, ">") : name;
 					Item item = new Item(name, i);
 					boolean found = bindLastParent(items, item);
 					if (!found) {
@@ -52,18 +53,18 @@ public class ImplicitMenu {
 	
 	public String html() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("<ul class=\"nav\">\n");
+		builder.append("<div id=\"sidebar-wrapper\"><ul class=\"sidebar-nav\">\n");
 		for (Item item : items) {
 			builder.append(htmlList(item));
 		}
-		builder.append("</ul>");
+		builder.append("</ul></div>");
 		return builder.toString();
 	}
 	
 	private String htmlList(Item item) {
 		StringBuilder builder = new StringBuilder();
 		builder.append(JkUtilsString.repeat(IDENT, item.level));
-		builder.append("<li><a href=\""+action(item)).append("\n>").append(item.name).append("</a>");
+		builder.append("<li><a href=\""+action(item)).append("\">").append(item.name).append("</a>");
 		if (item.children.isEmpty()) {
 			builder.append("</li>\n");
 		} else {

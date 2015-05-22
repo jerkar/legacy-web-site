@@ -34,6 +34,9 @@
   	<script src="js/highlight.pack.js"></script>
 	<script>hljs.initHighlightingOnLoad();</script>
 	<link rel="stylesheet" href="css/highlight-idea.css">
+	
+	<!-- sidebar css -->
+	<link href="css/simple-sidebar.css" rel="stylesheet">
   
   </head>
   <body onload="prettyPrint()">
