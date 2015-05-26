@@ -1,5 +1,4 @@
 org.jerkar
-org.jerkar.annotation
 org.jerkar.builtins.eclipse
 org.jerkar.builtins.javabuild
 org.jerkar.builtins.javabuild.testing.junit

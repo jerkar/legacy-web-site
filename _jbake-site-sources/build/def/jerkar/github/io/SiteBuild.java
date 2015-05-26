@@ -3,9 +3,9 @@ package jerkar.github.io;
 import java.io.File;
 
 import org.jerkar.JkBuild;
+import org.jerkar.JkDoc;
 import org.jerkar.JkJavaProcess;
 import org.jerkar.JkLog;
-import org.jerkar.annotation.JkDoc;
 import org.jerkar.file.JkFileTree;
 import org.jerkar.utils.JkUtilsFile;
 import org.jerkar.utils.JkUtilsString;
@@ -31,7 +31,7 @@ public class SiteBuild extends JkBuild {
 	@Override
 	public void clean() {
 		siteBase.exclude(".*/**", "_*/**", "binaries/**").deleteAll();
-		jbakeSrcContent.deleteAll();
+		jbakeSrcContent.createIfNotExist().deleteAll();
 	}
 	
 	@Override
