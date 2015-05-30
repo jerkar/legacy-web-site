@@ -128,7 +128,7 @@
 				.withClassesToTest(JkFileTree.of(classDir).include(&quot;**/*Test.class&quot;))
 				.withReportDir(reportDir)
 				.withReport(JunitReportDetail.FULL)
-				.forked(forkTest)
+				.forked(forkTests)
 				.run();
 	}
 	
@@ -168,7 +168,7 @@
 	}
 
 }
-</code></pre><p>This example is for demo purpose. Some settings can be omitted by respecting naming conventions...<br/><br/></p><h3>Templated builds with conventions</h3><p>If you follow conventions (as project folder named as <em>groupName.projectName</em> and version stored in a <em>version.txt</em> file), the above script is reduced to :</p>
+</code></pre><p>This example is for demo purpose. Some settings can be omitted by respecting naming conventions...<br/><br/></p><h3>Templated builds with conventions</h3><p>If you follow conventions (as project folder named as <em>groupName.projectName</em> and version stored in a <em>version.txt</em> file), the above script turns to :</p>
 <pre><code>public class BuildSampleClassic extends JkJavaBuild {
 	
 	@Override  // Optional :  needless if you use only local dependencies

@@ -3,6 +3,7 @@ org.jerkar.builtins.eclipse
 org.jerkar.builtins.javabuild
 org.jerkar.builtins.javabuild.testing.junit
 org.jerkar.builtins.jee
+org.jerkar.crypto.pgp
 org.jerkar.depmanagement
 org.jerkar.depmanagement.ivy
 org.jerkar.file
