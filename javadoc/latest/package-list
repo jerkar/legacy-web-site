@@ -5,8 +5,8 @@ org.jerkar.builtins.javabuild.testing.junit
 org.jerkar.builtins.jee
 org.jerkar.crypto.pgp
 org.jerkar.depmanagement
-org.jerkar.internal.ivy
 org.jerkar.file
+org.jerkar.internal.ivy
 org.jerkar.plugins.jacoco
 org.jerkar.plugins.sonar
 org.jerkar.publishing
