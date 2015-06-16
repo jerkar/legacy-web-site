@@ -77,7 +77,7 @@ public class AntStyleBuild extends JkBuild {
 				.withClassesToTest(JkFileTree.of(classDir).include("**/*Test.class"))
 				.withReportDir(reportDir)
 				.withReport(JunitReportDetail.FULL)
-				.forked(forkTest)
+				.forked(forkTests)
 				.run();
 	}
 	
@@ -132,7 +132,7 @@ This example is for demo purpose. Some settings can be omitted by respecting nam
 
 ### Templated builds with conventions
 
-If you follow conventions (as project folder named as _groupName.projectName_ and version stored in a _version.txt_ file), the above script is reduced to :
+If you follow conventions (as project folder named as _groupName.projectName_ and version stored in a _version.txt_ file), the above script turns to :
 
 ```
 public class BuildSampleClassic extends JkJavaBuild {
