@@ -17,7 +17,7 @@ To accomplish this, Jerkar :
 * instantiates the first compiled class found implementing `org.jerkar.JkBuild`. If none the `org.jerkar.builtins.javabuild.JkJavaBuild` class is instantiated
 * invokes specified methods on the created instance. If no method is specified then the `doDefault` method is invoked 
 
-You can also set any instance field annotated with `JkOption` from the command line by typing `jerkar myMethod -myField=foo`.
+You can also set instance field from the command line by typing `jerkar myMethod -myField=foo`.
 <br/>
 
 ## Build styles
@@ -33,7 +33,7 @@ This example mimics the [tutorial ANT build script](http://ant.apache.org/manual
 ```Java
 public class AntStyleBuild extends JkBuild {
 
-	@JkOption("Run tests in forked process if true")
+	@JkDoc("Run tests in forked process if true")
 	boolean forkTests;
 	
 	String name = "myProject";
@@ -273,3 +273,45 @@ war.zip().to(warFileDest);
 `JkFileTreeSet`, `JkPath` (sequence of files), `JkZipper`, `JkFileFilter` and `JkUtilsFile` are the other players for manipulate files.
 All belong to `org.jerkar.file` package.
 
+### Process launching
+
+The `JkProcess` class provides super easy way to launch external process.
+The follow show how to launch a Maven process on the project located at __projectBaseDir__.
+
+```
+JkProcess.of("mvn", "clean","install","-U")
+			.andParameters(JkOptions.isVerbose(), "-X")
+			.withWorkingDir(projectBaseDir)
+			.failOnError(true)
+			.runSync();
+```
+
+### Java classpath, classloader and runtime operations
+
+`JkClasspath` allows to construct class-paths and perform queries or get string representations.
+For example, the follow creates a classpath taking in account all jar under the __extraLibs__ folder, 
+then returns the first one containing the `my.SearchedClass` class.
+```
+File jar = JkClasspath.of(JkDirSet.of(baseDir("extraLibs")).including("**/*.jar)).getEntryContainingClass("my.SearchedClass"); 
+```
+
+`JkClassloader` allows to get or construct class-loaders then scan the class-path or invoke methods within. 
+
+For example, the follow get the current class loader and loads every class having a package starting by `com.mypack`
+```
+JkClassLoader.current().loadClasses("com/mypack/**/*");
+```
+This class provides also methods to perform cross class-loader calls friendly.
+
+`JkJavaProcess` is a Java specific flavor of `JkProcess`. 
+
+
+### Java build API
+
+Jerkar provides Fluent API for addressing build of Java projects.
+
+
+
+ 
+
+####
