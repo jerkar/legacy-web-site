@@ -2,14 +2,14 @@ package jerkar.github.io;
 
 import java.io.File;
 
-import org.jerkar.JkBuild;
-import org.jerkar.JkDoc;
-import org.jerkar.JkJavaProcess;
-import org.jerkar.JkLog;
-import org.jerkar.file.JkFileTree;
-import org.jerkar.utils.JkUtilsFile;
-import org.jerkar.utils.JkUtilsString;
-import org.jerkar.utils.JkUtilsTime;
+import org.jerkar.api.file.JkFileTree;
+import org.jerkar.api.java.JkJavaProcess;
+import org.jerkar.api.system.JkLog;
+import org.jerkar.api.utils.JkUtilsFile;
+import org.jerkar.api.utils.JkUtilsString;
+import org.jerkar.api.utils.JkUtilsTime;
+import org.jerkar.tool.JkBuild;
+import org.jerkar.tool.JkDoc;
 
 public class SiteBuild extends JkBuild {
 	

@@ -5,8 +5,8 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.jerkar.utils.JkUtilsFile;
-import org.jerkar.utils.JkUtilsString;
+import org.jerkar.api.utils.JkUtilsFile;
+import org.jerkar.api.utils.JkUtilsString;
 
 public class ImplicitMenu {
 	

@@ -10,11 +10,11 @@ status=published
 This page will give you a concrete idea on how Jerkar is working and what you can do with.
 
 ## Principles
-Jerkar is quite simpe in its principle. You write a class extending `org.jerkar.JkBuild` in the _build/def_ folder of your project then you can execute any public zero arg methods from the command line by executing `jerkar myMethod1 myOtherMethod` at the root folder of your project.
+Jerkar is quite simpe in its principle. You write a class extending `org.jerkar.tool.JkBuild` in the _build/def_ folder of your project then you can execute any public zero arg methods from the command line by executing `jerkar myMethod1 myOtherMethod` at the root folder of your project.
 To accomplish this, Jerkar :
 
 * compiles every java sources found under the _build/def_ folder
-* instantiates the first compiled class found implementing `org.jerkar.JkBuild`. If none the `org.jerkar.builtins.javabuild.JkJavaBuild` class is instantiated
+* instantiates the first compiled class found implementing `org.jerkar.tool.JkBuild`. If none the `org.jerkar.tool.builtins.templates.templates.javabuild.JkJavaBuild` class is instantiated
 * invokes specified methods on the created instance. If no method is specified then the `doDefault` method is invoked 
 
 You can also set instance field from the command line by typing `jerkar myMethod -myField=foo`.
@@ -271,7 +271,7 @@ war.zip().to(warFileDest);
 `importXxx` method copies specified element at the root of the file tree.
 
 `JkFileTreeSet`, `JkPath` (sequence of files), `JkZipper`, `JkFileFilter` and `JkUtilsFile` are the other players for manipulate files.
-All belong to `org.jerkar.file` package.
+All belong to `org.jerkar.api.file` package.
 
 ### Process launching
 
