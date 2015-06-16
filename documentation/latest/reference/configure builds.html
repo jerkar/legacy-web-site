@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>configure builds</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Java build tool">
+    <meta name="author" content="Jerome Angibaud">
+    <meta name="keywords" content="build,java,tool,automation,maven,ant,gradle,buildr,sbt,make,compiler,tester,jacoco">
+    <meta name="generator" content="JBake">
+
+    <!-- Le styles -->
+    <link href="../../../css/bootstrap.css" rel="stylesheet">
+    <!-- <link href="../../../css/bootstrap.min.css" rel="stylesheet">  -->
+    <link href="../../../css/asciidoctor.css" rel="stylesheet">
+    <link href="../../../css/base.css" rel="stylesheet">
+    <link href="../../../css/prettify.css" rel="stylesheet">
+    <link href="../../../css/jerkar.css" rel="stylesheet">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="../../../js/html5shiv.min.js"></script>
+      
+    <![endif]-->
+    
+      <!-- Fav and touch icons -->
+    <!--<link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">-->
+    <link rel="shortcut icon" href="../../../favicon.ico">
+  
+  	<!-- highlight.js -->
+  	<script src="js/highlight.pack.js"></script>
+	<script>hljs.initHighlightingOnLoad();</script>
+	<link rel="stylesheet" href="css/highlight-idea.css">
+	
+	<!-- sidebar css -->
+	<link href="css/simple-sidebar.css" rel="stylesheet">
+  
+  </head>
+  <body onload="prettyPrint()">
+    <div id="wrap">
+
+	<!-- Fixed navbar -->
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand">
+          	<img style="max-width:32px;margin-top: -7px;" src="../../../img/logo.png">
+          </a>
+          <a class="navbar-brand">Jerkar</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="../../../index.html">Home</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Documentation<b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="../../../documentation/latest/getting-started.html">Getting Started</a></li>
+                <li><a href="../../../javadoc/latest/index.html">Javadoc</a></li>
+              </ul>
+            </li>
+            <li><a href="../../../about.html">About</a></li>
+          </ul>
+        </div>
+       
+        
+      </div>
+    </div>
+    <div class="container">
+	<p><h2>Configure builds</h2><p>Jerkar builds are configurable, in the sense that any value required to run the build has not to be hard-coded<br/>in the build script. Instead a value can be injected by 3 different means :<br/>* Environment variable<br/>* System properties<br/>* Jerkar options</p><h3>Environment variables</h3><p>There is nothing specific to Jerkar. Just set the environment variable as you usually do on your OS and get the value from build using the standard Java <code>System#getenv</code> method.</p><h3>System properties</h3><p>Jerkar proposes 3 ways to inject system properties :<br/>* By setting the property/value in the <code>system.properties</code> file located in the <code>[Jerkar Home]</code> directory.<br/> Note that if you are running Jerkar in embedded mode, the <code>[Jerkar Home]/system.properties</code> file will not be taken in account but [project dir/build/def/build/system.properties].<br/>* By setting the property/value in the <code>system.properties</code> file located in the <code>[Jerkar User Home]</code> directory. The Jerkar user home is mentioned at the beginning of all Jerkar process.<br/>* By mentioning the property/value in the Jerkar command line as `Jerkar doDefault -DmyProperty=myValue</p><p>The command line takes precedence on the <code>[Jerkar User Home]/system.properties</code> that takes precedence, in turn, on the [Jerkar Home]/system.properties.</p><p>To read system properties from your builds, you can just use the standard method <code>System#getProperty</code>.</p><h3>Jerkar options</h3><p>Jerkar options are similar to system properties as it stands for a set of key/values. Jerkar proposes 3 ways to inject Jerkar properties :<br/>* By setting the property/value in the <code>options.properties</code> file located in the <code>[Jerkar Home]</code> directory.<br/> Note that if you are running Jerkar in embedded mode, the <code>[Jerkar Home]/options.properties</code> file will not be taken in account but [project dir/build/def/build/options.properties].<br/>* By setting the property/value in the options.properties file located in the <code>[Jerkar User Home]</code> directory. The Jerkar user home is mentioned at the beginning of all Jerkar process.<br/>* By mentioning the property/value in the Jerkar command line as `Jerkar doDefault -myOption=myValue</p><p>As for system properties, The command line takes precedence on the <code>[Jerkar User Home]/options.properties</code> that takes precedence, in turn, on the [Jerkar Home]/options.properties.</p><p>Note for boolean, when no value is specified, <code>true</code> will be used as default.</p><h4>Standars options</h4><p>Jerkar predefines some standard options that you can set for any build :<br/>* buildClass : This forces the build class to use. If this option is not null then Jerkar will used the specified class as the build class.<br/>Note that this can be a simple class as <code>MyBuildClass</code> is enough for running <code>org.my.project.MyBuildClass</code>.<br/>* verbose : when <code>true</code> Jerkar will be more verbose at logging at the price of being slower and bloating logs. Default value is <code>false</code>.<br/>* silent : when <code>true</code>nothing will be logged. Default is <code>false</code></p><h4>How to retrieve Jerkar options ?</h4><p>You can retrieve string values using the <code>JkOptions</code> API providing convenient static methods as <code>JkOptions#get</code>, <code>JkOptions#asMap</code> or <code>JkOptions#getAllStartingWith(String prefix)</code>.</p><p>You can also retrieve an option just by declaring a field in the build class having the same name as the option.<br/>For example, if you declare a field like <code>protected int size = 3;</code> then you can override the default value by injecting the option value in any of the 3 way described above.</p><p>Any field except static fields or private fields can be used to inject options.<br/>If you want inject option in a private field, you must annotate is with @JkDoc as <code>@JkDoc private boolean myField;</code> </p><p>Note that the string value that you have injected will be automatically converted to the target type.<br/>Handled types are String, all primitive types (and their wrappers), enum, File and composite object.</p><p>To get a precise idea on how types are converted see <a href="https://github.com/jerkar/jerkar/blob/master/org.jerkar.core/src/main/java/org/jerkar/OptionInjector.java">this code</a>.</p><h4>Composite options</h4><p>Composite options are a way to structure your options. Say that you want to configure some server access with url, userName and passwsord,<br/>you can gather all these information in a object as<br/><code>
+class Server {
+	private String url;
+	private String userName;
+	private String password;
+	...
+}
+</code></p><p>declare a Server field in your build<br/><code>
+class MyBuild extends JkBuild {
+	Server deployServer;
+	...
+}
+</code><br/>Then you can inject the server object using following options :<br/>deployServer.url=http://myServer:8090/to<br/>deployServer.username=myUsername<br/>deployServer.password=myPassword</p><h4>How to document option ?</h4><p>If you want your option been displayed when invoking <code>jerkar help</code> you need to annotate it with <code>@JkDoc</code>.</p><p>For example :<br/><code>
+@JkDoc(&quot;Make the test run in a forked process&quot;)
+private boolean forkTests = false;
+</code><br/><div id="sidebar-wrapper"><ul class="sidebar-nav"><br/> <li><a href="#Configure builds">Configure builds</a><br/> <ul class="nav"><br/> <li><a href="#Environment variables">Environment variables</a></li><br/> <li><a href="#System properties">System properties</a></li><br/> <li><a href="#Jerkar options">Jerkar options</a></li><br/> <li><a href="#Standars options">Standars options</a></li><br/> <li><a href="#How to retrieve Jerkar options ?">How to retrieve Jerkar options ?</a></li><br/> <li><a href="#Composite options">Composite options</a></li><br/> <li><a href="#How to document option ?">How to document option ?</a></li><br/> </ul><br/> </li><br/></ul></div></p></p>
+
+	<hr />
+
+		</div>
+		<div id="push"></div>
+    </div>
+    
+    <div id="footer">
+      <div class="container">
+        <p class="muted credit">&copy; 2014 | Mixed with <a href="http://getbootstrap.com/">Bootstrap v3.1.1</a> | Baked with <a href="http://jbake.org">JBake v2.3.2</a></p>
+      </div>
+    </div>
+    
+   
+    
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="../../../js/jquery-1.11.1.min.js"></script>
+    <script src="../../../js/bootstrap.min.js"></script>
+    <script src="../../../js/prettify.js"></script>
+    
+  </body>
+</html>

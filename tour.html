@@ -81,10 +81,10 @@
   <li>compiles every java sources found under the <em>build/def</em> folder</li>
   <li>instantiates the first compiled class found implementing <code>org.jerkar.JkBuild</code>. If none the <code>org.jerkar.builtins.javabuild.JkJavaBuild</code> class is instantiated</li>
   <li>invokes specified methods on the created instance. If no method is specified then the <code>doDefault</code> method is invoked</li>
-</ul><p>You can also set any instance field annotated with <code>JkOption</code> from the command line by typing <code>jerkar myMethod -myField=foo</code>.<br/><br/></p><h2>Build styles</h2><p>With Jerkar you can write task based build definition (ala <em>Ant</em>), templated ones (ala <em>Maven</em>) or rely on conventions only (no build script needed). In the following section, we will illustrate different different approach to use Jerkar. </p><h3>Task based builds (ala <em>Ant</em>)</h3><p>If you like to have complete control over your build, you may prefere the <em>Ant</em> build style.<br/>The price is that you have to <em>write explicitly</em> what your build is doing. </p><p>This example mimics the <a href="http://ant.apache.org/manual/tutorial-HelloWorldWithAnt.html">tutorial ANT build script</a> </p>
+</ul><p>You can also set instance field from the command line by typing <code>jerkar myMethod -myField=foo</code>.<br/><br/></p><h2>Build styles</h2><p>With Jerkar you can write task based build definition (ala <em>Ant</em>), templated ones (ala <em>Maven</em>) or rely on conventions only (no build script needed). In the following section, we will illustrate different different approach to use Jerkar. </p><h3>Task based builds (ala <em>Ant</em>)</h3><p>If you like to have complete control over your build, you may prefere the <em>Ant</em> build style.<br/>The price is that you have to <em>write explicitly</em> what your build is doing. </p><p>This example mimics the <a href="http://ant.apache.org/manual/tutorial-HelloWorldWithAnt.html">tutorial ANT build script</a> </p>
 <pre><code class="Java">public class AntStyleBuild extends JkBuild {
 
-	@JkOption(&quot;Run tests in forked process if true&quot;)
+	@JkDoc(&quot;Run tests in forked process if true&quot;)
 	boolean forkTests;
 	
 	String name = &quot;myProject&quot;;
@@ -241,33 +241,17 @@ public class DistribAllBuild extends JkBuildDependencySupport {
 	.from(&quot;WEB-INF/classes&quot;).importDirContent(build.classDir())
 	.from(&quot;../lib&quot;).importFiles(JkFileTree.of(libDir).include(&quot;**/*.jar&quot;);
 war.zip().to(warFileDest);
-</code></pre><p><code>from</code> method returns another <code>JkFileTree</code> but rooted at the specified relative path.<br/><code>importXxx</code> method copies specified element at the root of the file tree.</p><p><code>JkFileTreeSet</code>, <code>JkPath</code> (sequence of files), <code>JkZipper</code>, <code>JkFileFilter</code> and <code>JkUtilsFile</code> are the other players for manipulate files.<br/>All belong to <code>org.jerkar.file</code> package.</p>
-<div id="sidebar-wrapper"><ul class="sidebar-nav">
-        <li><a href="#Principles">Principles</a></li>
-        <li><a href="#Build styles">Build styles</a>
-          <ul class="nav">
-            <li><a href="#Task based builds (ala *Ant*)">Task based builds (ala *Ant*)</a></li>
-            <li><a href="#Templated builds (ala *Maven*)">Templated builds (ala *Maven*)</a></li>
-            <li><a href="#Templated builds with conventions">Templated builds with conventions</a></li>
-            <li><a href="#100% conventional style !!!">100% conventional style !!!</a></li>
-            <li><a href="#Eclipse style">Eclipse style</a></li>
-            <li><a href="#Custom builds with third parties">Custom builds with third parties</a></li>
-            <li><a href="#Multi-project builds">Multi-project builds</a></li>
-          </ul>
-        </li>
-        <li><a href="#Zero build file, out of the box features">Zero build file, out of the box features</a>
-          <ul class="nav">
-            <li><a href="#Basic tasks">Basic tasks</a></li>
-            <li><a href="#Plugin tasks">Plugin tasks</a></li>
-            <li><a href="#Examples">Examples</a></li>
-          </ul>
-        </li>
-        <li><a href="#Power of the build API">Power of the build API</a>
-          <ul class="nav">
-            <li><a href="#File manipulation & selection">File manipulation & selection</a></li>
-          </ul>
-        </li>
-</ul></div></p>
+</code></pre><p><code>from</code> method returns another <code>JkFileTree</code> but rooted at the specified relative path.<br/><code>importXxx</code> method copies specified element at the root of the file tree.</p><p><code>JkFileTreeSet</code>, <code>JkPath</code> (sequence of files), <code>JkZipper</code>, <code>JkFileFilter</code> and <code>JkUtilsFile</code> are the other players for manipulate files.<br/>All belong to <code>org.jerkar.file</code> package.</p><h3>Process launching</h3><p>The <code>JkProcess</code> class provides super easy way to launch external process.<br/>The follow show how to launch a Maven process on the project located at <strong>projectBaseDir</strong>.</p>
+<pre><code>JkProcess.of(&quot;mvn&quot;, &quot;clean&quot;,&quot;install&quot;,&quot;-U&quot;)
+			.andParameters(JkOptions.isVerbose(), &quot;-X&quot;)
+			.withWorkingDir(projectBaseDir)
+			.failOnError(true)
+			.runSync();
+</code></pre><h3>Java classpath, classloader and runtime operations</h3><p><code>JkClasspath</code> allows to construct class-paths and perform queries or get string representations.<br/>For example, the follow creates a classpath taking in account all jar under the <strong>extraLibs</strong> folder,<br/>then returns the first one containing the <code>my.SearchedClass</code> class.<br/><code>
+File jar = JkClasspath.of(JkDirSet.of(baseDir(&quot;extraLibs&quot;)).including(&quot;**/*.jar)).getEntryContainingClass(&quot;my.SearchedClass&quot;); 
+</code></p><p><code>JkClassloader</code> allows to get or construct class-loaders then scan the class-path or invoke methods within. </p><p>For example, the follow get the current class loader and loads every class having a package starting by <code>com.mypack</code><br/><code>
+JkClassLoader.current().loadClasses(&quot;com/mypack/**/*&quot;);
+</code><br/>This class provides also methods to perform cross class-loader calls friendly.</p><p><code>JkJavaProcess</code> is a Java specific flavor of <code>JkProcess</code>. </p><h3>Java build API</h3><p>Jerkar provides Fluent API for addressing build of Java projects.</p><p>####<br/><div id="sidebar-wrapper"><ul class="sidebar-nav"><br/> <li><a href="#Principles">Principles</a></li><br/> <li><a href="#Build styles">Build styles</a><br/> <ul class="nav"><br/> <li><a href="#Task based builds (ala *Ant*)">Task based builds (ala <em>Ant</em>)</a></li><br/> <li><a href="#Templated builds (ala *Maven*)">Templated builds (ala <em>Maven</em>)</a></li><br/> <li><a href="#Templated builds with conventions">Templated builds with conventions</a></li><br/> <li><a href="#100% conventional style !!!">100% conventional style !!!</a></li><br/> <li><a href="#Eclipse style">Eclipse style</a></li><br/> <li><a href="#Custom builds with third parties">Custom builds with third parties</a></li><br/> <li><a href="#Multi-project builds">Multi-project builds</a></li><br/> </ul><br/> </li><br/> <li><a href="#Zero build file, out of the box features">Zero build file, out of the box features</a><br/> <ul class="nav"><br/> <li><a href="#Basic tasks">Basic tasks</a></li><br/> <li><a href="#Plugin tasks">Plugin tasks</a></li><br/> <li><a href="#Examples">Examples</a></li><br/> </ul><br/> </li><br/> <li><a href="#Power of the build API">Power of the build API</a><br/> <ul class="nav"><br/> <li><a href="#File manipulation & selection">File manipulation &amp; selection</a></li><br/> <li><a href="#Process launching">Process launching</a></li><br/> <li><a href="#Java classpath, classloader and runtime operations">Java classpath, classloader and runtime operations</a></li><br/> <li><a href="#Java build API">Java build API</a></li><br/> </ul><br/> </li><br/></ul></div></p></p>
 
 	<hr />
 
