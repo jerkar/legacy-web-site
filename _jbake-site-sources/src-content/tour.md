@@ -14,7 +14,7 @@ Jerkar is quite simpe in its principle. You write a class extending `org.jerkar.
 To accomplish this, Jerkar :
 
 * compiles every java sources found under the _build/def_ folder
-* instantiates the first compiled class found implementing `org.jerkar.tool.JkBuild`. If none the `org.jerkar.tool.builtins.templates.templates.javabuild.JkJavaBuild` class is instantiated
+* instantiates the first compiled class found implementing `org.jerkar.tool.JkBuild`. If none the `org.jerkar.tool.builtins.templates.javabuild.JkJavaBuild` class is instantiated
 * invokes specified methods on the created instance. If no method is specified then the `doDefault` method is invoked 
 
 You can also set instance field from the command line by typing `jerkar myMethod -myField=foo`.
@@ -108,7 +108,7 @@ public class MavenStyleBuild extends JkJavaBuild {
 	}
 
 	@Override  // optional
-	protected JkVersion defaultVersion() {
+	protected JkVersion version() {
 		return JkVersion.ofName("0.3-SNAPSHOT");
 	}
 
@@ -217,9 +217,9 @@ Yep, with Jerkar, if you don't have written any build file or just have a build 
     
 - `jerkar help` : outputs on console available methods and options for Jerkar in the current project
 - `jerkar` : cleans, compiles, unit tests and produces artifacts (this is what `JkJavaBuild#doDefault` method does)
-- `jerkar doDefault publish` : same then `publish` produced artifacts on a remote repository
-- `jerkar -fatJar=true -forkTests=true` : same but also produces a fat-jar (jar file containing all the runtime dependencies) and runs unit tests in a forked process
-- `jerkar -fatJar -forkTests` : same, when field values are not mentioned, Jerkar uses a default value (true for boolean fields)
+- `jerkar doDefault publish` : same than above then `publish` produced artifacts on a remote repository
+- `jerkar -fatJar=true -forkTests=true` : same than above but also produces a fat-jar (jar file containing all the runtime dependencies) and runs unit tests in a forked process
+- `jerkar -fatJar -forkTests` : same than above. When field values are not mentioned, Jerkar uses a default value (true for boolean fields)
 
 The last will result in the following artifact creation :
 ![Created artifacts](img/output.png)
@@ -311,7 +311,3 @@ This class provides also methods to perform cross class-loader calls friendly.
 Jerkar provides Fluent API for addressing build of Java projects.
 
 
-
- 
-
-####

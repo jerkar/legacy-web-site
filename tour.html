@@ -79,7 +79,7 @@
 <hr/><p>This page will give you a concrete idea on how Jerkar is working and what you can do with.</p><h2>Principles</h2><p>Jerkar is quite simpe in its principle. You write a class extending <code>org.jerkar.tool.JkBuild</code> in the <em>build/def</em> folder of your project then you can execute any public zero arg methods from the command line by executing <code>jerkar myMethod1 myOtherMethod</code> at the root folder of your project.<br/>To accomplish this, Jerkar :</p>
 <ul>
   <li>compiles every java sources found under the <em>build/def</em> folder</li>
-  <li>instantiates the first compiled class found implementing <code>org.jerkar.tool.JkBuild</code>. If none the <code>org.jerkar.tool.builtins.templates.templates.javabuild.JkJavaBuild</code> class is instantiated</li>
+  <li>instantiates the first compiled class found implementing <code>org.jerkar.tool.JkBuild</code>. If none the <code>org.jerkar.tool.builtins.templates.javabuild.JkJavaBuild</code> class is instantiated</li>
   <li>invokes specified methods on the created instance. If no method is specified then the <code>doDefault</code> method is invoked</li>
 </ul><p>You can also set instance field from the command line by typing <code>jerkar myMethod -myField=foo</code>.<br/><br/></p><h2>Build styles</h2><p>With Jerkar you can write task based build definition (ala <em>Ant</em>), templated ones (ala <em>Maven</em>) or rely on conventions only (no build script needed). In the following section, we will illustrate different different approach to use Jerkar. </p><h3>Task based builds (ala <em>Ant</em>)</h3><p>If you like to have complete control over your build, you may prefere the <em>Ant</em> build style.<br/>The price is that you have to <em>write explicitly</em> what your build is doing. </p><p>This example mimics the <a href="http://ant.apache.org/manual/tutorial-HelloWorldWithAnt.html">tutorial ANT build script</a> </p>
 <pre><code class="Java">public class AntStyleBuild extends JkBuild {
@@ -151,7 +151,7 @@
 	}
 
 	@Override  // optional
-	protected JkVersion defaultVersion() {
+	protected JkVersion version() {
 		return JkVersion.ofName(&quot;0.3-SNAPSHOT&quot;);
 	}
 
@@ -221,9 +221,9 @@ public class DistribAllBuild extends JkBuildDependencySupport {
 <ul>
   <li><code>jerkar help</code> : outputs on console available methods and options for Jerkar in the current project</li>
   <li><code>jerkar</code> : cleans, compiles, unit tests and produces artifacts (this is what <code>JkJavaBuild#doDefault</code> method does)</li>
-  <li><code>jerkar doDefault publish</code> : same then <code>publish</code> produced artifacts on a remote repository</li>
-  <li><code>jerkar -fatJar=true -forkTests=true</code> : same but also produces a fat-jar (jar file containing all the runtime dependencies) and runs unit tests in a forked process</li>
-  <li><code>jerkar -fatJar -forkTests</code> : same, when field values are not mentioned, Jerkar uses a default value (true for boolean fields)</li>
+  <li><code>jerkar doDefault publish</code> : same than above then <code>publish</code> produced artifacts on a remote repository</li>
+  <li><code>jerkar -fatJar=true -forkTests=true</code> : same than above but also produces a fat-jar (jar file containing all the runtime dependencies) and runs unit tests in a forked process</li>
+  <li><code>jerkar -fatJar -forkTests</code> : same than above. When field values are not mentioned, Jerkar uses a default value (true for boolean fields)</li>
 </ul><p>The last will result in the following artifact creation :<br/><img src="img/output.png" alt="Created artifacts""/></p><h3>Plugin tasks</h3><p>Template classes (<code>JkBuild</code> and <code>JkJavaBuild</code>) enable plugability by providing hooks on several methods.<br/>A plugin is just a class extending <code>JkBuildPlugin</code> or <code>JkJavaBuildPlugin</code> and overriding default hook methods. Plugins can also provide their own methods.</p>
 <ul>
   <li>To activate a plugin on the command line, just mention the name of the plugin followed by a <code>#</code>.</li>
@@ -251,7 +251,36 @@ war.zip().to(warFileDest);
 File jar = JkClasspath.of(JkDirSet.of(baseDir(&quot;extraLibs&quot;)).including(&quot;**/*.jar)).getEntryContainingClass(&quot;my.SearchedClass&quot;); 
 </code></p><p><code>JkClassloader</code> allows to get or construct class-loaders then scan the class-path or invoke methods within. </p><p>For example, the follow get the current class loader and loads every class having a package starting by <code>com.mypack</code><br/><code>
 JkClassLoader.current().loadClasses(&quot;com/mypack/**/*&quot;);
-</code><br/>This class provides also methods to perform cross class-loader calls friendly.</p><p><code>JkJavaProcess</code> is a Java specific flavor of <code>JkProcess</code>. </p><h3>Java build API</h3><p>Jerkar provides Fluent API for addressing build of Java projects.</p><p>####<br/><div id="sidebar-wrapper"><ul class="sidebar-nav"><br/> <li><a href="#Principles">Principles</a></li><br/> <li><a href="#Build styles">Build styles</a><br/> <ul class="nav"><br/> <li><a href="#Task based builds (ala *Ant*)">Task based builds (ala <em>Ant</em>)</a></li><br/> <li><a href="#Templated builds (ala *Maven*)">Templated builds (ala <em>Maven</em>)</a></li><br/> <li><a href="#Templated builds with conventions">Templated builds with conventions</a></li><br/> <li><a href="#100% conventional style !!!">100% conventional style !!!</a></li><br/> <li><a href="#Eclipse style">Eclipse style</a></li><br/> <li><a href="#Custom builds with third parties">Custom builds with third parties</a></li><br/> <li><a href="#Multi-project builds">Multi-project builds</a></li><br/> </ul><br/> </li><br/> <li><a href="#Zero build file, out of the box features">Zero build file, out of the box features</a><br/> <ul class="nav"><br/> <li><a href="#Basic tasks">Basic tasks</a></li><br/> <li><a href="#Plugin tasks">Plugin tasks</a></li><br/> <li><a href="#Examples">Examples</a></li><br/> </ul><br/> </li><br/> <li><a href="#Power of the build API">Power of the build API</a><br/> <ul class="nav"><br/> <li><a href="#File manipulation & selection">File manipulation &amp; selection</a></li><br/> <li><a href="#Process launching">Process launching</a></li><br/> <li><a href="#Java classpath, classloader and runtime operations">Java classpath, classloader and runtime operations</a></li><br/> <li><a href="#Java build API">Java build API</a></li><br/> </ul><br/> </li><br/></ul></div></p></p>
+</code><br/>This class provides also methods to perform cross class-loader calls friendly.</p><p><code>JkJavaProcess</code> is a Java specific flavor of <code>JkProcess</code>. </p><h3>Java build API</h3><p>Jerkar provides Fluent API for addressing build of Java projects.</p>
+<div id="sidebar-wrapper"><ul class="sidebar-nav">
+        <li><a href="#Principles">Principles</a></li>
+        <li><a href="#Build styles">Build styles</a>
+          <ul class="nav">
+            <li><a href="#Task based builds (ala *Ant*)">Task based builds (ala *Ant*)</a></li>
+            <li><a href="#Templated builds (ala *Maven*)">Templated builds (ala *Maven*)</a></li>
+            <li><a href="#Templated builds with conventions">Templated builds with conventions</a></li>
+            <li><a href="#100% conventional style !!!">100% conventional style !!!</a></li>
+            <li><a href="#Eclipse style">Eclipse style</a></li>
+            <li><a href="#Custom builds with third parties">Custom builds with third parties</a></li>
+            <li><a href="#Multi-project builds">Multi-project builds</a></li>
+          </ul>
+        </li>
+        <li><a href="#Zero build file, out of the box features">Zero build file, out of the box features</a>
+          <ul class="nav">
+            <li><a href="#Basic tasks">Basic tasks</a></li>
+            <li><a href="#Plugin tasks">Plugin tasks</a></li>
+            <li><a href="#Examples">Examples</a></li>
+          </ul>
+        </li>
+        <li><a href="#Power of the build API">Power of the build API</a>
+          <ul class="nav">
+            <li><a href="#File manipulation & selection">File manipulation & selection</a></li>
+            <li><a href="#Process launching">Process launching</a></li>
+            <li><a href="#Java classpath, classloader and runtime operations">Java classpath, classloader and runtime operations</a></li>
+            <li><a href="#Java build API">Java build API</a></li>
+          </ul>
+        </li>
+</ul></div></p>
 
 	<hr />
 

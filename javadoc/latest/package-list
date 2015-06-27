@@ -1,10 +1,8 @@
 org.jerkar.api.crypto.pgp
 org.jerkar.api.depmanagement
 org.jerkar.api.file
-org.jerkar.api.internal.ivy
 org.jerkar.api.java
 org.jerkar.api.java.junit
-org.jerkar.api.publishing
 org.jerkar.api.system
 org.jerkar.api.utils
 org.jerkar.plugins.jacoco
@@ -12,5 +10,4 @@ org.jerkar.plugins.sonar
 org.jerkar.tool
 org.jerkar.tool.builtins.eclipse
 org.jerkar.tool.builtins.jee
-org.jerkar.tool.builtins.templates.dependencysupport
 org.jerkar.tool.builtins.templates.javabuild
