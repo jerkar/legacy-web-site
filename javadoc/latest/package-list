@@ -9,5 +9,5 @@ org.jerkar.plugins.jacoco
 org.jerkar.plugins.sonar
 org.jerkar.tool
 org.jerkar.tool.builtins.eclipse
-org.jerkar.tool.builtins.jee
-org.jerkar.tool.builtins.templates.javabuild
+org.jerkar.tool.builtins.javabuild
+org.jerkar.tool.builtins.javabuild.jee

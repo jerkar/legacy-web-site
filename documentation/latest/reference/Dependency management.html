@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Dependency management</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Java build tool">
+    <meta name="author" content="Jerome Angibaud">
+    <meta name="keywords" content="build,java,tool,automation,maven,ant,gradle,buildr,sbt,make,compiler,tester,jacoco">
+    <meta name="generator" content="JBake">
+
+    <!-- Le styles -->
+    <link href="../../../css/bootstrap.css" rel="stylesheet">
+    <!-- <link href="../../../css/bootstrap.min.css" rel="stylesheet">  -->
+    <link href="../../../css/asciidoctor.css" rel="stylesheet">
+    <link href="../../../css/base.css" rel="stylesheet">
+    <link href="../../../css/prettify.css" rel="stylesheet">
+    <link href="../../../css/jerkar.css" rel="stylesheet">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="../../../js/html5shiv.min.js"></script>
+      
+    <![endif]-->
+    
+      <!-- Fav and touch icons -->
+    <!--<link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">-->
+    <link rel="shortcut icon" href="../../../favicon.ico">
+  
+  	<!-- highlight.js -->
+  	<script src="js/highlight.pack.js"></script>
+	<script>hljs.initHighlightingOnLoad();</script>
+	<link rel="stylesheet" href="css/highlight-idea.css">
+	
+	<!-- sidebar css -->
+	<link href="css/simple-sidebar.css" rel="stylesheet">
+  
+  </head>
+  <body onload="prettyPrint()">
+    <div id="wrap">
+
+	<!-- Fixed navbar -->
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand">
+          	<img style="max-width:32px;margin-top: -7px;" src="../../../img/logo.png">
+          </a>
+          <a class="navbar-brand">Jerkar</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="../../../index.html">Home</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Documentation<b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="../../../documentation/latest/getting-started.html">Getting Started</a></li>
+                <li><a href="../../../javadoc/latest/index.html">Javadoc</a></li>
+              </ul>
+            </li>
+            <li><a href="../../../about.html">About</a></li>
+          </ul>
+        </div>
+       
+        
+      </div>
+    </div>
+    <div class="container">
+	<p><h2>Dependency Management</h2><p>May the project you are building is standalone : you won't need any library or file coming from other project to build it. In that case you are not concerned with dependency management so you can skip this section.</p><p>If your project relies on libraries or files coming from other projects then <strong>dependency management</strong> comes in play.</p><p>Jerkar distinguishes 3 types of dependency (Embodied by the abstract <code>JkDependency</code> class) :</p>
+<ul>
+  <li>Files belonging or produced by other Jerkar projects (Embodied by <code>JkProjectDependency</code> class)</li>
+  <li>Arbitrary files located on the file system (Embodied by <code>JkLocalDependency</code> class, the meaning of the name is that these dependencies are generally located within the project)</li>
+  <li>Reference to libraries (Embodied by `JkExternalModule) hosted in a a binary repository (Ivy or Maven for instance) : this means that Jerkar can consume and resolve transitively any artifact located in a repository as you would with Maven or Ivy.</li>
+</ul>
+<p class="alert alert-success">
+For the last, Jerkar is using <b>Ivy 2.4.0</b> under the hood. The library is embedded in the Jerkar jar itself and is executed in a dedicated classloader to make the presence of Ivy invisible when you edit code so Ivy classes won't bloat your build path.
+</p><p>Project may need dependencies to accomplish certain tasks and needed dependencies may vary according the executed tasks.<br/>For example, to <strong>compile</strong> you may need <em>guava</em> library only but to <strong>test</strong> you'll need <em>junit</em> library as well.<br/>To segregate dependencies according their usage, Jerkar uses the notion of <strong>scope</strong> (embodied by <code>JkScope</code> class). This notion is roughly equivalent to the Maven scope.</p><p>If your project consumes artifacts coming from Ivy repository then you can also use <code>JkScopeMapping</code> which is more powerfull. This notion maps strictly to the <a href="http://ant.apache.org/ivy/history/2.2.0/ivyfile/configurations.html">Ivy configuration</a> concept.</p><h3>Define scopes</h3><p>If your build definition class inherit from <code>JkJavaBuild</code> template you won't need to create your scope as <a href="https://github.com/jerkar/jerkar/blob/master/org.jerkar.core/src/main/java/org/jerkar/tool/builtins/javabuild/JkJavaBuild.java">this class</a> declares standard scopes for you. </p><p>Neverthless, know that scopes can inherit from each other. This mean that if a <em>scope A</em> inherits from <em>scope B</em> then a dependencies declared with <em>scope B</em> will be also considered as declared with <em>scope A</em>.<br/>For example, in <code>JkJavaBuild</code> scope <code>TEST</code>inherits from <code>RUNTIME</code> that inherits from <code>COMPILE</code> so every dependencies declared with scope <code>COMPILE</code> are considered to be declared with scope <code>RUNTIME</code> and <code>TEST</code> as well. </p><p>Know also that you can declare a scope to not being <em>transitive</em>. This means that if you declare a external module dependency on such a scope than the transitive dependencies won't be taken in account.</p><p>As an example, this is the scope declared in <code>JkJavaBuild</code> :</p>
+<pre><code>public static final JkScope PROVIDED = JkScope.of(&quot;provided&quot;).transitive(false)
+    .descr(&quot;Dependencies to compile the project but that should not be embedded in produced artifacts.&quot;);
+
+public static final JkScope COMPILE = JkScope.of(&quot;compile&quot;)
+    .descr(&quot;Dependencies to compile the project.&quot;);
+
+public static final JkScope RUNTIME = JkScope.of(&quot;runtime&quot;).extending(COMPILE)
+	.descr(&quot;Dependencies to embed in produced artifacts (as war or fat jar files).&quot;);
+
+public static final JkScope TEST = JkScope.of(&quot;test&quot;).extending(RUNTIME, PROVIDED)
+	.descr(&quot;Dependencies necessary to compile and run tests.&quot;); 
+</code></pre><h3>Define dependencies</h3><p>The entire project dependency description (dependencies along their respective scopes) stands in a single <code>JKDependencies</code> instance. <a href="http://jerkar.github.io/javadoc/latest/org/jerkar/api/depmanagement/JkDependencies.html">This class</a> provides convenient factories and builder for fluent edition.</p><p>A <code>JkDependencies</code> is basically a list of dependencies associated with a scope (<code>JkScopedDependency</code>).<br/>A same dependency can be declared many time in the same <code>JkDependencies</code> with different scope.</p>
+<div id="sidebar-wrapper"><ul class="sidebar-nav">
+        <li><a href="#Dependency Management">Dependency Management</a>
+          <ul class="nav">
+            <li><a href="#Define scopes">Define scopes</a></li>
+            <li><a href="#Define dependencies">Define dependencies</a></li>
+          </ul>
+        </li>
+</ul></div></p>
+
+	<hr />
+
+		</div>
+		<div id="push"></div>
+    </div>
+    
+    <div id="footer">
+      <div class="container">
+        <p class="muted credit">&copy; 2014 | Mixed with <a href="http://getbootstrap.com/">Bootstrap v3.1.1</a> | Baked with <a href="http://jbake.org">JBake v2.3.2</a></p>
+      </div>
+    </div>
+    
+   
+    
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="../../../js/jquery-1.11.1.min.js"></script>
+    <script src="../../../js/bootstrap.min.js"></script>
+    <script src="../../../js/prettify.js"></script>
+    
+  </body>
+</html>
