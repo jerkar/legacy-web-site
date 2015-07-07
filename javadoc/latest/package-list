@@ -4,6 +4,7 @@ org.jerkar.api.file
 org.jerkar.api.java
 org.jerkar.api.java.junit
 org.jerkar.api.system
+org.jerkar.api.tooling
 org.jerkar.api.utils
 org.jerkar.plugins.jacoco
 org.jerkar.plugins.sonar
