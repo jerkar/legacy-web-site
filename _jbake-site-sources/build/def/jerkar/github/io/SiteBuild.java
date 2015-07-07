@@ -22,6 +22,7 @@ public class SiteBuild extends JkBuild {
 	JkFileTree latestDocDir = JkFileTree.of(baseDir("../../jerkar/org.jerkar.core/src/main/doc"));
 	JkFileTree latestJavadocDir = JkFileTree.of(baseDir("../../jerkar/org.jerkar.distrib-all/build/output/javadoc-all"));
 	File latestDist = siteBase.file("../jerkar/org.jerkar.distrib-all/build/output/jerkar-distrib.zip");
+
 	
 	JkFileTree jbakeSrcContent = baseDir().from(jbakeSrcPath + "/content");
 	JkFileTree siteSourceDocDir = jbakeSrcContent.from("documentation");
@@ -44,6 +45,7 @@ public class SiteBuild extends JkBuild {
 	public void full() {
 		clean();
 		importContent();
+		
 		addMenu();
 		jbake();
 		copyCurrentDist();
@@ -66,7 +68,9 @@ public class SiteBuild extends JkBuild {
 			JkUtilsFile.writeString(copied, content, true);
 			JkLog.done();
 		}
+		targetDocDir.from("reference").mergeTo(targetDocDir.file("reference1page.md"));
 	}
+	
 	
 	public void importSiteDoc() {
 		contentSource.copyTo(new File(this.jbakeSrcPath, "content"));

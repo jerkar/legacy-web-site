@@ -20,6 +20,7 @@
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">Documentation<b class="caret"></b></a>
               <ul class="dropdown-menu">
                 <li><a href="<#if (content.rootpath)??>${content.rootpath}<#else></#if>documentation/latest/getting-started.html">Getting Started</a></li>
+                <li><a href="<#if (content.rootpath)??>${content.rootpath}<#else></#if>documentation/latest/reference1page.html">Reference Guide</a></li>
                 <li><a href="<#if (content.rootpath)??>${content.rootpath}<#else></#if>javadoc/latest/index.html">Javadoc</a></li>
               </ul>
             </li>

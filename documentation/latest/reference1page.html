@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Build Configuration</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Java build tool">
+    <meta name="author" content="Jerome Angibaud">
+    <meta name="keywords" content="build,java,tool,automation,maven,ant,gradle,buildr,sbt,make,compiler,tester,jacoco">
+    <meta name="generator" content="JBake">
+
+    <!-- Le styles -->
+    <link href="../../css/bootstrap.css" rel="stylesheet">
+    <!-- <link href="../../css/bootstrap.min.css" rel="stylesheet">  -->
+    <link href="../../css/asciidoctor.css" rel="stylesheet">
+    <link href="../../css/base.css" rel="stylesheet">
+    <link href="../../css/prettify.css" rel="stylesheet">
+    <link href="../../css/jerkar.css" rel="stylesheet">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+      
+    <![endif]-->
+    
+      <!-- Fav and touch icons -->
+    <!--<link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">-->
+    <link rel="shortcut icon" href="../../favicon.ico">
+  
+  	<!-- highlight.js -->
+  	<script src="js/highlight.pack.js"></script>
+	<script>hljs.initHighlightingOnLoad();</script>
+	<link rel="stylesheet" href="css/highlight-idea.css">
+	
+	<!-- sidebar css -->
+	<link href="css/simple-sidebar.css" rel="stylesheet">
+  
+  </head>
+  <body onload="prettyPrint()">
+    <div id="wrap">
+
+	<!-- Fixed navbar -->
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand">
+          	<img style="max-width:32px;margin-top: -7px;" src="../../img/logo.png">
+          </a>
+          <a class="navbar-brand">Jerkar</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="../../index.html">Home</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Documentation<b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="../../documentation/latest/getting-started.html">Getting Started</a></li>
+                <li><a href="../../documentation/latest/reference1page.html">Reference Guide</a></li>
+                <li><a href="../../javadoc/latest/index.html">Javadoc</a></li>
+              </ul>
+            </li>
+            <li><a href="../../about.html">About</a></li>
+          </ul>
+        </div>
+       
+        
+      </div>
+    </div>
+    <div class="container">
+	<p><h2>Build Configuration</h2><p>Jerkar builds are configurable, in the sense that any value required to run the build has not to be hard-coded<br/>in the build script. Instead a value can be injected by 3 different ways :<br/>* as a environment variable<br/>* as a system property<br/>* as a Jerkar option</p><h3>Environment variables</h3><p>There is nothing specific to Jerkar. Just set the environment variable as you usually do on your OS and get the value from build using the standard Java <code>System#getenv</code> method.</p><h3>System properties</h3><p>Jerkar proposes 3 ways to inject system properties :<br/>* By setting the property/value in the <code>system.properties</code> file located in the <code>[Jerkar Home]</code> directory.<br/> Note that if you are running Jerkar in embedded mode, the <code>[Jerkar Home]/system.properties</code> file will not be taken in account but [project dir/build/def/build/system.properties].<br/>* By setting the property/value in the <code>system.properties</code> file located in the <code>[Jerkar User Home]</code> directory. The Jerkar user home is mentioned at the beginning of all Jerkar process.<br/>* By mentioning the property/value in the Jerkar command line as `Jerkar doDefault -DmyProperty=myValue</p><p>The command line takes precedence on the <code>[Jerkar User Home]/system.properties</code> that takes precedence, in turn, on the [Jerkar Home]/system.properties.</p><p>To read system properties from your builds, you can just use the standard method <code>System#getProperty</code>.</p><h3>Jerkar options</h3><p>Jerkar options are similar to system properties as it stands for a set of key/values. Jerkar proposes 3 ways to inject Jerkar properties :<br/>* By setting the property/value in the <code>options.properties</code> file located in the <code>[Jerkar Home]</code> directory.<br/> Note that if you are running Jerkar in embedded mode, the <code>[Jerkar Home]/options.properties</code> file will not be taken in account but [project dir/build/def/build/options.properties].<br/>* By setting the property/value in the options.properties file located in the <code>[Jerkar User Home]</code> directory. The Jerkar user home is mentioned at the beginning of all Jerkar process.<br/>* By mentioning the property/value in the Jerkar command line as `Jerkar doDefault -myOption=myValue</p><p>As for system properties, The command line takes precedence on the <code>[Jerkar User Home]/options.properties</code> that takes precedence, in turn, on the [Jerkar Home]/options.properties.</p><p>Note for boolean, when no value is specified, <code>true</code> will be used as default.</p><h4>Standars options</h4><p>Jerkar predefines some standard options that you can set for any build :<br/>* buildClass : This forces the build class to use. If this option is not null then Jerkar will used the specified class as the build class.<br/>Note that this can be a simple class as <code>MyBuildClass</code> is enough for running <code>org.my.project.MyBuildClass</code>.<br/>* verbose : when <code>true</code> Jerkar will be more verbose at logging at the price of being slower and bloating logs. Default value is <code>false</code>.<br/>* silent : when <code>true</code>nothing will be logged. Default is <code>false</code></p><h4>How to retrieve Jerkar options ?</h4><p>You can retrieve string values using the <code>JkOptions</code> API providing convenient static methods as <code>JkOptions#get</code>, <code>JkOptions#asMap</code> or <code>JkOptions#getAllStartingWith(String prefix)</code>.</p><p>You can also retrieve an option just by declaring a field in the build class having the same name as the option.<br/>For example, if you declare a field like <code>protected int size = 3;</code> then you can override the default value by injecting the option value in any of the 3 way described above.</p><p>Any field except static fields or private fields can be used to inject options.<br/>If you want inject option in a private field, you must annotate is with @JkDoc as <code>@JkDoc private boolean myField;</code> </p><p>Note that the string value that you have injected will be automatically converted to the target type.<br/>Handled types are String, all primitive types (and their wrappers), enum, File and composite object.</p><p>To get a precise idea on how types are converted see <a href="https://github.com/jerkar/jerkar/blob/master/org.jerkar.core/src/main/java/org/jerkar/OptionInjector.java">this code</a>.</p><h4>Composite options</h4><p>Composite options are a way to structure your options. Say that you want to configure some server access with url, userName and passwsord,<br/>you can gather all these information in a object as<br/><code>
+class Server {
+	private String url;
+	private String userName;
+	private String password;
+	...
+}
+</code></p><p>declare a Server field in your build<br/><code>
+class MyBuild extends JkBuild {
+	Server deployServer;
+	...
+}
+</code><br/>Then you can inject the server object using following options :<br/>deployServer.url=http://myServer:8090/to<br/>deployServer.username=myUsername<br/>deployServer.password=myPassword</p><h4>How to document option ?</h4><p>If you want your option been displayed when invoking <code>jerkar help</code> you need to annotate it with <code>@JkDoc</code>.</p><p>For example :<br/><code>
+@JkDoc(&quot;Make the test run in a forked process&quot;)
+private boolean forkTests = false;
+</code><br/>title=Dependency management<br/>date=2015-07-07<br/>type=page<br/>status=published<br/>~~~~~~</p><h2>Dependency Management</h2><p>May the project you are building is standalone : you won't need any library or file coming from other project to build it. In that case you are not concerned with dependency management so you can skip this section.</p><p>If your project relies on libraries or files coming from other projects then <strong>dependency management</strong> comes in play.</p><h3>What is a dependency ?</h3><p>In this context, we call a <em>dependency</em> an indication that can be translated to a set of files. In Jerkar code, the dependency concept is embodied by the abstract <code>JkDependency</code> class.<br/>So for example if a project <em>Foo</em> has a <em>dependency</em> on <em>barDep</em>, this means that for building, <em>Foo</em> will need the files indicated by <em>barDep</em>. </p><p>Jerkar distinguishes 3 types of dependency :</p>
+<ul>
+  <li>Files produced by other Jerkar projects (Embodied by <code>JkProjectDependency</code> class). These files may be present on file system or not. If they are not present, the external project is built in order to produce the missing files.</li>
+  <li>Arbitrary files located on the file system (Embodied by <code>JkFileSystemDependency</code> class,). These files are assumed to be present on the file system when the build is running.</li>
+  <li>Reference to libraries (Embodied by `JkExternalModuleDependency) hosted in a binary repository (Ivy or Maven for instance) : Jerkar can consume and resolve transitively any artifact located in a repository as you would do with Maven or Ivy.</li>
+</ul>
+<p class="alert alert-success">
+For the last, Jerkar is using <b>Ivy 2.4.0</b> under the hood. The library is embedded in the Jerkar jar itself and is executed in a dedicated classloader to make the presence of Ivy invisible when you edit code so Ivy classes won't bloat your build path.
+</p><h3>What is a scope ?</h3><p>Projects may need dependencies to accomplish certain tasks and needed dependencies may vary according the executed tasks.<br/>For example, to <strong>compile</strong> you may need <em>guava</em> library only but to <strong>test</strong> you'll need <em>junit</em> library as well.<br/>To segregate dependencies according their usage, Jerkar uses the notion of <strong>scope</strong> (embodied by <code>JkScope</code> class). This notion is similar to the Maven scope.</p><p>If your project consumes artifacts coming from Ivy repository then you can also use <code>JkScopeMapping</code> which is more powerfull. This notion maps strictly to the <a href="http://ant.apache.org/ivy/history/2.2.0/ivyfile/configurations.html">Ivy configuration</a> concept.</p><h3>Define dependencies for a project</h3><p>To define dependencies of a project, you basically define a list of <strong>scoped dependency</strong> (embodied by <code>JkScopedDependency</code>).<br/>A scoped dependency is a <strong>dependency</strong> associated with one or several <strong>scopes</strong>.</p><p>So practically, you define some scopes then you bind <em>dependencies</em> to these scopes.</p>
+<pre><code>return JkDependencies.builder()
+			.on(GUAVA, &quot;18.0&quot;).scope(COMPILE)  
+			.on(JERSEY_SERVER, &quot;1.19&quot;).scope(COMPILE)
+			.on(&quot;com.orientechnologies:orientdb-client:2.0.8&quot;).scope(COMPILE)
+			.on(JUNIT, &quot;4.11&quot;).scope(TEST)
+			.on(MOCKITO_ALL, &quot;1.9.5&quot;).scope(TEST)
+		.build();
+</code></pre><p>You can also omit the scope and set it later...<br/><code>
+JkDependencies deps = JkDependencies.builder()
+			.on(GUAVA, &quot;18.0&quot;)
+			.on(JERSEY_SERVER, &quot;1.19&quot;)
+			.on(&quot;com.orientechnologies:orientdb-client:2.0.8&quot;)
+			.on(JUNIT, &quot;4.11&quot;).scope(TEST)
+			.on(MOCKITO_ALL, &quot;1.9.5&quot;).scope(TEST)
+		.build();
+...
+deps = deps.withDefaultScope(COMPILE):
+</code><br/>Look at the <a href="http://jerkar.github.io/javadoc/latest/org/jerkar/api/depmanagement/JkDependencies.html">JkDepencies class API</a> to get see all possibilities.</p><h4>Define scopes</h4><p>In the examples above, we use the predefined scopes <code>COMPILE</code> or <code>TEST</code>. These scopes are standard scopes defined on the <a href="https://github.com/jerkar/jerkar/blob/master/org.jerkar.core/src/main/java/org/jerkar/tool/builtins/javabuild/JkJavaBuild.java">JkJavaBuild class</a>.<br/>So if your build definition class inherit from <code>JkJavaBuild</code> template you won't need to create it. </p><p>Nevertheless, it's important to know that scopes can inherit from each other. This mean that if a <em>scope A</em> inherits from <em>scope B</em> then a dependencies declared with <em>scope B</em> will be also considered as declared with <em>scope A</em>.<br/>For example, in <code>JkJavaBuild</code> scope <code>TEST</code> inherits from <code>RUNTIME</code> that inherits from <code>COMPILE</code> so every dependencies declared with scope <code>COMPILE</code> are considered to be declared with scope <code>RUNTIME</code> and <code>TEST</code> as well. </p><p>Know also that you can declare a scope to not being <em>transitive</em>. This means that if you declare an external module dependency on such a scope than the transitive dependencies won't be taken in account.</p><p>A good practice is to declare <strong>scope</strong> as java constant (<code>static final</code>) as it will be reusable anywhere all over your build definition.</p><p>As an example, these are the scopes declared in <code>JkJavaBuild</code> :</p>
+<pre><code>public static final JkScope PROVIDED = JkScope.of(&quot;provided&quot;).transitive(false)
+    .descr(&quot;Dependencies to compile the project but that should not be embedded in produced artifacts.&quot;);
+
+public static final JkScope COMPILE = JkScope.of(&quot;compile&quot;)
+    .descr(&quot;Dependencies to compile the project.&quot;);
+
+public static final JkScope RUNTIME = JkScope.of(&quot;runtime&quot;).extending(COMPILE)
+	.descr(&quot;Dependencies to embed in produced artifacts (as war or fat jar files).&quot;);
+
+public static final JkScope TEST = JkScope.of(&quot;test&quot;).extending(RUNTIME, PROVIDED)
+	.descr(&quot;Dependencies necessary to compile and run tests.&quot;); 
+</code></pre><h4>Defining individual dependency</h4><p>Now get focus on each type of dependency we can declare.</p><h5>File system dependencies</h5><h5>Project dependencies</h5><p>This stands for files produced by other project builds. It is typically used in multi-projects (aka multi-module projects).</p><p>The principle is that if the specified file are not found, then the dependee project is built in order to generate the missing files.<br/>You can create a <strong>project dependency</strong> from a Jerkar build defined in another project .<code>doDefault</code> method will be invoked on that build to generate missing files.</p><p>````<br/> @JkProject("../foo") // The external project path relative to the current project root<br/> public JkJavaBuild fooBuild; // This is the build coming from the 'foo' project </p>
+<pre><code>@Override
+protected JkDependencies dependencies() {
+    return JkDependencies.builder()
+       .on(fooBuild.asProjectDependency( fooBuid.packer().jarFile() ))
+    .build();
+}
+</code></pre>
+<pre><code>If the `fooBuild.packer().jarFile()` is absent then the _foo_ project will be built by invoking the `doDefault` method.
+
+You can also use another kind of project mentioning the command line to run in order to build the project, as such you can easily integrate with Maven, Grunt, SBT, Ant, Gradle projects.
+ 
+</code></pre><p> File fooDir = new File("../../foo"); // base dir of a Ant project<br/> File fooJar = new File(fooDir, "build/foo.jar");<br/> JkProcess antBuid = JkProcess.of("ant", "makeJar").withWorkingDir(fooDir));<br/> ...<br/> @Override<br/> protected JkDependencies dependencies() {<br/> return JkDependencies.builder()<br/> .on(JkProjectDependency.of(antBuild, fooJar))).scope(PROVIDED)<br/> .build();<br/> }<br/>```</p><p>This defines a dependency on a file produced by a Ant project. If the file is not present at dependency resolution time, then<br/>the Ant project is built to produce the missing files. </p><h4>Bind dependencies to scope</h4><p>The whole project dependency description lie in a single instance of <code>JkDependencies</code>. This class offers convenient factory methods and builder to define the dependencies.</p><p>```</p><p>```</p>
+<div id="sidebar-wrapper"><ul class="sidebar-nav">
+        <li><a href="#Build Configuration">Build Configuration</a>
+          <ul class="nav">
+            <li><a href="#Environment variables">Environment variables</a></li>
+            <li><a href="#System properties">System properties</a></li>
+            <li><a href="#Jerkar options">Jerkar options</a></li>
+                <li><a href="#Standars options">Standars options</a></li>
+                <li><a href="#How to retrieve Jerkar options ?">How to retrieve Jerkar options ?</a></li>
+                <li><a href="#Composite options">Composite options</a></li>
+                <li><a href="#How to document option ?">How to document option ?</a></li>
+          </ul>
+        </li>
+        <li><a href="#Dependency Management">Dependency Management</a>
+          <ul class="nav">
+            <li><a href="#What is a dependency ?">What is a dependency ?</a></li>
+            <li><a href="#What is a scope ?">What is a scope ?</a></li>
+            <li><a href="#Define dependencies for a project">Define dependencies for a project</a></li>
+                <li><a href="#Define scopes">Define scopes</a></li>
+                <li><a href="#Defining individual dependency">Defining individual dependency</a></li>
+                    <li><a href="#File system dependencies">File system dependencies</a></li>
+                    <li><a href="#Project dependencies">Project dependencies</a></li>
+                <li><a href="#Bind dependencies to scope">Bind dependencies to scope</a></li>
+          </ul>
+        </li>
+</ul></div></p>
+
+	<hr />
+
+		</div>
+		<div id="push"></div>
+    </div>
+    
+    <div id="footer">
+      <div class="container">
+        <p class="muted credit">&copy; 2014 | Mixed with <a href="http://getbootstrap.com/">Bootstrap v3.1.1</a> | Baked with <a href="http://jbake.org">JBake v2.3.2</a></p>
+      </div>
+    </div>
+    
+   
+    
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="../../js/jquery-1.11.1.min.js"></script>
+    <script src="../../js/bootstrap.min.js"></script>
+    <script src="../../js/prettify.js"></script>
+    
+  </body>
+</html>
