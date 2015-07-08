@@ -64,7 +64,7 @@
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">Documentation<b class="caret"></b></a>
               <ul class="dropdown-menu">
                 <li><a href="documentation/latest/getting-started.html">Getting Started</a></li>
-                <li><a href="documentation/latest/reference1page.html">Reference Guide</a></li>
+                <li><a href="documentation/latest/reference.html">Reference Guide</a></li>
                 <li><a href="javadoc/latest/index.html">Javadoc</a></li>
               </ul>
             </li>
@@ -112,7 +112,7 @@
 <ul>
   <li><strong>compiling scripts on-the-fly</strong> prior to execute them</li>
   <li>providing <strong>compact fluent API and sensitive templates</strong> to minimize developers efforts and script verbosity.</li>
-</ul><p>Jerkar scripts reveal to be <strong>much more concise than their equivalent XML</strong> based tool and roughly equivalent to script written with dynamic languages. Have a look at <a href="./tour.html">Jerkar tour</a>.<br/>Beside the script compilation phase duration is not significant (less than 1 second in most of cases). </p><p>Another point is that <strong>all</strong> Jerkar public class are prefixed with <code>Jk</code>. So it makes convenient to distinguish them when using IDE auto-completion.</p><p><div id="sidebar-wrapper"><ul class="sidebar-nav"><br/> <li><a href="#What is Jerkar ?">What is Jerkar ?</a></li><br/> <li><a href="#What makes Jerkar special ?">What makes Jerkar special ?</a></li><br/> <li><a href="#What about Java cons ?">What about Java cons ?</a></li><br/></ul></div></p></p>
+</ul><p>Jerkar scripts reveal to be <strong>much more concise than their equivalent XML</strong> based tool and roughly equivalent to script written with dynamic languages. Have a look at <a href="./tour.html">Jerkar tour</a>.<br/>Beside the script compilation phase duration is not significant (less than 1 second in most of cases). </p><p>Another point is that <strong>all</strong> Jerkar public class are prefixed with <code>Jk</code>. So it makes convenient to distinguish them when using IDE auto-completion.</p><p><div id="sidebar-wrapper"><br/> <ul class="sidebar-nav"><br/> <li><a href="javascript:jerkarMoveTo('What is Jerkar ?',2);">What is Jerkar ?</a></li><br/> <li><a href="javascript:jerkarMoveTo('What makes Jerkar special ?',2);">What makes Jerkar special ?</a></li><br/> <li><a href="javascript:jerkarMoveTo('What about Java cons ?',2);">What about Java cons ?</a></li><br/> </ul><br/></div><br/><script><br/>function jerkarMoveTo(title, level) {<br/> var elemType = 'h'+level;<br/> var elems = $(elemType);<br/> var elem;<br/> for (var i = 0; i &lt; elems.length; i++) {<br/> var candidate = elems[i];<br/> if (candidate.outerText === title) {<br/> elem = candidate;<br/> break;<br/> }<br/> }<br/> $('html, body').animate({<br/> scrollTop: $(elem).offset().top -50<br/> }, 200);<br/>}<br/></script></p></p>
 
 	<hr />
 

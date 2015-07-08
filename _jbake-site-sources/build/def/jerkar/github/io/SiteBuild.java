@@ -1,6 +1,7 @@
 package jerkar.github.io;
 
 import java.io.File;
+import java.util.List;
 
 import org.jerkar.api.file.JkFileTree;
 import org.jerkar.api.java.JkJavaProcess;
@@ -19,9 +20,9 @@ public class SiteBuild extends JkBuild {
 	JkFileTree jbakeDir = baseDir().from("build/binaries/jbake-2.3.2");
 	JkFileTree siteBase = JkFileTree.of(baseDir("..")); 
 	
-	JkFileTree latestDocDir = JkFileTree.of(baseDir("../../jerkar/org.jerkar.core/src/main/doc"));
-	JkFileTree latestJavadocDir = JkFileTree.of(baseDir("../../jerkar/org.jerkar.distrib-all/build/output/javadoc-all"));
-	File latestDist = siteBase.file("../jerkar/org.jerkar.distrib-all/build/output/jerkar-distrib.zip");
+	JkFileTree jerkarCoreDocDir = JkFileTree.of(baseDir("../../jerkar/org.jerkar.core/src/main/doc"));
+	JkFileTree jerkarDistJavadoc = JkFileTree.of(baseDir("../../jerkar/org.jerkar.distrib-all/build/output/javadoc-all"));
+	File jerkarDistZip = siteBase.file("../jerkar/org.jerkar.distrib-all/build/output/jerkar-distrib.zip");
 
 	
 	JkFileTree jbakeSrcContent = baseDir().from(jbakeSrcPath + "/content");
@@ -53,14 +54,19 @@ public class SiteBuild extends JkBuild {
 	}
 	
 	public void importContent() {
-		importProjectDoc();
+		importDocFromJerkarProject();
 		importSiteDoc();
 	}
 	
-	public void importProjectDoc() {
+	public void importDocFromJerkarProject() {
 		JkFileTree targetDocDir = siteSourceDocDir.from("latest");
-		for (File file : latestDocDir.include("**/*.md")) {
-			String relativePath = latestDocDir.relativePath(file);
+		List<File> files = jerkarCoreDocDir.include("**/*.md").exclude("reference/**/*").files(false);
+		File temp = JkUtilsFile.tempFile("reference.md");
+		jerkarCoreDocDir.from("reference").mergeTo(temp);
+		files.add(temp);
+		for (File file : files) {
+			String relativePath = JkUtilsFile.isAncestor(jerkarCoreDocDir.root(),  file) ? 
+					jerkarCoreDocDir.relativePath(file) : file.getName();
 			File copied = targetDocDir.file(relativePath);
 			JkLog.startln("Importing doc file " + file + " to " + copied.getPath());
 			JkUtilsFile.writeString(copied, header(copied), false);
@@ -68,7 +74,7 @@ public class SiteBuild extends JkBuild {
 			JkUtilsFile.writeString(copied, content, true);
 			JkLog.done();
 		}
-		targetDocDir.from("reference").mergeTo(targetDocDir.file("reference1page.md"));
+		temp.delete();
 	}
 	
 	
@@ -77,11 +83,11 @@ public class SiteBuild extends JkBuild {
 	}
 	
 	public void copyCurrentDist() {
-		JkUtilsFile.copyFileToDir(latestDist, siteDistDir, JkLog.infoStream());
+		JkUtilsFile.copyFileToDir(jerkarDistZip, siteDistDir, JkLog.infoStream());
 	}
 	
 	public void copyCurrentJavadoc() {
-		JkUtilsFile.copyDirContent(latestJavadocDir.root(), siteBase.file("javadoc/latest"), false);
+		JkUtilsFile.copyDirContent(jerkarDistJavadoc.root(), siteBase.file("javadoc/latest"), false);
 	}
 	
 	

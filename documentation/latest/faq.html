@@ -31,12 +31,12 @@
     <link rel="shortcut icon" href="../../favicon.ico">
   
   	<!-- highlight.js -->
-  	<script src="js/highlight.pack.js"></script>
+  	<script src="../../js/highlight.pack.js"></script>
 	<script>hljs.initHighlightingOnLoad();</script>
-	<link rel="stylesheet" href="css/highlight-idea.css">
+	<link rel="stylesheet" href="../../css/highlight-idea.css">
 	
 	<!-- sidebar css -->
-	<link href="css/simple-sidebar.css" rel="stylesheet">
+	<link href="../../css/simple-sidebar.css" rel="stylesheet">
   
   </head>
   <body onload="prettyPrint()">
@@ -64,7 +64,7 @@
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">Documentation<b class="caret"></b></a>
               <ul class="dropdown-menu">
                 <li><a href="../../documentation/latest/getting-started.html">Getting Started</a></li>
-                <li><a href="../../documentation/latest/reference1page.html">Reference Guide</a></li>
+                <li><a href="../../documentation/latest/reference.html">Reference Guide</a></li>
                 <li><a href="../../javadoc/latest/index.html">Javadoc</a></li>
               </ul>
             </li>
@@ -78,13 +78,33 @@
     <div class="container">
 	<p><h1>Frequented Asked Questions</h1>
 <hr/><h2>Questions about exceptions launched when Jerkar is running</h2><h3>Get Provider org.apache.xerces.jaxp.SAXParserFactoryImpl not found exception. What can i do ?</h3><p>You probably run a Jerkar on a JDK 6 and use some @JkImport on libraries playing with the XMLParsingServiceFactory.<br/>You can fix either by<br/>* using a more recent JDK (&gt;7)<br/>* adding the xerces lib to your JDK endorsed lib folder</p>
-<div id="sidebar-wrapper"><ul class="sidebar-nav">
-        <li><a href="#Questions about exceptions launched when Jerkar is running">Questions about exceptions launched when Jerkar is running</a>
+<div id="sidebar-wrapper">
+    <ul class="sidebar-nav">
+        <li><a href="javascript:jerkarMoveTo('Questions about exceptions launched when Jerkar is running',2);">Questions about exceptions launched when Jerkar is running</a>
           <ul class="nav">
-            <li><a href="#Get Provider org.apache.xerces.jaxp.SAXParserFactoryImpl not found exception. What can i do ?">Get Provider org.apache.xerces.jaxp.SAXParserFactoryImpl not found exception. What can i do ?</a></li>
+            <li><a href="javascript:jerkarMoveTo('Get Provider org.apache.xerces.jaxp.SAXParserFactoryImpl not found exception. What can i do ?',3);">Get Provider org.apache.xerces.jaxp.SAXParserFactoryImpl not found exception. What can i do ?</a></li>
           </ul>
         </li>
-</ul></div></p>
+            <li><a href="javascript:jerkarMoveTo('Get Provider org.apache.xerces.jaxp.SAXParserFactoryImpl not found exception. What can i do ?',3);">Get Provider org.apache.xerces.jaxp.SAXParserFactoryImpl not found exception. What can i do ?</a></li>
+    </ul>
+</div>
+<script>
+function jerkarMoveTo(title, level) {
+    var elemType = 'h'+level;
+    var elems = $(elemType);
+    var elem;
+    for (var i = 0; i < elems.length; i++) {
+    	var candidate = elems[i];
+    	if (candidate.outerText ===  title) {
+    		elem = candidate;
+    		break;
+    	}
+    }
+    $('html, body').animate({
+        scrollTop: $(elem).offset().top -50
+    }, 200);
+}
+</script></p>
 
 	<hr />
 

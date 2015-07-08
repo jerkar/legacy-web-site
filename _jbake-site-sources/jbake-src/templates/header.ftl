@@ -31,12 +31,12 @@
     <link rel="shortcut icon" href="<#if (content.rootpath)??>${content.rootpath}<#else></#if>favicon.ico">
   
   	<!-- highlight.js -->
-  	<script src="js/highlight.pack.js"></script>
+  	<script src="<#if (content.rootpath)??>${content.rootpath}<#else></#if>js/highlight.pack.js"></script>
 	<script>hljs.initHighlightingOnLoad();</script>
-	<link rel="stylesheet" href="css/highlight-idea.css">
+	<link rel="stylesheet" href="<#if (content.rootpath)??>${content.rootpath}<#else></#if>css/highlight-idea.css">
 	
 	<!-- sidebar css -->
-	<link href="css/simple-sidebar.css" rel="stylesheet">
+	<link href="<#if (content.rootpath)??>${content.rootpath}<#else></#if>css/simple-sidebar.css" rel="stylesheet">
   
   </head>
   <body onload="prettyPrint()">

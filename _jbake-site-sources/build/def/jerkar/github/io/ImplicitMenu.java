@@ -6,11 +6,12 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.jerkar.api.utils.JkUtilsFile;
+import org.jerkar.api.utils.JkUtilsIO;
 import org.jerkar.api.utils.JkUtilsString;
 
 public class ImplicitMenu {
 	
-	private static final String IDENT = "    ";
+	private static final String INDENT = "    ";
 	
 	private List<Item> items;
 	
@@ -23,10 +24,8 @@ public class ImplicitMenu {
 					String name = line.substring(header.length());
 					name = name.contains(">") ? JkUtilsString.substringAfterLast(name, ">") : name;
 					Item item = new Item(name, i);
-					boolean found = bindLastParent(items, item);
-					if (!found) {
-						items.add(item);
-					}
+					bindLastParent(items, item);
+					items.add(item);
 				}
 			}
 		}
@@ -53,35 +52,42 @@ public class ImplicitMenu {
 	
 	public String html() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("<div id=\"sidebar-wrapper\"><ul class=\"sidebar-nav\">\n");
+		builder.append("<div id=\"sidebar-wrapper\">\n" + INDENT + "<ul class=\"sidebar-nav\">\n");
 		for (Item item : items) {
 			builder.append(htmlList(item));
 		}
-		builder.append("</ul></div>");
+		builder.append(INDENT + "</ul>\n</div>\n");
+		builder.append(htmlScript());
 		return builder.toString();
+	}
+	
+	public String htmlScript() {
+		return JkUtilsIO.readAsString(ImplicitMenu.class.getResourceAsStream("js.txt"));
 	}
 	
 	private String htmlList(Item item) {
 		StringBuilder builder = new StringBuilder();
-		builder.append(JkUtilsString.repeat(IDENT, item.level));
+		String indent = JkUtilsString.repeat(INDENT, item.level);
+		builder.append(indent);
 		builder.append("<li><a href=\""+action(item)).append("\">").append(item.name).append("</a>");
 		if (item.children.isEmpty()) {
 			builder.append("</li>\n");
 		} else {
-			builder.append("\n").append(JkUtilsString.repeat(IDENT, item.level)).append("  ")
+			builder.append("\n").append(indent).append("  ")
 			.append("<ul class=\"nav\">\n");
 			for (Item child : item.children) {
 				builder.append(htmlList(child));
 			}
-			builder.append(JkUtilsString.repeat(IDENT, item.level)).append("  ")
-			.append("</ul>\n").append(JkUtilsString.repeat(IDENT, item.level)).append("</li>\n");
+			
+			builder.append(indent).append("  ")
+			.append("</ul>\n").append(indent).append("</li>\n");
 		}
 		return builder.toString();
 		
 	}
 	
 	private String action(Item item) {
-		return "#" + item.name;
+		return  "javascript:jerkarMoveTo('"+item.name+"',"+item.level+");";
 	}
 	
 	static class Item {
@@ -97,6 +103,11 @@ public class ImplicitMenu {
 			this.name = name;
 			this.level = level;
 			this.children = new LinkedList<ImplicitMenu.Item>();
+		}
+		
+		@Override
+		public String toString() {
+			return name + "(" + level + ")";
 		}
 		
 	}
