@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Stack;
 
 import org.jerkar.api.utils.JkUtilsFile;
 import org.jerkar.api.utils.JkUtilsIO;
@@ -17,33 +18,44 @@ public class ImplicitMenu {
 	
 	public static ImplicitMenu ofMdFile(File file, int startLevel) {
 		List<Item> items = new LinkedList<ImplicitMenu.Item>();
+		List<Item> parents = new LinkedList<ImplicitMenu.Item>();
 		for (String line : JkUtilsFile.readLines(file)) {
+			if (!line.startsWith("#")) {
+				continue;
+			}
 			for (int i = startLevel; i <= 6; i++) {
 				String header = JkUtilsString.repeat("#", i) + " ";
 				if (line.startsWith(header)) {
 					String name = line.substring(header.length());
 					name = name.contains(">") ? JkUtilsString.substringAfterLast(name, ">") : name;
 					Item item = new Item(name, i);
-					bindLastParent(items, item);
-					items.add(item);
+					Item parent = findParent(parents, item);
+					System.out.println("-------------------------------parent found " + parent + " for item " + item);
+					if (parent == null) {
+						items.add(item);
+					} else {
+						parent.children.add(item);
+					}
+					parents.add(item);
+					
 				}
 			}
 		}
 		return new ImplicitMenu(items);
 	}
 	
-	private static boolean bindLastParent(List<Item> items, Item item) {
-		List<Item> list = new LinkedList<ImplicitMenu.Item>(items);
+	private static Item findParent(List<Item> parents, Item item) {
+		if (parents.isEmpty()) {
+			return null;
+		}
+		List<Item> list = new LinkedList<ImplicitMenu.Item>(parents);
 		Collections.reverse(list);
-		boolean found = false;
-		for (Item parentCandidate : list) {
-			if (parentCandidate.level < item.level) {
-				parentCandidate.children.add(item);
-				found = true;
-				break;
+		for (Item candidate : list) {
+			if (candidate.level < item.level) {
+				return candidate;
 			}
 		}
-		return found;
+		return null;
 	}  
 	
 	private ImplicitMenu(List<Item> items) {
