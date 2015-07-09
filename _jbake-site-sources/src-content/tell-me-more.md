@@ -6,12 +6,19 @@ status=published
 ----
 
 ## What is Jerkar ?
-Jerkar is both a **Java framework** for building project and an **automation tool**. It falls in the same category than <i>Ant/Ivy</i>,
+Jerkar is both a **Java framework** for building project and an **automation tool**. It falls in the same category as <i>Ant/Ivy</i>,
  <i>Maven</i> or <i>Gradle</i>.
  In other words, it's a rich featured **pure Java** build tool.
  <br/>
+ 
+As an **automation tool** Jerkar provides :
 
-As a **framework** Jerkar provides :
+* the ability to threat Java sources as scripts : Java sources are **compiled on-the-fly** prior to be instantiated then method invoked
+* **full dependency handling** to compile scripts : script dependencies can be made on Maven repositories, local jars or external projects
+* multi-level **parameter injection** (via user-local, system-wide property files or by passing argument in the command line)
+* a swiss-knife library generally usefull for performing automated task (file manipulation, logging, PGP signing, external tool launcher, ...)  
+
+As a **build framework** it provides :
 
 * compact **fluent style API** for performing all kind of build related stuff (file manipulation, compilation, testing, managing dependencies, read/publish to _Maven/Ivy_ repo, ...)
 * a set of **template** classes for defining builds
@@ -24,16 +31,10 @@ As a **framework** Jerkar provides :
 * **scaffolding** for creating projects from scratch
 
 
-As an **automation tool** it provides :
-
-* the ability to threat Java sources as scripts : Java sources are **compiled on-the-fly** prior to be instantiated then method invoked
-* **full dependency handling** to compile scripts : script dependencies can be made on Maven repositories, local jars or external projects
-* multi-level **parameter injection** (via user-local, system-wide property files or by passing argument in the command line)
-
 These two parts are seamlessly integrated to form a unique product that make **incredibly easy** to build Java projects.<br/>
 Of course Jerkar can be used for any automation purpose , as an example, [Jerkar is used](https://github.com/jerkar/jerkar.github.io/blob/master/_jbake-site-sources/build/def/jerkar/github/io/SiteBuild.java) to generate this site.
 
-As a library, you can also embed Jerkar in your product to leveraging of the ease of file manipulation, java compilation, external process launcher and so on.
+As a library, Jerkar can be embedded in your product so you can leverage directly the the fluent API for manipulating files, launch external tools and so on.
 
 
 ## What makes Jerkar special ?
