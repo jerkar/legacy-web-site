@@ -77,7 +77,13 @@
     </div>
     <div class="container">
 	<p><h1>Tell me more</h1>
-<hr/><h2>What is Jerkar ?</h2><p>Jerkar is both a <strong>Java framework</strong> for building project and an <strong>automation tool</strong>. It falls in the same category than <i>Ant/Ivy</i>,<br/> <i>Maven</i> or <i>Gradle</i>.<br/> In other words, it's a rich featured <strong>pure Java</strong> build tool.<br/> <br/></p><p>As a <strong>framework</strong> Jerkar provides :</p>
+<hr/><h2>What is Jerkar ?</h2><p>Jerkar is both a <strong>Java framework</strong> for building project and an <strong>automation tool</strong>. It falls in the same category as <i>Ant/Ivy</i>,<br/> <i>Maven</i> or <i>Gradle</i>.<br/> In other words, it's a rich featured <strong>pure Java</strong> build tool.<br/> <br/></p><p>As an <strong>automation tool</strong> Jerkar provides :</p>
+<ul>
+  <li>the ability to threat Java sources as scripts : Java sources are <strong>compiled on-the-fly</strong> prior to be instantiated then method invoked</li>
+  <li><strong>full dependency handling</strong> to compile scripts : script dependencies can be made on Maven repositories, local jars or external projects</li>
+  <li>multi-level <strong>parameter injection</strong> (via user-local, system-wide property files or by passing argument in the command line)</li>
+  <li>a swiss-knife library generally usefull for performing automated task (file manipulation, logging, PGP signing, external tool launcher, ...)</li>
+</ul><p>As a <strong>build framework</strong> it provides :</p>
 <ul>
   <li>compact <strong>fluent style API</strong> for performing all kind of build related stuff (file manipulation, compilation, testing, managing dependencies, read/publish to <em>Maven/Ivy</em> repo, ...)</li>
   <li>a set of <strong>template</strong> classes for defining builds</li>
@@ -88,12 +94,7 @@
   <li>built-in plugins for <strong><em>Eclipse</em></strong>, <strong><em>Jacoco</em></strong> or <strong><em>SonarQube</em></strong></li>
   <li>ability to get project build information from the <strong>IDE meta-data</strong> (Eclipse <em>.classpath</em> for example)</li>
   <li><strong>scaffolding</strong> for creating projects from scratch</li>
-</ul><p>As an <strong>automation tool</strong> it provides :</p>
-<ul>
-  <li>the ability to threat Java sources as scripts : Java sources are <strong>compiled on-the-fly</strong> prior to be instantiated then method invoked</li>
-  <li><strong>full dependency handling</strong> to compile scripts : script dependencies can be made on Maven repositories, local jars or external projects</li>
-  <li>multi-level <strong>parameter injection</strong> (via user-local, system-wide property files or by passing argument in the command line)</li>
-</ul><p>These two parts are seamlessly integrated to form a unique product that make <strong>incredibly easy</strong> to build Java projects.<br/><br/>Of course Jerkar can be used for any automation purpose , as an example, <a href="https://github.com/jerkar/jerkar.github.io/blob/master/_jbake-site-sources/build/def/jerkar/github/io/SiteBuild.java">Jerkar is used</a> to generate this site.</p><p>As a library, you can also embed Jerkar in your product to leveraging of the ease of file manipulation, java compilation, external process launcher and so on.</p><h2>What makes Jerkar special ?</h2><p>With Jerkar, build scripts are <strong>plain old java classes</strong>. This bare metal approach leads in tremendous benefits :</p>
+</ul><p>These two parts are seamlessly integrated to form a unique product that make <strong>incredibly easy</strong> to build Java projects.<br/><br/>Of course Jerkar can be used for any automation purpose , as an example, <a href="https://github.com/jerkar/jerkar.github.io/blob/master/_jbake-site-sources/build/def/jerkar/github/io/SiteBuild.java">Jerkar is used</a> to generate this site.</p><p>As a library, Jerkar can be embedded in your product so you can leverage directly the the fluent API for manipulating files, launch external tools and so on.</p><h2>What makes Jerkar special ?</h2><p>With Jerkar, build scripts are <strong>plain old java classes</strong>. This bare metal approach leads in tremendous benefits :</p>
 <ul>
   <li>for Java developers, it's <strong>trivial to add logic</strong> in build scripts</li>
   <li>when editing script, Java developers leverage of <strong>compilation</strong>, <strong>code-completion</strong> and <strong>debug</strong> facilities provided by their <strong>IDE</strong></li>
