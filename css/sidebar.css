@@ -1,6 +1,5 @@
 ul {
-    list-style-type: none;
-	padding: 0;
+ /*   list-style-type: none; */
 }
 
 
@@ -25,7 +24,7 @@ ul {
 	color: #11427D;
 	text-decoration: none;
 	background-color: transparent;
-	border-left: 1px solid #11427D;
+	/* border-left: 1px solid #11427D; */
 }
 
 #sidebar-menu .sub-menu a {
@@ -35,3 +34,14 @@ ul {
 	font-size: 12px;
 	font-weight: 400;
 }
+
+.main-menu ul {
+	padding-left:0px;	
+	list-style-type: none;
+}
+
+.sub-menu ul {
+	padding-left:0px;	
+	list-style-type: none;
+}
+

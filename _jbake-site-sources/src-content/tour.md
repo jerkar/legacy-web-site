@@ -18,7 +18,7 @@ You can also set instance field from the command line by typing `jerkar myMethod
 
 With Jerkar you can write task based build definition (ala _Ant_), templated ones (ala _Maven_) or rely on conventions only (no build script needed). In the following section, we will illustrate different different approach to use Jerkar. 
 
-### Task based builds (ala *Ant*)
+### Task based builds (ala Ant)
 If you like to have complete control over your build, you may prefere the _Ant_ build style. 
 The price is that you have to *write explicitly* what your build is doing. 
 
@@ -89,7 +89,7 @@ From this build definition, we can execute Jerkar the following way :
 - execute a command line in a shell (or on a build server)  as `jerkar doDefault` or `jerkar cleanBuild -forkTests=true`.
 
 <br/>
-### Templated builds (ala *Maven*)
+### Templated builds (ala Maven)
 For Java project you may directly extend `JkJavaBuild` template class which implements common methods for you. 
 All you need is to implement what is specific.
 
@@ -143,7 +143,7 @@ public class BuildSampleClassic extends JkJavaBuild {
 	}	
 }
 ```
-### <a name="100conventional"></a><br/>100% conventional style !!!
+### <a name="100conventional"></a><br/>Fully conventional style !!!
 
 If you use only local dependencies (jar dependencies located as bellow), you don't even need to write a build file.
 Note that local dependencies have to be located in subfolder corresponding to its scope (build, compile, runtime,...).
@@ -201,7 +201,7 @@ public class DistribAllBuild extends JkBuildDependencySupport {
 <strong>Note that you can reuse external build elements in a statically typed way !!! </strong>
 </div>
 
-## Zero build file, out of the box features
+## Out-of-the-box features
 
 This section answer to the following question : <blockquote>What Jerkar can do for me if I haven't written build file or have just a build file declaring dependencies only ?</blockquote>
 

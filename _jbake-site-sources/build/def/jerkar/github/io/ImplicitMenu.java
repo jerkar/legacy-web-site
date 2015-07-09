@@ -90,7 +90,8 @@ public class ImplicitMenu {
 		StringBuilder builder = new StringBuilder();
 		String indent = JkUtilsString.repeat(INDENT, item.level);
 		builder.append(indent);
-		builder.append("<li><a href=\""+action(item)).append("\">").append(item.name).append("</a>");
+		builder.append("<li><a href=\""+action(item)).append("\">")
+			.append(JkUtilsString.elipse(item.name, 40 - item.level*2)).append("</a>");
 		if (item.children.isEmpty()) {
 			builder.append("</li>\n");
 		} else {
