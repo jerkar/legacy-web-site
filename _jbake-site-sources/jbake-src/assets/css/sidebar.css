@@ -1,0 +1,37 @@
+ul {
+    list-style-type: none;
+	padding: 0;
+}
+
+
+#sidebar-menu {
+	margin-left:-40px;
+	padding-left:0px;
+	margin-right:20px;
+}
+
+
+
+#sidebar-menu .main-menu a {
+    display: block;
+	font-size: 13px;
+	font-weight: 500;
+	color: #999;
+	padding: 4px 20px;
+	margin-left:0px;
+	padding-left:0px;	
+}
+#sidebar-menu .main-menu a:hover {
+	color: #11427D;
+	text-decoration: none;
+	background-color: transparent;
+	border-left: 1px solid #11427D;
+}
+
+#sidebar-menu .sub-menu a {
+	padding-top: 1px;
+	padding-bottom: 1px;
+	padding-left: 10px;
+	font-size: 12px;
+	font-weight: 400;
+}

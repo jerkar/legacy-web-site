@@ -1,9 +1,3 @@
-title=Tour
-date=2015-05-11
-type=page
-status=published
-~~~~~~
-
 # Enjoy the Jerkar tour !
 --------------------------
 

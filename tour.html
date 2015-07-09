@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8"/>
-    <title>Tour</title>
+    <title>tour</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Java build tool">
     <meta name="author" content="Jerome Angibaud">
@@ -36,7 +36,7 @@
 	<link rel="stylesheet" href="css/highlight-idea.css">
 	
 	<!-- sidebar css -->
-	<link href="css/simple-sidebar.css" rel="stylesheet">
+	<link href="css/sidebar.css" rel="stylesheet">
   
   </head>
   <body onload="prettyPrint()">
@@ -76,7 +76,55 @@
       </div>
     </div>
     <div class="container">
-	<p><h1>Enjoy the Jerkar tour !</h1>
+	<p>
+	<div id="sidebar-menu" class="col-md-3 hidden-xs hidden-sm">
+    <ul class="main-menu nav nav-stacked affix">
+        <li><a href="javascript:jerkarMoveTo('Principles',2);">Principles</a></li>
+        <li><a href="javascript:jerkarMoveTo('Build styles',2);">Build styles</a>
+          <ul class="main-menu">
+            <li><a href="javascript:jerkarMoveTo('Task based builds (ala *Ant*)',3);">Task based builds (ala *Ant*)</a></li>
+            <li><a href="javascript:jerkarMoveTo('Templated builds (ala *Maven*)',3);">Templated builds (ala *Maven*)</a></li>
+            <li><a href="javascript:jerkarMoveTo('Templated builds with conventions',3);">Templated builds with conventions</a></li>
+            <li><a href="javascript:jerkarMoveTo('100% conventional style !!!',3);">100% conventional style !!!</a></li>
+            <li><a href="javascript:jerkarMoveTo('Eclipse style',3);">Eclipse style</a></li>
+            <li><a href="javascript:jerkarMoveTo('Custom builds with third parties',3);">Custom builds with third parties</a></li>
+            <li><a href="javascript:jerkarMoveTo('Multi-project builds',3);">Multi-project builds</a></li>
+          </ul>
+        </li>
+        <li><a href="javascript:jerkarMoveTo('Zero build file, out of the box features',2);">Zero build file, out of the box features</a>
+          <ul class="main-menu">
+            <li><a href="javascript:jerkarMoveTo('Basic tasks',3);">Basic tasks</a></li>
+            <li><a href="javascript:jerkarMoveTo('Plugin tasks',3);">Plugin tasks</a></li>
+            <li><a href="javascript:jerkarMoveTo('Examples',3);">Examples</a></li>
+          </ul>
+        </li>
+        <li><a href="javascript:jerkarMoveTo('Power of the build API',2);">Power of the build API</a>
+          <ul class="main-menu">
+            <li><a href="javascript:jerkarMoveTo('File manipulation & selection',3);">File manipulation & selection</a></li>
+            <li><a href="javascript:jerkarMoveTo('Process launching',3);">Process launching</a></li>
+            <li><a href="javascript:jerkarMoveTo('Java classpath, classloader and runtime operations',3);">Java classpath, classloader and runtime operations</a></li>
+            <li><a href="javascript:jerkarMoveTo('Java build API',3);">Java build API</a></li>
+          </ul>
+        </li>
+    </ul>
+</div>
+<script>
+function jerkarMoveTo(title, level) {
+    var elemType = 'h'+level;
+    var elems = $(elemType);
+    var elem;
+    for (var i = 0; i < elems.length; i++) {
+    	var candidate = elems[i];
+    	if (candidate.outerText ===  title) {
+    		elem = candidate;
+    		break;
+    	}
+    }
+    $('html, body').animate({
+        scrollTop: $(elem).offset().top -50
+    }, 200);
+}
+</script><p><div id="static-content" class="col-md-9"></p><h1>Enjoy the Jerkar tour !</h1>
 <hr/><p>This page will give you a concrete idea on how Jerkar is working and what you can do with.</p><h2>Principles</h2><p>Jerkar is quite simpe in its principle. You write a class extending <code>org.jerkar.tool.JkBuild</code> in the <em>build/def</em> folder of your project then you can execute any public zero arg methods from the command line by executing <code>jerkar myMethod1 myOtherMethod</code> at the root folder of your project.<br/>To accomplish this, Jerkar :</p>
 <ul>
   <li>compiles every java sources found under the <em>build/def</em> folder</li>
@@ -252,55 +300,8 @@ war.zip().to(warFileDest);
 File jar = JkClasspath.of(JkDirSet.of(baseDir(&quot;extraLibs&quot;)).including(&quot;**/*.jar)).getEntryContainingClass(&quot;my.SearchedClass&quot;); 
 </code></p><p><code>JkClassloader</code> allows to get or construct class-loaders then scan the class-path or invoke methods within. </p><p>For example, the follow get the current class loader and loads every class having a package starting by <code>com.mypack</code><br/><code>
 JkClassLoader.current().loadClasses(&quot;com/mypack/**/*&quot;);
-</code><br/>This class provides also methods to perform cross class-loader calls friendly.</p><p><code>JkJavaProcess</code> is a Java specific flavor of <code>JkProcess</code>. </p><h3>Java build API</h3><p>Jerkar provides Fluent API for addressing build of Java projects.</p>
-<div id="sidebar-wrapper">
-    <ul class="sidebar-nav">
-        <li><a href="javascript:jerkarMoveTo('Principles',2);">Principles</a></li>
-        <li><a href="javascript:jerkarMoveTo('Build styles',2);">Build styles</a>
-          <ul class="nav">
-            <li><a href="javascript:jerkarMoveTo('Task based builds (ala *Ant*)',3);">Task based builds (ala *Ant*)</a></li>
-            <li><a href="javascript:jerkarMoveTo('Templated builds (ala *Maven*)',3);">Templated builds (ala *Maven*)</a></li>
-            <li><a href="javascript:jerkarMoveTo('Templated builds with conventions',3);">Templated builds with conventions</a></li>
-            <li><a href="javascript:jerkarMoveTo('100% conventional style !!!',3);">100% conventional style !!!</a></li>
-            <li><a href="javascript:jerkarMoveTo('Eclipse style',3);">Eclipse style</a></li>
-            <li><a href="javascript:jerkarMoveTo('Custom builds with third parties',3);">Custom builds with third parties</a></li>
-            <li><a href="javascript:jerkarMoveTo('Multi-project builds',3);">Multi-project builds</a></li>
-          </ul>
-        </li>
-        <li><a href="javascript:jerkarMoveTo('Zero build file, out of the box features',2);">Zero build file, out of the box features</a>
-          <ul class="nav">
-            <li><a href="javascript:jerkarMoveTo('Basic tasks',3);">Basic tasks</a></li>
-            <li><a href="javascript:jerkarMoveTo('Plugin tasks',3);">Plugin tasks</a></li>
-            <li><a href="javascript:jerkarMoveTo('Examples',3);">Examples</a></li>
-          </ul>
-        </li>
-        <li><a href="javascript:jerkarMoveTo('Power of the build API',2);">Power of the build API</a>
-          <ul class="nav">
-            <li><a href="javascript:jerkarMoveTo('File manipulation & selection',3);">File manipulation & selection</a></li>
-            <li><a href="javascript:jerkarMoveTo('Process launching',3);">Process launching</a></li>
-            <li><a href="javascript:jerkarMoveTo('Java classpath, classloader and runtime operations',3);">Java classpath, classloader and runtime operations</a></li>
-            <li><a href="javascript:jerkarMoveTo('Java build API',3);">Java build API</a></li>
-          </ul>
-        </li>
-    </ul>
-</div>
-<script>
-function jerkarMoveTo(title, level) {
-    var elemType = 'h'+level;
-    var elems = $(elemType);
-    var elem;
-    for (var i = 0; i < elems.length; i++) {
-    	var candidate = elems[i];
-    	if (candidate.outerText ===  title) {
-    		elem = candidate;
-    		break;
-    	}
-    }
-    $('html, body').animate({
-        scrollTop: $(elem).offset().top -50
-    }, 200);
-}
-</script></p>
+</code><br/>This class provides also methods to perform cross class-loader calls friendly.</p><p><code>JkJavaProcess</code> is a Java specific flavor of <code>JkProcess</code>. </p><h3>Java build API</h3><p>Jerkar provides Fluent API for addressing build of Java projects.</p><p></div> <!--end of wrapper div --> </p>
+	</p>
 
 	<hr />
 

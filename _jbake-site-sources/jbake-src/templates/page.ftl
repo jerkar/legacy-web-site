@@ -2,7 +2,9 @@
 
 	<#include "menu.ftl">
 
-	<p>${content.body}</p>
+	<p>
+	${content.body}
+	</p>
 
 	<hr />
 

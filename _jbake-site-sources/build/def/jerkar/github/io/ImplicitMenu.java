@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Stack;
 
 import org.jerkar.api.utils.JkUtilsFile;
 import org.jerkar.api.utils.JkUtilsIO;
@@ -30,7 +29,6 @@ public class ImplicitMenu {
 					name = name.contains(">") ? JkUtilsString.substringAfterLast(name, ">") : name;
 					Item item = new Item(name, i);
 					Item parent = findParent(parents, item);
-					System.out.println("-------------------------------parent found " + parent + " for item " + item);
 					if (parent == null) {
 						items.add(item);
 					} else {
@@ -62,14 +60,25 @@ public class ImplicitMenu {
 		this.items = Collections.unmodifiableList(items);
 	}
 	
-	public String html() {
+	public static String divContainerHtml() {
+		return new StringBuilder("<div id&#61;\"static-content\" class&#61;\"col-md-10\">   <!-- wrapper content -->").append("\n")
+				.toString();
+		
+	}
+	
+	public static String endDivHtml(String comment) {
+		return new StringBuilder("</div> <!--").append(comment).append(" --> \n").toString();
+	}
+	
+	public String divSideBarAndScriptHtml() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("<div id=\"sidebar-wrapper\">\n" + INDENT + "<ul class=\"sidebar-nav\">\n");
+		builder.append("<div id=\"sidebar-menu\" class=\"col-md-3 hidden-xs hidden-sm\">\n" + INDENT + "<ul class=\"main-menu nav nav-stacked affix\">\n");
 		for (Item item : items) {
-			builder.append(htmlList(item));
+			builder.append(htmlList(item, true));
 		}
 		builder.append(INDENT + "</ul>\n</div>\n");
 		builder.append(htmlScript());
+		builder.append("<div id=\"static-content\" class=\"col-md-9\">\n");
 		return builder.toString();
 	}
 	
@@ -77,7 +86,7 @@ public class ImplicitMenu {
 		return JkUtilsIO.readAsString(ImplicitMenu.class.getResourceAsStream("js.txt"));
 	}
 	
-	private String htmlList(Item item) {
+	private String htmlList(Item item, boolean first) {
 		StringBuilder builder = new StringBuilder();
 		String indent = JkUtilsString.repeat(INDENT, item.level);
 		builder.append(indent);
@@ -85,10 +94,11 @@ public class ImplicitMenu {
 		if (item.children.isEmpty()) {
 			builder.append("</li>\n");
 		} else {
+			String classname = first ? "main-menu" : "sub-menu";
 			builder.append("\n").append(indent).append("  ")
-			.append("<ul class=\"nav\">\n");
+			.append("<ul class=\""+ classname + "\">\n");
 			for (Item child : item.children) {
-				builder.append(htmlList(child));
+				builder.append(htmlList(child, false));
 			}
 			
 			builder.append(indent).append("  ")

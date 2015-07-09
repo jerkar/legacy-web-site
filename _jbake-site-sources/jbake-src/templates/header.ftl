@@ -36,7 +36,7 @@
 	<link rel="stylesheet" href="<#if (content.rootpath)??>${content.rootpath}<#else></#if>css/highlight-idea.css">
 	
 	<!-- sidebar css -->
-	<link href="<#if (content.rootpath)??>${content.rootpath}<#else></#if>css/simple-sidebar.css" rel="stylesheet">
+	<link href="<#if (content.rootpath)??>${content.rootpath}<#else></#if>css/sidebar.css" rel="stylesheet">
   
   </head>
   <body onload="prettyPrint()">

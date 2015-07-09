@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8"/>
-    <title>Jerkar</title>
+    <title>tell-me-more</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Java build tool">
     <meta name="author" content="Jerome Angibaud">
@@ -36,7 +36,7 @@
 	<link rel="stylesheet" href="css/highlight-idea.css">
 	
 	<!-- sidebar css -->
-	<link href="css/simple-sidebar.css" rel="stylesheet">
+	<link href="css/sidebar.css" rel="stylesheet">
   
   </head>
   <body onload="prettyPrint()">
@@ -76,13 +76,37 @@
       </div>
     </div>
     <div class="container">
-	<p><h1>Tell me more</h1>
-<hr/><h2>What is Jerkar ?</h2><p>Jerkar is both a <strong>Java framework</strong> for building project and an <strong>automation tool</strong>. It falls in the same category as <i>Ant/Ivy</i>,<br/> <i>Maven</i> or <i>Gradle</i>.<br/> In other words, it's a rich featured <strong>pure Java</strong> build tool.<br/> <br/></p><p>As an <strong>automation tool</strong> Jerkar provides :</p>
+	<p>
+	<div id="sidebar-menu" class="col-md-3 hidden-xs hidden-sm">
+    <ul class="main-menu nav nav-stacked affix">
+        <li><a href="javascript:jerkarMoveTo('What is Jerkar ?',2);">What is Jerkar ?</a></li>
+        <li><a href="javascript:jerkarMoveTo('What makes Jerkar special ?',2);">What makes Jerkar special ?</a></li>
+        <li><a href="javascript:jerkarMoveTo('What about Java cons ?',2);">What about Java cons ?</a></li>
+    </ul>
+</div>
+<script>
+function jerkarMoveTo(title, level) {
+    var elemType = 'h'+level;
+    var elems = $(elemType);
+    var elem;
+    for (var i = 0; i < elems.length; i++) {
+    	var candidate = elems[i];
+    	if (candidate.outerText ===  title) {
+    		elem = candidate;
+    		break;
+    	}
+    }
+    $('html, body').animate({
+        scrollTop: $(elem).offset().top -50
+    }, 200);
+}
+</script><p><div id="static-content" class="col-md-9"></p><h1>Tell me more</h1>
+<hr/><h2>What is Jerkar ?</h2><p>Jerkar is both a <strong>Java framework</strong> for building project and an <strong>automation tool</strong>. It falls in the same category as <i>Ant/Ivy</i>,<br/> <i>Maven</i> or <i>Gradle</i>.<br/> In other words, it's a rich featured <strong>pure Java</strong> build tool.</p><p>As an <strong>automation tool</strong> Jerkar provides :</p>
 <ul>
   <li>the ability to threat Java sources as scripts : Java sources are <strong>compiled on-the-fly</strong> prior to be instantiated then method invoked</li>
   <li><strong>full dependency handling</strong> to compile scripts : script dependencies can be made on Maven repositories, local jars or external projects</li>
   <li>multi-level <strong>parameter injection</strong> (via user-local, system-wide property files or by passing argument in the command line)</li>
-  <li>a swiss-knife library generally usefull for performing automated task (file manipulation, logging, PGP signing, external tool launcher, ...)</li>
+  <li>a swiss-knife library generally usefull for performing automated task (file and I/O manipulation, logging, PGP signing, external tool launcher, ...)</li>
 </ul><p>As a <strong>build framework</strong> it provides :</p>
 <ul>
   <li>compact <strong>fluent style API</strong> for performing all kind of build related stuff (file manipulation, compilation, testing, managing dependencies, read/publish to <em>Maven/Ivy</em> repo, ...)</li>
@@ -113,31 +137,8 @@
 <ul>
   <li><strong>compiling scripts on-the-fly</strong> prior to execute them</li>
   <li>providing <strong>compact fluent API and sensitive templates</strong> to minimize developers efforts and script verbosity.</li>
-</ul><p>Jerkar scripts reveal to be <strong>much more concise than their equivalent XML</strong> based tool and roughly equivalent to script written with dynamic languages. Have a look at <a href="./tour.html">Jerkar tour</a>.<br/>Beside the script compilation phase duration is not significant (less than 1 second in most of cases). </p><p>Another point is that <strong>all</strong> Jerkar public class are prefixed with <code>Jk</code>. So it makes convenient to distinguish them when using IDE auto-completion.</p>
-<div id="sidebar-wrapper">
-    <ul class="sidebar-nav">
-        <li><a href="javascript:jerkarMoveTo('What is Jerkar ?',2);">What is Jerkar ?</a></li>
-        <li><a href="javascript:jerkarMoveTo('What makes Jerkar special ?',2);">What makes Jerkar special ?</a></li>
-        <li><a href="javascript:jerkarMoveTo('What about Java cons ?',2);">What about Java cons ?</a></li>
-    </ul>
-</div>
-<script>
-function jerkarMoveTo(title, level) {
-    var elemType = 'h'+level;
-    var elems = $(elemType);
-    var elem;
-    for (var i = 0; i < elems.length; i++) {
-    	var candidate = elems[i];
-    	if (candidate.outerText ===  title) {
-    		elem = candidate;
-    		break;
-    	}
-    }
-    $('html, body').animate({
-        scrollTop: $(elem).offset().top -50
-    }, 200);
-}
-</script></p>
+</ul><p>Jerkar scripts reveal to be <strong>much more concise than their equivalent XML</strong> based tool and roughly equivalent to script written with dynamic languages. Have a look at <a href="./tour.html">Jerkar tour</a>.<br/>Beside the script compilation phase duration is not significant (less than 1 second in most of cases). </p><p>Another point is that <strong>all</strong> Jerkar public class are prefixed with <code>Jk</code>. So it makes convenient to distinguish them when using IDE auto-completion.</p><p></div> <!--end of wrapper div --> </p>
+	</p>
 
 	<hr />
 

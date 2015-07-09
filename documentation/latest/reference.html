@@ -36,7 +36,7 @@
 	<link rel="stylesheet" href="../../css/highlight-idea.css">
 	
 	<!-- sidebar css -->
-	<link href="../../css/simple-sidebar.css" rel="stylesheet">
+	<link href="../../css/sidebar.css" rel="stylesheet">
   
   </head>
   <body onload="prettyPrint()">
@@ -76,7 +76,61 @@
       </div>
     </div>
     <div class="container">
-	<p><h2>Introduction</h2>
+	<p>
+	<div id="sidebar-menu" class="col-md-3 hidden-xs hidden-sm">
+    <ul class="main-menu nav nav-stacked affix">
+        <li><a href="javascript:jerkarMoveTo('Introduction',2);">Introduction</a></li>
+        <li><a href="javascript:jerkarMoveTo('Build Configuration',2);">Build Configuration</a>
+          <ul class="main-menu">
+            <li><a href="javascript:jerkarMoveTo('Environment variables',3);">Environment variables</a></li>
+            <li><a href="javascript:jerkarMoveTo('System properties',3);">System properties</a></li>
+            <li><a href="javascript:jerkarMoveTo('Jerkar options',3);">Jerkar options</a>
+              <ul class="sub-menu">
+                <li><a href="javascript:jerkarMoveTo('Standars options',4);">Standars options</a></li>
+                <li><a href="javascript:jerkarMoveTo('How to retrieve Jerkar options ?',4);">How to retrieve Jerkar options ?</a></li>
+                <li><a href="javascript:jerkarMoveTo('Composite options',4);">Composite options</a></li>
+                <li><a href="javascript:jerkarMoveTo('How to document option ?',4);">How to document option ?</a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li><a href="javascript:jerkarMoveTo('Dependency Management',2);">Dependency Management</a>
+          <ul class="main-menu">
+            <li><a href="javascript:jerkarMoveTo('What is a dependency ?',3);">What is a dependency ?</a></li>
+            <li><a href="javascript:jerkarMoveTo('What is a scope ?',3);">What is a scope ?</a></li>
+            <li><a href="javascript:jerkarMoveTo('Define dependencies for a project',3);">Define dependencies for a project</a>
+              <ul class="sub-menu">
+                <li><a href="javascript:jerkarMoveTo('Define scopes',4);">Define scopes</a></li>
+                <li><a href="javascript:jerkarMoveTo('Defining individual dependency',4);">Defining individual dependency</a>
+                  <ul class="sub-menu">
+                    <li><a href="javascript:jerkarMoveTo('File system dependencies',5);">File system dependencies</a></li>
+                    <li><a href="javascript:jerkarMoveTo('Project dependencies',5);">Project dependencies</a></li>
+                  </ul>
+                </li>
+                <li><a href="javascript:jerkarMoveTo('Bind dependencies to scope',4);">Bind dependencies to scope</a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+    </ul>
+</div>
+<script>
+function jerkarMoveTo(title, level) {
+    var elemType = 'h'+level;
+    var elems = $(elemType);
+    var elem;
+    for (var i = 0; i < elems.length; i++) {
+    	var candidate = elems[i];
+    	if (candidate.outerText ===  title) {
+    		elem = candidate;
+    		break;
+    	}
+    }
+    $('html, body').animate({
+        scrollTop: $(elem).offset().top -50
+    }, 200);
+}
+</script><p><div id="static-content" class="col-md-9"></p><h2>Introduction</h2>
 <hr/><p>This document stands for reference guide. You'll find here details on Jerkar behaviour. </p>
 <ul>
   <li><p>If you need an overall vision of Jerkar, please visit <a href="http://jerkar.github.io/tour.html"><strong>tour</strong></a>.</p></li>
@@ -178,61 +232,8 @@ public static final JkScope TEST = JkScope.of(&quot;test&quot;).extending(RUNTIM
 			.on(JkProjectDependency.of(antBuild, fooJar))).scope(PROVIDED)  
 		.build();
 	}
-</code></pre><p>This defines a dependency on a file produced by a Ant project. If the file is not present at dependency resolution time, then<br/>the Ant project is built to produce the missing files. </p><h4>Bind dependencies to scope</h4><p>The whole project dependency description lie in a single instance of <code>JkDependencies</code>. This class offers convenient factory methods and builder to define the dependencies.</p><p>```</p><p>```</p><p><br/></p>
-<div id="sidebar-wrapper">
-    <ul class="sidebar-nav">
-        <li><a href="javascript:jerkarMoveTo('Introduction',2);">Introduction</a></li>
-        <li><a href="javascript:jerkarMoveTo('Build Configuration',2);">Build Configuration</a>
-          <ul class="nav">
-            <li><a href="javascript:jerkarMoveTo('Environment variables',3);">Environment variables</a></li>
-            <li><a href="javascript:jerkarMoveTo('System properties',3);">System properties</a></li>
-            <li><a href="javascript:jerkarMoveTo('Jerkar options',3);">Jerkar options</a>
-              <ul class="nav">
-                <li><a href="javascript:jerkarMoveTo('Standars options',4);">Standars options</a></li>
-                <li><a href="javascript:jerkarMoveTo('How to retrieve Jerkar options ?',4);">How to retrieve Jerkar options ?</a></li>
-                <li><a href="javascript:jerkarMoveTo('Composite options',4);">Composite options</a></li>
-                <li><a href="javascript:jerkarMoveTo('How to document option ?',4);">How to document option ?</a></li>
-              </ul>
-            </li>
-          </ul>
-        </li>
-        <li><a href="javascript:jerkarMoveTo('Dependency Management',2);">Dependency Management</a>
-          <ul class="nav">
-            <li><a href="javascript:jerkarMoveTo('What is a dependency ?',3);">What is a dependency ?</a></li>
-            <li><a href="javascript:jerkarMoveTo('What is a scope ?',3);">What is a scope ?</a></li>
-            <li><a href="javascript:jerkarMoveTo('Define dependencies for a project',3);">Define dependencies for a project</a>
-              <ul class="nav">
-                <li><a href="javascript:jerkarMoveTo('Define scopes',4);">Define scopes</a></li>
-                <li><a href="javascript:jerkarMoveTo('Defining individual dependency',4);">Defining individual dependency</a>
-                  <ul class="nav">
-                    <li><a href="javascript:jerkarMoveTo('File system dependencies',5);">File system dependencies</a></li>
-                    <li><a href="javascript:jerkarMoveTo('Project dependencies',5);">Project dependencies</a></li>
-                  </ul>
-                </li>
-                <li><a href="javascript:jerkarMoveTo('Bind dependencies to scope',4);">Bind dependencies to scope</a></li>
-              </ul>
-            </li>
-          </ul>
-        </li>
-    </ul>
-</div>
-<script>
-function jerkarMoveTo(title, level) {
-    var elemType = 'h'+level;
-    var elems = $(elemType);
-    var elem;
-    for (var i = 0; i < elems.length; i++) {
-    	var candidate = elems[i];
-    	if (candidate.outerText ===  title) {
-    		elem = candidate;
-    		break;
-    	}
-    }
-    $('html, body').animate({
-        scrollTop: $(elem).offset().top -50
-    }, 200);
-}
-</script></p>
+</code></pre><p>This defines a dependency on a file produced by a Ant project. If the file is not present at dependency resolution time, then<br/>the Ant project is built to produce the missing files. </p><h4>Bind dependencies to scope</h4><p>The whole project dependency description lie in a single instance of <code>JkDependencies</code>. This class offers convenient factory methods and builder to define the dependencies.</p><p>```</p><p>```</p><p><br/></p><p></div> <!--end of wrapper div --> </p>
+	</p>
 
 	<hr />
 

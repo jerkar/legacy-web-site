@@ -36,7 +36,7 @@
 	<link rel="stylesheet" href="../../css/highlight-idea.css">
 	
 	<!-- sidebar css -->
-	<link href="../../css/simple-sidebar.css" rel="stylesheet">
+	<link href="../../css/sidebar.css" rel="stylesheet">
   
   </head>
   <body onload="prettyPrint()">
@@ -76,7 +76,31 @@
       </div>
     </div>
     <div class="container">
-	<p><h1>Getting Started</h1>
+	<p>
+	<div id="sidebar-menu" class="col-md-3 hidden-xs hidden-sm">
+    <ul class="main-menu nav nav-stacked affix">
+        <li><a href="javascript:jerkarMoveTo('How to install Jerkar',2);">How to install Jerkar</a></li>
+        <li><a href="javascript:jerkarMoveTo('How to scaffold a Jerkar project',2);">How to scaffold a Jerkar project</a></li>
+        <li><a href="javascript:jerkarMoveTo('How to setup Jerkar on existing Java project',2);">How to setup Jerkar on existing Java project</a></li>
+    </ul>
+</div>
+<script>
+function jerkarMoveTo(title, level) {
+    var elemType = 'h'+level;
+    var elems = $(elemType);
+    var elem;
+    for (var i = 0; i < elems.length; i++) {
+    	var candidate = elems[i];
+    	if (candidate.outerText ===  title) {
+    		elem = candidate;
+    		break;
+    	}
+    }
+    $('html, body').animate({
+        scrollTop: $(elem).offset().top -50
+    }, 200);
+}
+</script><p><div id="static-content" class="col-md-9"></p><h1>Getting Started</h1>
 <hr/><h2>How to install Jerkar</h2>
 <ol>
   <li>unzip the <a href="http://jerkar.github.io/binaries/jerkar-distrib.zip">distribution archive</a> to the directory you want to install Jerkar : let's call it <code>[Jerkar Home]</code></li>
@@ -108,31 +132,8 @@
 </ol><p>As Jerkar builds itself, you can have a look at <a href="https://github.com/jerkar/jerkar/tree/master/org.jerkar.core">how Jerkar project is structured</a>.</p>
 <p class="alert alert-success">
 If your project is <a href="../../tour.html#100conventional">100% conventional</a>, you can even skip steps <strong>2.</strong> and <strong>3.</strong>.
-</p>
-<div id="sidebar-wrapper">
-    <ul class="sidebar-nav">
-        <li><a href="javascript:jerkarMoveTo('How to install Jerkar',2);">How to install Jerkar</a></li>
-        <li><a href="javascript:jerkarMoveTo('How to scaffold a Jerkar project',2);">How to scaffold a Jerkar project</a></li>
-        <li><a href="javascript:jerkarMoveTo('How to setup Jerkar on existing Java project',2);">How to setup Jerkar on existing Java project</a></li>
-    </ul>
-</div>
-<script>
-function jerkarMoveTo(title, level) {
-    var elemType = 'h'+level;
-    var elems = $(elemType);
-    var elem;
-    for (var i = 0; i < elems.length; i++) {
-    	var candidate = elems[i];
-    	if (candidate.outerText ===  title) {
-    		elem = candidate;
-    		break;
-    	}
-    }
-    $('html, body').animate({
-        scrollTop: $(elem).offset().top -50
-    }, 200);
-}
-</script></p>
+</p><p></div> <!--end of wrapper div --> </p>
+	</p>
 
 	<hr />
 

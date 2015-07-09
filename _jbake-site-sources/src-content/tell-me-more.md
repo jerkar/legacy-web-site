@@ -1,7 +1,3 @@
-date=2015-05-08
-type=page
-status=published
-~~~~~~
 # Tell me more
 ----
 
@@ -9,14 +5,13 @@ status=published
 Jerkar is both a **Java framework** for building project and an **automation tool**. It falls in the same category as <i>Ant/Ivy</i>,
  <i>Maven</i> or <i>Gradle</i>.
  In other words, it's a rich featured **pure Java** build tool.
- <br/>
  
 As an **automation tool** Jerkar provides :
 
 * the ability to threat Java sources as scripts : Java sources are **compiled on-the-fly** prior to be instantiated then method invoked
 * **full dependency handling** to compile scripts : script dependencies can be made on Maven repositories, local jars or external projects
 * multi-level **parameter injection** (via user-local, system-wide property files or by passing argument in the command line)
-* a swiss-knife library generally usefull for performing automated task (file manipulation, logging, PGP signing, external tool launcher, ...)  
+* a swiss-knife library generally usefull for performing automated task (file and I/O  manipulation, logging, PGP signing, external tool launcher, ...)  
 
 As a **build framework** it provides :
 

@@ -46,8 +46,8 @@ public class SiteBuild extends JkBuild {
 	public void full() {
 		clean();
 		importContent();
-		
 		addMenu();
+		addHeaders();
 		jbake();
 		copyCurrentDist();
 		copyCurrentJavadoc();
@@ -69,12 +69,19 @@ public class SiteBuild extends JkBuild {
 					jerkarCoreDocDir.relativePath(file) : file.getName();
 			File copied = targetDocDir.file(relativePath);
 			JkLog.startln("Importing doc file " + file + " to " + copied.getPath());
-			JkUtilsFile.writeString(copied, header(copied), false);
 			String content = JkUtilsFile.read(file);
 			JkUtilsFile.writeString(copied, content, true);
 			JkLog.done();
 		}
 		temp.delete();
+	}
+	
+	public void addHeaders() {
+		List<File> files = jbakeSrcContent.include("**/*.md").exclude("about.md", "download.md").files(false);
+		for (File file : files) {
+			String content = header(file);
+			JkUtilsFile.writeContentAtTop(file, content);
+		}
 	}
 	
 	
@@ -114,8 +121,9 @@ public class SiteBuild extends JkBuild {
 	
 	private void addMenu() {
 		for (File file : jbakeSrcContent.include("**/*.md").exclude("about.md", "download.md")) {
-			String menuHtml = ImplicitMenu.ofMdFile(file, 2).html();
-			JkUtilsFile.writeString(file, menuHtml, true);
+			String menuHtml = ImplicitMenu.ofMdFile(file, 2).divSideBarAndScriptHtml();
+			JkUtilsFile.writeContentAtTop(file, menuHtml);
+			JkUtilsFile.writeString(file, ImplicitMenu.endDivHtml("end of wrapper div"), true);
 		}
 	}
 

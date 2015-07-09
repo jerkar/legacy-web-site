@@ -1,6 +1,6 @@
 title=Download
 date=2015-05-18
-type=page
+type=flat-page
 status=published
 ~~~~~~
 
