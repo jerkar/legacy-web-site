@@ -80,7 +80,7 @@ public class SiteBuild extends JkBuild {
 		List<File> files = jbakeSrcContent.include("**/*.md").exclude("about.md", "download.md").files(false);
 		for (File file : files) {
 			String content = header(file);
-			JkUtilsFile.writeContentAtTop(file, content);
+			JkUtilsFile.writeStringAtTop(file, content);
 		}
 	}
 	
@@ -122,7 +122,7 @@ public class SiteBuild extends JkBuild {
 	private void addMenu() {
 		for (File file : jbakeSrcContent.include("**/*.md").exclude("about.md", "download.md")) {
 			String menuHtml = ImplicitMenu.ofMdFile(file, 2).divSideBarAndScriptHtml();
-			JkUtilsFile.writeContentAtTop(file, menuHtml);
+			JkUtilsFile.writeStringAtTop(file, menuHtml);
 			JkUtilsFile.writeString(file, ImplicitMenu.endDivHtml("end of wrapper div"), true);
 		}
 	}
