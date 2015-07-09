@@ -1,22 +1,15 @@
-ul {
- /*   list-style-type: none; */
-}
-
-
 #sidebar-menu {
-	margin-left:-40px;
+	margin-left:-50px;
 	padding-left:0px;
 	margin-right:20px;
 }
 
-
-
 #sidebar-menu .main-menu a {
     display: block;
-	font-size: 13px;
+	font-size: 12px;
 	font-weight: 500;
 	color: #999;
-	padding: 4px 20px;
+	padding: 0px 20px;
 	margin-left:0px;
 	padding-left:0px;	
 }
@@ -30,18 +23,21 @@ ul {
 #sidebar-menu .sub-menu a {
 	padding-top: 1px;
 	padding-bottom: 1px;
-	padding-left: 10px;
-	font-size: 12px;
+	padding-left: 6px;
+	font-size: 11px;
 	font-weight: 400;
+	
 }
 
 .main-menu ul {
 	padding-left:0px;	
+	margin-left:15px;
 	list-style-type: none;
 }
 
 .sub-menu ul {
 	padding-left:0px;	
+	margin-left:15px;
 	list-style-type: none;
 }
 

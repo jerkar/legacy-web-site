@@ -209,11 +209,29 @@ Yep, with Jerkar, if you don't have written any build file or just have a build 
 
 ### Basic tasks
     
-- `jerkar help` : outputs on console available methods and options for Jerkar in the current project
-- `jerkar` : cleans, compiles, unit tests and produces artifacts (this is what `JkJavaBuild#doDefault` method does)
-- `jerkar doDefault publish` : same than above then `publish` produced artifacts on a remote repository
-- `jerkar -fatJar=true -forkTests=true` : same than above but also produces a fat-jar (jar file containing all the runtime dependencies) and runs unit tests in a forked process
-- `jerkar -fatJar -forkTests` : same than above. When field values are not mentioned, Jerkar uses a default value (true for boolean fields)
+- `jerkar help` : outputs on console available methods and options for Jerkar in the current project.
+- `jerkar clean` : clean the output directory that is _[project dir]/build/output_.
+- `jerkar compile` : compile the production code (not the test code) and put resources in _[project dir]/build/classes_ directory.
+- `jerkar unitTest` : compile the unit tests and run it.
+- `jerkar pack` : creates jars from the compiled sources and processed resources (creates test, sources and fat jar as well).
+- `jerkar verify` : launch code quality tools on the sources  : by default this does not do anyhing unless you activate some quality control plugin (see below).
+- `jerkar publish` : publish the produced artifact in the remote repository.
+
+Beside convenient methods are available to launch a 'life-cycle' sequence :
+
+- `jerkar doCompile` : `clean` + `compile`.
+- `jerkar doUnitTest` : `doCompile` + `uniTest`.
+- `jerkar doPack` : `doUnitTest` + `pack`.
+- `jerkar doVerify` : `doPack` + `verify`.
+- `jerkar doPublish` : `doVerify` + `publish`.
+
+Whitout omitting the shorthands :
+ 
+- `jerkar` = `jerkar doDefault` = `jerkar doPack`
+
+These taskscan be parametrized :
+
+- `jerkar -fatJar=true -forkTests=true` = `doPack` but forking the unit tests and produce a fat jar
 
 The last will result in the following artifact creation :
 ![Created artifacts](img/output.png)

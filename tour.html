@@ -268,11 +268,26 @@ public class DistribAllBuild extends JkBuildDependencySupport {
 <strong>Note that you can reuse external build elements in a statically typed way !!! </strong>
 </div><h2>Out-of-the-box features</h2><p>This section answer to the following question : <blockquote>What Jerkar can do for me if I haven't written build file or have just a build file declaring dependencies only ?</blockquote></p><p>Yep, with Jerkar, if you don't have written any build file or just have a build file containing dependency definition, you can yet perform pretty sophisticated tasks. </p><h3>Basic tasks</h3>
 <ul>
-  <li><code>jerkar help</code> : outputs on console available methods and options for Jerkar in the current project</li>
-  <li><code>jerkar</code> : cleans, compiles, unit tests and produces artifacts (this is what <code>JkJavaBuild#doDefault</code> method does)</li>
-  <li><code>jerkar doDefault publish</code> : same than above then <code>publish</code> produced artifacts on a remote repository</li>
-  <li><code>jerkar -fatJar=true -forkTests=true</code> : same than above but also produces a fat-jar (jar file containing all the runtime dependencies) and runs unit tests in a forked process</li>
-  <li><code>jerkar -fatJar -forkTests</code> : same than above. When field values are not mentioned, Jerkar uses a default value (true for boolean fields)</li>
+  <li><code>jerkar help</code> : outputs on console available methods and options for Jerkar in the current project.</li>
+  <li><code>jerkar clean</code> : clean the output directory that is <em>[project dir]/build/output</em>.</li>
+  <li><code>jerkar compile</code> : compile the production code (not the test code) and put resources in <em>[project dir]/build/classes</em> directory.</li>
+  <li><code>jerkar unitTest</code> : compile the unit tests and run it.</li>
+  <li><code>jerkar pack</code> : creates jars from the compiled sources and processed resources (creates test, sources and fat jar as well).</li>
+  <li><code>jerkar verify</code> : launch code quality tools on the sources : by default this does not do anyhing unless you activate some quality control plugin (see below).</li>
+  <li><code>jerkar publish</code> : publish the produced artifact in the remote repository.</li>
+</ul><p>Beside convenient methods are available to launch a 'life-cycle' sequence :</p>
+<ul>
+  <li><code>jerkar doCompile</code> : <code>clean</code> + <code>compile</code>.</li>
+  <li><code>jerkar doUnitTest</code> : <code>doCompile</code> + <code>uniTest</code>.</li>
+  <li><code>jerkar doPack</code> : <code>doUnitTest</code> + <code>pack</code>.</li>
+  <li><code>jerkar doVerify</code> : <code>doPack</code> + <code>verify</code>.</li>
+  <li><code>jerkar doPublish</code> : <code>doVerify</code> + <code>publish</code>.</li>
+</ul><p>Whitout omitting the shorthands :</p>
+<ul>
+  <li><code>jerkar</code> = <code>jerkar doDefault</code> = <code>jerkar doPack</code></li>
+</ul><p>These taskscan be parametrized :</p>
+<ul>
+  <li><code>jerkar -fatJar=true -forkTests=true</code> = <code>doPack</code> but forking the unit tests and produce a fat jar</li>
 </ul><p>The last will result in the following artifact creation :<br/><img src="img/output.png" alt="Created artifacts""/></p><h3>Plugin tasks</h3><p>Template classes (<code>JkBuild</code> and <code>JkJavaBuild</code>) enable plugability by providing hooks on several methods.<br/>A plugin is just a class extending <code>JkBuildPlugin</code> or <code>JkJavaBuildPlugin</code> and overriding default hook methods. Plugins can also provide their own methods.</p>
 <ul>
   <li>To activate a plugin on the command line, just mention the name of the plugin followed by a <code>#</code>.</li>
