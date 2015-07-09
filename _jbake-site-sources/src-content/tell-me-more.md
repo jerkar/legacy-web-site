@@ -66,4 +66,4 @@ Beside the script compilation phase duration is not significant (less than 1 sec
 
 Another point is that **all** Jerkar public class are prefixed with `Jk`. So it makes convenient to distinguish them when using IDE auto-completion.
 
- 
+
