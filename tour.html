@@ -277,11 +277,11 @@ public class DistribAllBuild extends JkBuildDependencySupport {
   <li><code>jerkar publish</code> : publish the produced artifact in the remote repository.</li>
 </ul><p>Beside convenient methods are available to launch a 'life-cycle' sequence :</p>
 <ul>
-  <li><code>jerkar doCompile</code> : <code>clean</code> + <code>compile</code>.</li>
-  <li><code>jerkar doUnitTest</code> : <code>doCompile</code> + <code>uniTest</code>.</li>
-  <li><code>jerkar doPack</code> : <code>doUnitTest</code> + <code>pack</code>.</li>
-  <li><code>jerkar doVerify</code> : <code>doPack</code> + <code>verify</code>.</li>
-  <li><code>jerkar doPublish</code> : <code>doVerify</code> + <code>publish</code>.</li>
+  <li><code>jerkar doCompile</code> = <code>jerkar clean compile</code>.</li>
+  <li><code>jerkar doUnitTest</code> = <code>jerkar doCompile uniTest</code>.</li>
+  <li><code>jerkar doPack</code> = <code>jerkar doUnitTest pack</code>.</li>
+  <li><code>jerkar doVerify</code> = <code>jerkar doPack verify</code>.</li>
+  <li><code>jerkar doPublish</code> = <code>jerkar doVerify publish</code>.</li>
 </ul><p>Whitout omitting the shorthands :</p>
 <ul>
   <li><code>jerkar</code> = <code>jerkar doDefault</code> = <code>jerkar doPack</code></li>
@@ -345,9 +345,6 @@ JkClassLoader.current().loadClasses(&quot;com/mypack/**/*&quot;);
     		var ul = li.find(".sub-menu").first();
     		console.log(ul.is(':visible'));
     		evt.stopPropagation();
-    		console.log(li);
-    		console.log(lastSelect);
-    		if (li.first() == lastSelect) alert("same!!!!!!!!!!!!!!!!");
     		if (ul.is(':visible') && li.html() !== lastSelect) {
     			lastSelect = li.html();
     			return;

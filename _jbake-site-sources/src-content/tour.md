@@ -219,11 +219,11 @@ Yep, with Jerkar, if you don't have written any build file or just have a build 
 
 Beside convenient methods are available to launch a 'life-cycle' sequence :
 
-- `jerkar doCompile` : `clean` + `compile`.
-- `jerkar doUnitTest` : `doCompile` + `uniTest`.
-- `jerkar doPack` : `doUnitTest` + `pack`.
-- `jerkar doVerify` : `doPack` + `verify`.
-- `jerkar doPublish` : `doVerify` + `publish`.
+- `jerkar doCompile` = `jerkar clean compile`.
+- `jerkar doUnitTest` = `jerkar doCompile uniTest`.
+- `jerkar doPack` = `jerkar doUnitTest pack`.
+- `jerkar doVerify` = `jerkar doPack verify`.
+- `jerkar doPublish` = `jerkar doVerify publish`.
 
 Whitout omitting the shorthands :
  

@@ -23,9 +23,6 @@
     		var ul = li.find(".sub-menu").first();
     		console.log(ul.is(':visible'));
     		evt.stopPropagation();
-    		console.log(li);
-    		console.log(lastSelect);
-    		if (li.first() == lastSelect) alert("same!!!!!!!!!!!!!!!!");
     		if (ul.is(':visible') && li.html() !== lastSelect) {
     			lastSelect = li.html();
     			return;
