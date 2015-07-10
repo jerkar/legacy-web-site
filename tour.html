@@ -80,8 +80,8 @@
 	<div id="sidebar-menu" class="col-md-3 hidden-xs hidden-sm">
     <ul class="main-menu nav nav-stacked affix">
         <li><a href="javascript:jerkarMoveTo('Principles',2);">Principles</a></li>
-        <li><a href="javascript:jerkarMoveTo('Build styles',2);">Build styles</a>
-          <ul class="main-menu">
+        <li class="liexpandable"><a href="javascript:jerkarMoveTo('Build styles',2);">Build styles</a>
+          <ul class="sub-menu">
             <li><a href="javascript:jerkarMoveTo('Task based builds (ala Ant)',3);">Task based builds (ala Ant)</a></li>
             <li><a href="javascript:jerkarMoveTo('Templated builds (ala Maven)',3);">Templated builds (ala Maven)</a></li>
             <li><a href="javascript:jerkarMoveTo('Templated builds with conventions',3);">Templated builds with conventions</a></li>
@@ -91,15 +91,15 @@
             <li><a href="javascript:jerkarMoveTo('Multi-project builds',3);">Multi-project builds</a></li>
           </ul>
         </li>
-        <li><a href="javascript:jerkarMoveTo('Out-of-the-box features',2);">Out-of-the-box features</a>
-          <ul class="main-menu">
+        <li class="liexpandable"><a href="javascript:jerkarMoveTo('Out-of-the-box features',2);">Out-of-the-box features</a>
+          <ul class="sub-menu">
             <li><a href="javascript:jerkarMoveTo('Basic tasks',3);">Basic tasks</a></li>
             <li><a href="javascript:jerkarMoveTo('Plugin tasks',3);">Plugin tasks</a></li>
             <li><a href="javascript:jerkarMoveTo('Examples',3);">Examples</a></li>
           </ul>
         </li>
-        <li><a href="javascript:jerkarMoveTo('Power of the build API',2);">Power of the build API</a>
-          <ul class="main-menu">
+        <li class="liexpandable"><a href="javascript:jerkarMoveTo('Power of the build API',2);">Power of the build API</a>
+          <ul class="sub-menu">
             <li><a href="javascript:jerkarMoveTo('File manipulation & selection',3);">File manipulation & selection</a></li>
             <li><a href="javascript:jerkarMoveTo('Process launching',3);">Process launching</a></li>
             <li><a href="javascript:jerkarMoveTo('Java classpath, classloader and runtime operations',3);">Java classpath, classloader and ru...</a></li>
@@ -338,6 +338,24 @@ JkClassLoader.current().loadClasses(&quot;com/mypack/**/*&quot;);
     <script src="js/jquery-1.11.1.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/prettify.js"></script>
+ 	<script>
+ 	    lastSelect = null;
+    	$('.liexpandable').click(function(evt) {
+    		var li = $(evt.target).parents("li").first();
+    		var ul = li.find(".sub-menu").first();
+    		console.log(ul.is(':visible'));
+    		evt.stopPropagation();
+    		console.log(li);
+    		console.log(lastSelect);
+    		if (li.first() == lastSelect) alert("same!!!!!!!!!!!!!!!!");
+    		if (ul.is(':visible') && li !== lastSelect) {
+    			lastSelect = li.first();
+    			return;
+    		}
+    		lastSelect = li.first;
+      		ul.toggle();
+ 		});
+    </script>
     
   </body>
 </html>

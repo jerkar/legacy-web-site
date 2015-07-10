@@ -32,12 +32,14 @@
 .main-menu ul {
 	padding-left:0px;	
 	margin-left:15px;
-	list-style-type: none;
+	list-style-type:none;
+	display:none;
 }
 
 .sub-menu ul {
 	padding-left:0px;	
 	margin-left:15px;
-	list-style-type: none;
+	list-style-type:none;
+	display:none;
 }
 

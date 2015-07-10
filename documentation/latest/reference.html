@@ -80,11 +80,11 @@
 	<div id="sidebar-menu" class="col-md-3 hidden-xs hidden-sm">
     <ul class="main-menu nav nav-stacked affix">
         <li><a href="javascript:jerkarMoveTo('Introduction',2);">Introduction</a></li>
-        <li><a href="javascript:jerkarMoveTo('Build Configuration',2);">Build Configuration</a>
-          <ul class="main-menu">
+        <li class="liexpandable"><a href="javascript:jerkarMoveTo('Build Configuration',2);">Build Configuration</a>
+          <ul class="sub-menu">
             <li><a href="javascript:jerkarMoveTo('Environment variables',3);">Environment variables</a></li>
             <li><a href="javascript:jerkarMoveTo('System properties',3);">System properties</a></li>
-            <li><a href="javascript:jerkarMoveTo('Jerkar options',3);">Jerkar options</a>
+            <li class="liexpandable"><a href="javascript:jerkarMoveTo('Jerkar options',3);">Jerkar options</a>
               <ul class="sub-menu">
                 <li><a href="javascript:jerkarMoveTo('Standars options',4);">Standars options</a></li>
                 <li><a href="javascript:jerkarMoveTo('How to retrieve Jerkar options ?',4);">How to retrieve Jerkar options ?</a></li>
@@ -94,14 +94,14 @@
             </li>
           </ul>
         </li>
-        <li><a href="javascript:jerkarMoveTo('Dependency Management',2);">Dependency Management</a>
-          <ul class="main-menu">
+        <li class="liexpandable"><a href="javascript:jerkarMoveTo('Dependency Management',2);">Dependency Management</a>
+          <ul class="sub-menu">
             <li><a href="javascript:jerkarMoveTo('What is a dependency ?',3);">What is a dependency ?</a></li>
             <li><a href="javascript:jerkarMoveTo('What is a scope ?',3);">What is a scope ?</a></li>
-            <li><a href="javascript:jerkarMoveTo('Define dependencies for a project',3);">Define dependencies for a project</a>
+            <li class="liexpandable"><a href="javascript:jerkarMoveTo('Define dependencies for a project',3);">Define dependencies for a project</a>
               <ul class="sub-menu">
                 <li><a href="javascript:jerkarMoveTo('Define scopes',4);">Define scopes</a></li>
-                <li><a href="javascript:jerkarMoveTo('Defining individual dependency',4);">Defining individual dependency</a>
+                <li class="liexpandable"><a href="javascript:jerkarMoveTo('Defining individual dependency',4);">Defining individual dependency</a>
                   <ul class="sub-menu">
                     <li><a href="javascript:jerkarMoveTo('File system dependencies',5);">File system dependencies</a></li>
                     <li><a href="javascript:jerkarMoveTo('Project dependencies',5);">Project dependencies</a></li>
@@ -255,6 +255,24 @@ public static final JkScope TEST = JkScope.of(&quot;test&quot;).extending(RUNTIM
     <script src="../../js/jquery-1.11.1.min.js"></script>
     <script src="../../js/bootstrap.min.js"></script>
     <script src="../../js/prettify.js"></script>
+ 	<script>
+ 	    lastSelect = null;
+    	$('.liexpandable').click(function(evt) {
+    		var li = $(evt.target).parents("li").first();
+    		var ul = li.find(".sub-menu").first();
+    		console.log(ul.is(':visible'));
+    		evt.stopPropagation();
+    		console.log(li);
+    		console.log(lastSelect);
+    		if (li.first() == lastSelect) alert("same!!!!!!!!!!!!!!!!");
+    		if (ul.is(':visible') && li !== lastSelect) {
+    			lastSelect = li.first();
+    			return;
+    		}
+    		lastSelect = li.first;
+      		ul.toggle();
+ 		});
+    </script>
     
   </body>
 </html>

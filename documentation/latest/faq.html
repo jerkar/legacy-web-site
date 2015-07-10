@@ -79,8 +79,8 @@
 	<p>
 	<div id="sidebar-menu" class="col-md-3 hidden-xs hidden-sm">
     <ul class="main-menu nav nav-stacked affix">
-        <li><a href="javascript:jerkarMoveTo('Questions about exceptions launched when Jerkar is running',2);">Questions about exceptions launched ...</a>
-          <ul class="main-menu">
+        <li class="liexpandable"><a href="javascript:jerkarMoveTo('Questions about exceptions launched when Jerkar is running',2);">Questions about exceptions launched ...</a>
+          <ul class="sub-menu">
             <li><a href="javascript:jerkarMoveTo('Get Provider org.apache.xerces.jaxp.SAXParserFactoryImpl not found exception. What can i do ?',3);">Get Provider org.apache.xerces.jax...</a></li>
           </ul>
         </li>
@@ -126,6 +126,24 @@ function jerkarMoveTo(title, level) {
     <script src="../../js/jquery-1.11.1.min.js"></script>
     <script src="../../js/bootstrap.min.js"></script>
     <script src="../../js/prettify.js"></script>
+ 	<script>
+ 	    lastSelect = null;
+    	$('.liexpandable').click(function(evt) {
+    		var li = $(evt.target).parents("li").first();
+    		var ul = li.find(".sub-menu").first();
+    		console.log(ul.is(':visible'));
+    		evt.stopPropagation();
+    		console.log(li);
+    		console.log(lastSelect);
+    		if (li.first() == lastSelect) alert("same!!!!!!!!!!!!!!!!");
+    		if (ul.is(':visible') && li !== lastSelect) {
+    			lastSelect = li.first();
+    			return;
+    		}
+    		lastSelect = li.first;
+      		ul.toggle();
+ 		});
+    </script>
     
   </body>
 </html>

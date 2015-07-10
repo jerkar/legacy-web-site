@@ -90,12 +90,14 @@ public class ImplicitMenu {
 		StringBuilder builder = new StringBuilder();
 		String indent = JkUtilsString.repeat(INDENT, item.level);
 		builder.append(indent);
-		builder.append("<li><a href=\""+action(item)).append("\">")
+		boolean hasChild = !item.children.isEmpty();
+		String liClass = hasChild ? " class=\"liexpandable\"" : "";
+		builder.append("<li" + liClass + "><a href=\""+action(item)).append("\">")
 			.append(JkUtilsString.elipse(item.name, 40 - item.level*2)).append("</a>");
-		if (item.children.isEmpty()) {
+		if (!hasChild) {
 			builder.append("</li>\n");
 		} else {
-			String classname = first ? "main-menu" : "sub-menu";
+			String classname = "sub-menu";
 			builder.append("\n").append(indent).append("  ")
 			.append("<ul class=\""+ classname + "\">\n");
 			for (Item child : item.children) {

@@ -16,6 +16,24 @@
     <script src="<#if (content.rootpath)??>${content.rootpath}<#else></#if>js/jquery-1.11.1.min.js"></script>
     <script src="<#if (content.rootpath)??>${content.rootpath}<#else></#if>js/bootstrap.min.js"></script>
     <script src="<#if (content.rootpath)??>${content.rootpath}<#else></#if>js/prettify.js"></script>
+ 	<script>
+ 	    lastSelect = null;
+    	$('.liexpandable').click(function(evt) {
+    		var li = $(evt.target).parents("li").first();
+    		var ul = li.find(".sub-menu").first();
+    		console.log(ul.is(':visible'));
+    		evt.stopPropagation();
+    		console.log(li);
+    		console.log(lastSelect);
+    		if (li.first() == lastSelect) alert("same!!!!!!!!!!!!!!!!");
+    		if (ul.is(':visible') && li !== lastSelect) {
+    			lastSelect = li.first();
+    			return;
+    		}
+    		lastSelect = li.first;
+      		ul.toggle();
+ 		});
+    </script>
     
   </body>
 </html>
