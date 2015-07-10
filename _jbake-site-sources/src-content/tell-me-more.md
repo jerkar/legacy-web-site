@@ -20,7 +20,7 @@ As a **build framework** it provides :
 * full compatibility with **_Maven_ and _Ivy_** (Jerkar uses <a href="http://ant.apache.org/ivy">Ivy</a> under the hood)
 * powerfull **multi-project** support
 * a set of **conventions** that, in common cases, allows Jerkar to deduce everything from your project structure (not a single line of script/configuration required for building your project)
-* built-in plugins for ***Eclipse***, ***Jacoco*** or ***SonarQube***
+* built-in plugins for ***Eclipse***, ***Jacoco*** and ***SonarQube***
 * ability to get project build information from the **IDE meta-data** (Eclipse _.classpath_ for example)
 * **scaffolding** for creating projects from scratch
 
