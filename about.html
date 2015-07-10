@@ -113,11 +113,11 @@
     		console.log(li);
     		console.log(lastSelect);
     		if (li.first() == lastSelect) alert("same!!!!!!!!!!!!!!!!");
-    		if (ul.is(':visible') && li !== lastSelect) {
-    			lastSelect = li.first();
+    		if (ul.is(':visible') && li.html() !== lastSelect) {
+    			lastSelect = li.html();
     			return;
     		}
-    		lastSelect = li.first;
+    		lastSelect = li.html();
       		ul.toggle();
  		});
     </script>
