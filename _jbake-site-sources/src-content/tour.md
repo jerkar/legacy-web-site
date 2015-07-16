@@ -320,7 +320,7 @@ JkClassLoader.current().loadClasses("com/mypack/**/*");
 
 This class provides also methods to perform cross class-loader calls friendly.
 
-#### Lauching Java programs
+#### Running Java programs
 
 `JkJavaProcess` is a Java specific flavor of `JkProcess`. 
 
@@ -336,7 +336,7 @@ Jerkar provides Fluent API for addressing build of Java projects.
 
 #### Compile Java
 
-The `JkJavaComiler` class allows to compile Java sources.
+The `JkJavaComiler` helps to compile Java sources.
 
 ```
 JkJavaCompiler.ofOutput(classDir).withClasspath(classpath).andSourceDir(src).compile();
@@ -344,10 +344,10 @@ JkJavaCompiler.ofOutput(classDir).withClasspath(classpath).andSourceDir(src).com
 
 #### Junit
 
-The `JkUnit` class allow to run Junit tests with flexible settings.
+The `JkUnit` helps to run Junit tests with flexible settings.
 
 ```
-JkUnit.ofFork(classpath.and(jarFile))
+JkUnit.of(classpath.and(classDir))
     .withClassesToTest(JkFileTree.of(classDir).include("**/*Test.class"))
     .withReportDir(reportDir)
     .withReport(JunitReportDetail.FULL)
@@ -359,18 +359,18 @@ You can also enhance the Junit process for performing Jacoco test coverage :
 
 
 ```
-JkUnit.ofFork(classpath.and(jarFile))
+JkUnit.of(classpath.and(classDir))
     .withClassesToTest(JkFileTree.of(classDir).include("**/*Test.class"))
     .withReportDir(reportDir)
     .withEnhancer(JkocoJunitEnhancer.of(reportDir))
     .run();
 ```
 
-This will launch Junit with Jacoco Agent and produce the coverage report in the __reportDir__.
+This run Junit with Jacoco Agent and produces the coverage report in the _reportDir_.
 
 ### Dependency Management
 
-For resolving dependencies you will mainly deal with following classes `JkScope`, `JkRepo`, `JkRepos`, 
+For resolving dependencies you mainly deal with following classes : `JkScope`, `JkRepo`, `JkRepos`, 
 `JkDependencies`, `JkModuleId`, `JkDependencyResolver` 
 
 ```
@@ -406,12 +406,12 @@ Files signatures[] = pgp.sign(myFileToSign1, myFileToSign2);
 boolean signatureOk = pgp.verify(signedFile, signatureFile);
 ```
 
-Note that you don't need to have PGP installed. This is achieved by using __bouncy Castle__ under the hood.
+Note that you don't need to have PGP installed. This is achieved by using [Bouncy Castle](https://www.bouncycastle.org) under the hood.
 
 
 ### SonarQube
 
-You can run SonarQube analysis using the `JkSonar`class :
+You can run SonarQube analysis using the `JkSonar` class :
 
 ```
 JkSonar.of(projectKey, projectName, projectVersion)
