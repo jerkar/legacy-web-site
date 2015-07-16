@@ -98,12 +98,27 @@
             <li><a href="javascript:jerkarMoveTo('Examples',3);">Examples</a></li>
           </ul>
         </li>
-        <li class="liexpandable"><a href="javascript:jerkarMoveTo('Power of the build API',2);">Power of the build API</a>
+        <li class="liexpandable"><a href="javascript:jerkarMoveTo('Build API',2);">Build API</a>
           <ul class="sub-menu">
             <li><a href="javascript:jerkarMoveTo('File manipulation & selection',3);">File manipulation & selection</a></li>
             <li><a href="javascript:jerkarMoveTo('Process launching',3);">Process launching</a></li>
-            <li><a href="javascript:jerkarMoveTo('Java classpath, classloader and runtime operations',3);">Java classpath, classloader and ru...</a></li>
-            <li><a href="javascript:jerkarMoveTo('Java build API',3);">Java build API</a></li>
+            <li class="liexpandable"><a href="javascript:jerkarMoveTo('Java core stuffs',3);">Java core stuffs</a>
+              <ul class="sub-menu">
+                <li><a href="javascript:jerkarMoveTo('Classpaths',4);">Classpaths</a></li>
+                <li><a href="javascript:jerkarMoveTo('Class loarders',4);">Class loarders</a></li>
+                <li><a href="javascript:jerkarMoveTo('Lauching Java programs',4);">Lauching Java programs</a></li>
+              </ul>
+            </li>
+            <li class="liexpandable"><a href="javascript:jerkarMoveTo('Java build API',3);">Java build API</a>
+              <ul class="sub-menu">
+                <li><a href="javascript:jerkarMoveTo('Compile Java',4);">Compile Java</a></li>
+                <li><a href="javascript:jerkarMoveTo('Junit',4);">Junit</a></li>
+              </ul>
+            </li>
+            <li><a href="javascript:jerkarMoveTo('Dependency Management',3);">Dependency Management</a></li>
+            <li><a href="javascript:jerkarMoveTo('Publication ',3);">Publication </a></li>
+            <li><a href="javascript:jerkarMoveTo('Cryptography',3);">Cryptography</a></li>
+            <li><a href="javascript:jerkarMoveTo('SonarQube',3);">SonarQube</a></li>
           </ul>
         </li>
     </ul>
@@ -125,7 +140,7 @@ function jerkarMoveTo(title, level) {
     }, 200);
 }
 </script><p><div id="static-content" class="col-md-9"></p><h1>Enjoy the Jerkar tour !</h1>
-<hr/><p>This page will give you a concrete idea on how Jerkar is working and what you can do with.</p><h2>Principles</h2><p>Jerkar is quite simpe in its principle. You write a class extending <code>org.jerkar.tool.JkBuild</code> in the <em>build/def</em> folder of your project then you can execute any public zero arg methods from the command line by executing <code>jerkar myMethod1 myOtherMethod</code> at the root folder of your project.<br/>To accomplish this, Jerkar :</p>
+<hr/><p>This page will give you a concrete idea on how Jerkar is working and what you can do with.</p><h2>Principles</h2><p>Jerkar is quite simpe in its principle. You write a class extending <code>org.jerkar.tool.JkBuild</code> in the <em>build/def</em> folder of your project then you can execute any public zero arg methods from the command line by executing <code>jerkar myMethod1 myOtherMethod</code> at the root folder of your project. To accomplish this, Jerkar :</p>
 <ul>
   <li>compiles every java sources found under the <em>build/def</em> folder</li>
   <li>instantiates the first compiled class found implementing <code>org.jerkar.tool.JkBuild</code>. If none the <code>org.jerkar.tool.builtins.templates.javabuild.JkJavaBuild</code> class is instantiated</li>
@@ -287,7 +302,7 @@ public class DistribAllBuild extends JkBuildDependencySupport {
   <li><code>jerkar</code> = <code>jerkar doDefault</code> = <code>jerkar doPack</code></li>
 </ul><p>These taskscan be parametrized :</p>
 <ul>
-  <li><code>jerkar -fatJar=true -forkTests=true</code> = <code>doPack</code> but forking the unit tests and produce a fat jar</li>
+  <li><code>jerkar -fatJar=true -forkTests=true</code> = <code>jerkar doPack</code> + forking the unit tests and produce a fat jar</li>
 </ul><p>The last will result in the following artifact creation :<br/><img src="img/output.png" alt="Created artifacts""/></p><h3>Plugin tasks</h3><p>Template classes (<code>JkBuild</code> and <code>JkJavaBuild</code>) enable plugability by providing hooks on several methods.<br/>A plugin is just a class extending <code>JkBuildPlugin</code> or <code>JkJavaBuildPlugin</code> and overriding default hook methods. Plugins can also provide their own methods.</p>
 <ul>
   <li>To activate a plugin on the command line, just mention the name of the plugin followed by a <code>#</code>.</li>
@@ -297,25 +312,73 @@ public class DistribAllBuild extends JkBuildDependencySupport {
 </ul><h3>Examples</h3><p>Jerkar is shipped with <a href="http://eclipse.org/">Eclipse</a>, <a href="http://www.eclemma.org/jacoco">Jacoco</a> and <a href="http://www.sonarqube.org/">SonarQube</a> plugins out of the box.<br/>This is how you can leverage these plugins : </p>
 <ul>
   <li><code>jerkar jacoco#</code> : does <code>doDefault</code> but unit tests will be instrumented by Jacoco code coverage tool</li>
-  <li><code>jerkar jacoco# -jacoco#produceHtml</code> : same but also set the <code>JkBuildPluginJacoco#produceHtml</code> field to <code>true</code>. It leads in producing<br/>an html report along the standard jacoco.exec binary report</li>
+  <li><code>jerkar jacoco# -jacoco#produceHtml</code> : same but also set the <code>JkBuildPluginJacoco#produceHtml</code> field to <code>true</code>. It leads in producing an html report along the standard jacoco.exec binary report</li>
   <li><p><code>jerkar doDefault sonar#verify</code> : does the default + execute the <code>verify</code> method located in the sonar plugin (launch a sonar analysis)<br/>Analysis is launched on a local SonarQube server unless you specify specific Sonar settings. Sonar will leverage of jacoco report</p></li>
   <li><code>jerkar doDefault verify sonar# jacoco#</code> : launches the <code>doDefault</code> and <code>verify</code> methods and activates the jacoco and sonar plugins. Sonar plugin hooks the <code>JkBuild verify</code> method by launching a SonarQube analysis</li>
-</ul><h2>Power of the build API</h2><p>Jerkar framework comes with a fluent style API making a joy to perform all kind of thing generally encountered in build domain.<br/>Almost all classes coming from this API are <strong>immutable</strong> providing a high degree of robustness and reusability.</p><p>To have more insight, please visit <a href="http://jerkar.github.io/javadoc/latest/index.html">Javadoc</a>.</p><h3>File manipulation &amp; selection</h3><p>The <code>JkFileTree</code> class allow to define a set of files having a common root folder and to performs numerous operation on.<br/>The following code, show how to construct a <em>war</em> file from dispersed elements.</p>
+</ul><h2>Build API</h2><p>Jerkar framework comes with a fluent style API making a joy to perform all kind of thing generally encountered in build domain.<br/>Almost all classes coming from this API are <strong>immutable</strong> providing a high degree of robustness and reusability.</p><p>The follow will give you some ideas of what you can accomplish with this API. To have more insight, please visit <a href="http://jerkar.github.io/javadoc/latest/index.html">Javadoc</a>.</p><h3>File manipulation &amp; selection</h3><p>The <code>JkFileTree</code> class allow to define a set of files having a common root folder and to performs numerous operation on.<br/>The following code, show how to construct a <em>war</em> file from dispersed elements.</p>
 <pre><code>JkFileTree war = JkFileTree.of(warDir).importDirContent(webappContentDir)
 	.from(&quot;WEB-INF/classes&quot;).importDirContent(build.classDir())
 	.from(&quot;../lib&quot;).importFiles(JkFileTree.of(libDir).include(&quot;**/*.jar&quot;);
 war.zip().to(warFileDest);
 </code></pre><p><code>from</code> method returns another <code>JkFileTree</code> but rooted at the specified relative path.<br/><code>importXxx</code> method copies specified element at the root of the file tree.</p><p><code>JkFileTreeSet</code>, <code>JkPath</code> (sequence of files), <code>JkZipper</code>, <code>JkFileFilter</code> and <code>JkUtilsFile</code> are the other players for manipulate files.<br/>All belong to <code>org.jerkar.api.file</code> package.</p><h3>Process launching</h3><p>The <code>JkProcess</code> class provides super easy way to launch external process.<br/>The follow show how to launch a Maven process on the project located at <strong>projectBaseDir</strong>.</p>
 <pre><code>JkProcess.of(&quot;mvn&quot;, &quot;clean&quot;,&quot;install&quot;,&quot;-U&quot;)
-			.andParameters(JkOptions.isVerbose(), &quot;-X&quot;)
-			.withWorkingDir(projectBaseDir)
-			.failOnError(true)
-			.runSync();
-</code></pre><h3>Java classpath, classloader and runtime operations</h3><p><code>JkClasspath</code> allows to construct class-paths and perform queries or get string representations.<br/>For example, the follow creates a classpath taking in account all jar under the <strong>extraLibs</strong> folder,<br/>then returns the first one containing the <code>my.SearchedClass</code> class.<br/><code>
-File jar = JkClasspath.of(JkDirSet.of(baseDir(&quot;extraLibs&quot;)).including(&quot;**/*.jar)).getEntryContainingClass(&quot;my.SearchedClass&quot;); 
-</code></p><p><code>JkClassloader</code> allows to get or construct class-loaders then scan the class-path or invoke methods within. </p><p>For example, the follow get the current class loader and loads every class having a package starting by <code>com.mypack</code><br/><code>
-JkClassLoader.current().loadClasses(&quot;com/mypack/**/*&quot;);
-</code><br/>This class provides also methods to perform cross class-loader calls friendly.</p><p><code>JkJavaProcess</code> is a Java specific flavor of <code>JkProcess</code>. </p><h3>Java build API</h3><p>Jerkar provides Fluent API for addressing build of Java projects.</p><p></div> <!--end of wrapper div --> </p>
+    .andParameters(JkOptions.isVerbose(), &quot;-X&quot;)
+    .withWorkingDir(projectBaseDir)
+    .failOnError(true)
+    .runSync();
+</code></pre><h3>Java core stuffs</h3><h4>Classpaths</h4><p><code>JkClasspath</code> allows to construct class-paths and perform queries or get string representations.<br/>For example, the follow creates a classpath taking in account all jar under the <strong>extraLibs</strong> folder,<br/>then returns the first one containing the <code>my.SearchedClass</code> class.</p>
+<pre><code>File jar = JkClasspath.of(lib1, lb2, lib3).getEntryContainingClass(&quot;my.SearchedClass&quot;); 
+</code></pre><h4>Class loarders</h4><p><code>JkClassloader</code> allows to get or construct class-loaders then scan the class-path or invoke methods within. </p><p>For example, the follow get the current class loader and loads every class having a package starting by <code>com.mypack</code></p>
+<pre><code>JkClassLoader.current().loadClasses(&quot;com/mypack/**/*&quot;);
+</code></pre><p>This class provides also methods to perform cross class-loader calls friendly.</p><h4>Lauching Java programs</h4><p><code>JkJavaProcess</code> is a Java specific flavor of <code>JkProcess</code>. </p>
+<pre><code>JkJavaProcess.of().withWorkingDir(myWorkingDir)
+    .andClasspath(mtClasspath).runJarSync(myJarFile);
+</code></pre><h3>Java build API</h3><p>Jerkar provides Fluent API for addressing build of Java projects.</p><h4>Compile Java</h4><p>The <code>JkJavaComiler</code> class allows to compile Java sources.</p>
+<pre><code>JkJavaCompiler.ofOutput(classDir).withClasspath(classpath).andSourceDir(src).compile();
+</code></pre><h4>Junit</h4><p>The <code>JkUnit</code> class allow to run Junit tests with flexible settings.</p>
+<pre><code>JkUnit.ofFork(classpath.and(jarFile))
+    .withClassesToTest(JkFileTree.of(classDir).include(&quot;**/*Test.class&quot;))
+    .withReportDir(reportDir)
+    .withReport(JunitReportDetail.FULL)
+    .forked(true)
+    .run();
+</code></pre><p>You can also enhance the Junit process for performing Jacoco test coverage :</p>
+<pre><code>JkUnit.ofFork(classpath.and(jarFile))
+    .withClassesToTest(JkFileTree.of(classDir).include(&quot;**/*Test.class&quot;))
+    .withReportDir(reportDir)
+    .withEnhancer(JkocoJunitEnhancer.of(reportDir))
+    .run();
+</code></pre><p>This will launch Junit with Jacoco Agent and produce the coverage report in the <strong>reportDir</strong>.</p><h3>Dependency Management</h3><p>For resolving dependencies you will mainly deal with following classes <code>JkScope</code>, <code>JkRepo</code>, <code>JkRepos</code>,<br/><code>JkDependencies</code>, <code>JkModuleId</code>, <code>JkDependencyResolver</code> </p>
+<pre><code>// Define the main module
+JkVersionedModule versionedModule = JkModuleId.of(&quot;myGroup&quot;,&quot;myName&quot;).version(&quot;1.2&quot;);
+
+// Create a repo for getting artifacts
+JkRepos repos = JkRepos.maven(&quot;http://my.main.repo&quot;);
+
+// Define dependencies
+JkDependencies dependencies = JkDependencies.builder()
+	.on(GUAVA, &quot;18.0&quot;).scope(JkJavaBuild.COMPILE)
+	.on(JUNIT, &quot;4.11&quot;).scope(JKJavaBuild.TEST)
+	.build();
+
+// Resolve and get the dependencies as file sequence
+Iterable&lt;File&gt; depFiles = JkDependencyrResolver.managed(repos, dependencies, versionedModule)
+	.get(JKJavaBuild.TEST);
+
+</code></pre><h3>Publication</h3><h3>Cryptography</h3><p>You can sign files or check signature with PGP using the <code>JkPgp</code> class. </p>
+<pre><code>JkPgp pgp = JkPgp.ofSecretRing(publicRingKeyFile, privateRingKeyFile, secret);
+Files signatures[] = pgp.sign(myFileToSign1, myFileToSign2); 
+boolean signatureOk = pgp.verify(signedFile, signatureFile);
+</code></pre><p>Note that you don't need to have PGP installed. This is achieved by using <strong>bouncy Castle</strong> under the hood.</p><h3>SonarQube</h3><p>You can run SonarQube analysis using the <code>JkSonar</code>class :</p>
+<pre><code>JkSonar.of(projectKey, projectName, projectVersion)
+    .withProjectBaseDir(baseDir) 
+    .withBinaries(binDir)
+    .withLibraries(libs)
+    .withSources(sourceDirs)
+    .withProperty(JkSonar.JUNIT_REPORTS_PATH, junitReportDir)
+    .withProperty(JkSonar.JACOCO_REPORTS_PATH, jacocoexecReportFile)
+    .run();
+</code></pre>
 	</p>
 
 	<hr />

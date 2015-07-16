@@ -4,8 +4,7 @@
 This page will give you a concrete idea on how Jerkar is working and what you can do with.
 
 ## Principles
-Jerkar is quite simpe in its principle. You write a class extending `org.jerkar.tool.JkBuild` in the _build/def_ folder of your project then you can execute any public zero arg methods from the command line by executing `jerkar myMethod1 myOtherMethod` at the root folder of your project.
-To accomplish this, Jerkar :
+Jerkar is quite simpe in its principle. You write a class extending `org.jerkar.tool.JkBuild` in the _build/def_ folder of your project then you can execute any public zero arg methods from the command line by executing `jerkar myMethod1 myOtherMethod` at the root folder of your project. To accomplish this, Jerkar :
 
 * compiles every java sources found under the _build/def_ folder
 * instantiates the first compiled class found implementing `org.jerkar.tool.JkBuild`. If none the `org.jerkar.tool.builtins.templates.javabuild.JkJavaBuild` class is instantiated
@@ -231,7 +230,7 @@ Whitout omitting the shorthands :
 
 These taskscan be parametrized :
 
-- `jerkar -fatJar=true -forkTests=true` = `doPack` but forking the unit tests and produce a fat jar
+- `jerkar -fatJar=true -forkTests=true` = `jerkar doPack` + forking the unit tests and produce a fat jar
 
 The last will result in the following artifact creation :
 ![Created artifacts](img/output.png)
@@ -252,20 +251,19 @@ Jerkar is shipped with [Eclipse](http://eclipse.org/), [Jacoco](http://www.eclem
 This is how you can leverage these plugins : 
 
 - `jerkar jacoco#` : does `doDefault` but unit tests will be instrumented by Jacoco code coverage tool  
-- `jerkar jacoco# -jacoco#produceHtml` : same but also set the `JkBuildPluginJacoco#produceHtml` field to `true`. It leads in producing 
-an html report along the standard jacoco.exec binary report
+- `jerkar jacoco# -jacoco#produceHtml` : same but also set the `JkBuildPluginJacoco#produceHtml` field to `true`. It leads in producing an html report along the standard jacoco.exec binary report
 
 - `jerkar doDefault sonar#verify` : does the default + execute the `verify` method located in the sonar plugin (launch a sonar analysis)
 Analysis is launched on a local SonarQube server unless you specify specific Sonar settings. Sonar will leverage of jacoco report
 - `jerkar doDefault verify sonar# jacoco#` : launches the `doDefault` and `verify` methods and activates the jacoco and sonar plugins. Sonar plugin hooks the `JkBuild verify` method by launching a SonarQube analysis
 
 
-## Power of the build API
+## Build API
 
 Jerkar framework comes with a fluent style API making a joy to perform all kind of thing generally encountered in build domain.
 Almost all classes coming from this API are <strong>immutable</strong> providing a high degree of robustness and reusability.
 
-To have more insight, please visit [Javadoc](http://jerkar.github.io/javadoc/latest/index.html).
+The follow will give you some ideas of what you can accomplish with this API. To have more insight, please visit [Javadoc](http://jerkar.github.io/javadoc/latest/index.html).
 
 ### File manipulation & selection
 
@@ -292,34 +290,136 @@ The follow show how to launch a Maven process on the project located at __projec
 
 ```
 JkProcess.of("mvn", "clean","install","-U")
-			.andParameters(JkOptions.isVerbose(), "-X")
-			.withWorkingDir(projectBaseDir)
-			.failOnError(true)
-			.runSync();
+    .andParameters(JkOptions.isVerbose(), "-X")
+    .withWorkingDir(projectBaseDir)
+    .failOnError(true)
+    .runSync();
 ```
 
-### Java classpath, classloader and runtime operations
+### Java core stuffs
+
+#### Classpaths
 
 `JkClasspath` allows to construct class-paths and perform queries or get string representations.
 For example, the follow creates a classpath taking in account all jar under the __extraLibs__ folder, 
 then returns the first one containing the `my.SearchedClass` class.
+
 ```
-File jar = JkClasspath.of(JkDirSet.of(baseDir("extraLibs")).including("**/*.jar)).getEntryContainingClass("my.SearchedClass"); 
+File jar = JkClasspath.of(lib1, lb2, lib3).getEntryContainingClass("my.SearchedClass"); 
 ```
+
+#### Class loarders
 
 `JkClassloader` allows to get or construct class-loaders then scan the class-path or invoke methods within. 
 
 For example, the follow get the current class loader and loads every class having a package starting by `com.mypack`
+
 ```
 JkClassLoader.current().loadClasses("com/mypack/**/*");
 ```
+
 This class provides also methods to perform cross class-loader calls friendly.
 
+#### Lauching Java programs
+
 `JkJavaProcess` is a Java specific flavor of `JkProcess`. 
+
+```
+JkJavaProcess.of().withWorkingDir(myWorkingDir)
+    .andClasspath(mtClasspath).runJarSync(myJarFile);
+```			
 
 
 ### Java build API
 
 Jerkar provides Fluent API for addressing build of Java projects.
 
+#### Compile Java
 
+The `JkJavaComiler` class allows to compile Java sources.
+
+```
+JkJavaCompiler.ofOutput(classDir).withClasspath(classpath).andSourceDir(src).compile();
+```
+
+#### Junit
+
+The `JkUnit` class allow to run Junit tests with flexible settings.
+
+```
+JkUnit.ofFork(classpath.and(jarFile))
+    .withClassesToTest(JkFileTree.of(classDir).include("**/*Test.class"))
+    .withReportDir(reportDir)
+    .withReport(JunitReportDetail.FULL)
+    .forked(true)
+    .run();
+```
+
+You can also enhance the Junit process for performing Jacoco test coverage :
+
+
+```
+JkUnit.ofFork(classpath.and(jarFile))
+    .withClassesToTest(JkFileTree.of(classDir).include("**/*Test.class"))
+    .withReportDir(reportDir)
+    .withEnhancer(JkocoJunitEnhancer.of(reportDir))
+    .run();
+```
+
+This will launch Junit with Jacoco Agent and produce the coverage report in the __reportDir__.
+
+### Dependency Management
+
+For resolving dependencies you will mainly deal with following classes `JkScope`, `JkRepo`, `JkRepos`, 
+`JkDependencies`, `JkModuleId`, `JkDependencyResolver` 
+
+```
+// Define the main module
+JkVersionedModule versionedModule = JkModuleId.of("myGroup","myName").version("1.2");
+
+// Create a repo for getting artifacts
+JkRepos repos = JkRepos.maven("http://my.main.repo");
+
+// Define dependencies
+JkDependencies dependencies = JkDependencies.builder()
+	.on(GUAVA, "18.0").scope(JkJavaBuild.COMPILE)
+	.on(JUNIT, "4.11").scope(JKJavaBuild.TEST)
+	.build();
+
+// Resolve and get the dependencies as file sequence
+Iterable<File> depFiles = JkDependencyrResolver.managed(repos, dependencies, versionedModule)
+	.get(JKJavaBuild.TEST);
+
+```
+
+### Publication 
+
+
+
+### Cryptography
+
+You can sign files or check signature with PGP using the  `JkPgp` class. 
+
+```
+JkPgp pgp = JkPgp.ofSecretRing(publicRingKeyFile, privateRingKeyFile, secret);
+Files signatures[] = pgp.sign(myFileToSign1, myFileToSign2); 
+boolean signatureOk = pgp.verify(signedFile, signatureFile);
+```
+
+Note that you don't need to have PGP installed. This is achieved by using __bouncy Castle__ under the hood.
+
+
+### SonarQube
+
+You can run SonarQube analysis using the `JkSonar`class :
+
+```
+JkSonar.of(projectKey, projectName, projectVersion)
+    .withProjectBaseDir(baseDir) 
+    .withBinaries(binDir)
+    .withLibraries(libs)
+    .withSources(sourceDirs)
+    .withProperty(JkSonar.JUNIT_REPORTS_PATH, junitReportDir)
+    .withProperty(JkSonar.JACOCO_REPORTS_PATH, jacocoexecReportFile)
+    .run();
+```
