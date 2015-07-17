@@ -392,8 +392,17 @@ Iterable<File> depFiles = JkDependencyrResolver.managed(repos, dependencies, ver
 
 ```
 
-### Publication 
+You can also adopt a more direct approach by getting dependency files directly from the repositories  :
 
+```
+// Getting files of Spring and its transitive dependencies
+Iterable<File> springFiles = JkRepos.maven("http://my.main.repo")
+	.get("org.springframework:spring-core:3.0.+", true);
+```
+
+### Publication
+
+Jerkar can publish artifacts in both _Maven_ and _Ivy_ repository. 
 
 
 ### Cryptography
@@ -401,7 +410,7 @@ Iterable<File> depFiles = JkDependencyrResolver.managed(repos, dependencies, ver
 You can sign files or check signature with PGP using the  `JkPgp` class. 
 
 ```
-JkPgp pgp = JkPgp.ofSecretRing(publicRingKeyFile, privateRingKeyFile, secret);
+JkPgp pgp = JkPgp.of(publicRingKeyFile, privateRingKeyFile, secret);
 Files signatures[] = pgp.sign(myFileToSign1, myFileToSign2); 
 boolean signatureOk = pgp.verify(signedFile, signatureFile);
 ```
@@ -423,3 +432,5 @@ JkSonar.of(projectKey, projectName, projectVersion)
     .withProperty(JkSonar.JACOCO_REPORTS_PATH, jacocoexecReportFile)
     .run();
 ```
+
+<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>

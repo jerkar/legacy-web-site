@@ -116,7 +116,7 @@
               </ul>
             </li>
             <li><a href="javascript:jerkarMoveTo('Dependency Management',3);">Dependency Management</a></li>
-            <li><a href="javascript:jerkarMoveTo('Publication ',3);">Publication </a></li>
+            <li><a href="javascript:jerkarMoveTo('Publication',3);">Publication</a></li>
             <li><a href="javascript:jerkarMoveTo('Cryptography',3);">Cryptography</a></li>
             <li><a href="javascript:jerkarMoveTo('SonarQube',3);">SonarQube</a></li>
           </ul>
@@ -365,8 +365,12 @@ JkDependencies dependencies = JkDependencies.builder()
 Iterable&lt;File&gt; depFiles = JkDependencyrResolver.managed(repos, dependencies, versionedModule)
 	.get(JKJavaBuild.TEST);
 
-</code></pre><h3>Publication</h3><h3>Cryptography</h3><p>You can sign files or check signature with PGP using the <code>JkPgp</code> class. </p>
-<pre><code>JkPgp pgp = JkPgp.ofSecretRing(publicRingKeyFile, privateRingKeyFile, secret);
+</code></pre><p>You can also adopt a more direct approach by getting dependency files directly from the repositories :</p>
+<pre><code>// Getting files of Spring and its transitive dependencies
+Iterable&lt;File&gt; springFiles = JkRepos.maven(&quot;http://my.main.repo&quot;)
+	.get(&quot;org.springframework:spring-core:3.0.+&quot;, true);
+</code></pre><h3>Publication</h3><p>Jerkar can publish artifacts in both <em>Maven</em> and <em>Ivy</em> repository. </p><h3>Cryptography</h3><p>You can sign files or check signature with PGP using the <code>JkPgp</code> class. </p>
+<pre><code>JkPgp pgp = JkPgp.of(publicRingKeyFile, privateRingKeyFile, secret);
 Files signatures[] = pgp.sign(myFileToSign1, myFileToSign2); 
 boolean signatureOk = pgp.verify(signedFile, signatureFile);
 </code></pre><p>Note that you don't need to have PGP installed. This is achieved by using <a href="https://www.bouncycastle.org">Bouncy Castle</a> under the hood.</p><h3>SonarQube</h3><p>You can run SonarQube analysis using the <code>JkSonar</code> class :</p>
@@ -378,7 +382,7 @@ boolean signatureOk = pgp.verify(signedFile, signatureFile);
     .withProperty(JkSonar.JUNIT_REPORTS_PATH, junitReportDir)
     .withProperty(JkSonar.JACOCO_REPORTS_PATH, jacocoexecReportFile)
     .run();
-</code></pre>
+</code></pre><p><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/></div> <!--end of wrapper div --> </p>
 	</p>
 
 	<hr />
