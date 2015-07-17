@@ -404,6 +404,35 @@ Iterable<File> springFiles = JkRepos.maven("http://my.main.repo")
 
 Jerkar can publish artifacts in both _Maven_ and _Ivy_ repository. 
 
+Depending on the target repository (Maven or Ivy) the structure of publication may differ so we use especific classes for each type.
+
+To publish on Maven repo (as Nexus) : 
+
+```
+// These info will be added in the generated POM file. Note that it is optional.
+JkMavenPublicationInfo info = JkMavenPublicationInfo
+	.of("Jerkar", "Build simpler, stronger, faster", "http://jerkar.github.io")
+	.withScm("https://github.com/jerkar/jerkar.git")
+	.andApache2License()
+	.andGitHubDeveloper("djeang", "djeangdev@yahoo.fr");
+	
+// Define the artifacts to be deployed	
+JkMavenPublication publication = JkMavenPublication.of(mainArtifactFile)
+	.and(sourceJarFile, "sources")   // You can add extra artifacts with classifier
+	.and(javadocZipFile, "javadoc")
+	.with(info);  // add the extra info defined above to this publication
+
+// Define repo 
+JkPublishRepos repos = JkPublishRepos.maven("http://my.nexus.repo/myRepo")
+ 	.withMd5AndSha1Checksum().withUniqueSnapshot(false);
+
+	
+final IvyPublisher jkIvyResolver = IvyPublisher.of(mavenRepos().withMd5AndSha1Checksum().withUniqueSnapshot(false), new File("build/output/test-out"));
+
+```
+
+
+
 
 ### Cryptography
 

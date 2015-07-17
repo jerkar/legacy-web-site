@@ -369,7 +369,28 @@ Iterable&lt;File&gt; depFiles = JkDependencyrResolver.managed(repos, dependencie
 <pre><code>// Getting files of Spring and its transitive dependencies
 Iterable&lt;File&gt; springFiles = JkRepos.maven(&quot;http://my.main.repo&quot;)
 	.get(&quot;org.springframework:spring-core:3.0.+&quot;, true);
-</code></pre><h3>Publication</h3><p>Jerkar can publish artifacts in both <em>Maven</em> and <em>Ivy</em> repository. </p><h3>Cryptography</h3><p>You can sign files or check signature with PGP using the <code>JkPgp</code> class. </p>
+</code></pre><h3>Publication</h3><p>Jerkar can publish artifacts in both <em>Maven</em> and <em>Ivy</em> repository. </p><p>Depending on the target repository (Maven or Ivy) the structure of publication may differ so we use especific classes for each type.</p><p>To publish on Maven repo (as Nexus) : </p>
+<pre><code>// These info will be added in the generated POM file. Note that it is optional.
+JkMavenPublicationInfo info = JkMavenPublicationInfo
+	.of(&quot;Jerkar&quot;, &quot;Build simpler, stronger, faster&quot;, &quot;http://jerkar.github.io&quot;)
+	.withScm(&quot;https://github.com/jerkar/jerkar.git&quot;)
+	.andApache2License()
+	.andGitHubDeveloper(&quot;djeang&quot;, &quot;djeangdev@yahoo.fr&quot;);
+	
+// Define the artifacts to be deployed	
+JkMavenPublication publication = JkMavenPublication.of(mainArtifactFile)
+	.and(sourceJarFile, &quot;sources&quot;)   // You can add extra artifacts with classifier
+	.and(javadocZipFile, &quot;javadoc&quot;)
+	.with(info);  // add the extra info defined above to this publication
+
+// Define repo 
+JkPublishRepos repos = JkPublishRepos.maven(&quot;http://my.nexus.repo/myRepo&quot;)
+ 	.withMd5AndSha1Checksum().withUniqueSnapshot(false);
+
+	
+final IvyPublisher jkIvyResolver = IvyPublisher.of(mavenRepos().withMd5AndSha1Checksum().withUniqueSnapshot(false), new File(&quot;build/output/test-out&quot;));
+
+</code></pre><h3>Cryptography</h3><p>You can sign files or check signature with PGP using the <code>JkPgp</code> class. </p>
 <pre><code>JkPgp pgp = JkPgp.of(publicRingKeyFile, privateRingKeyFile, secret);
 Files signatures[] = pgp.sign(myFileToSign1, myFileToSign2); 
 boolean signatureOk = pgp.verify(signedFile, signatureFile);
