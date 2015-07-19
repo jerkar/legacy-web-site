@@ -63,7 +63,7 @@
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">Documentation<b class="caret"></b></a>
               <ul class="dropdown-menu">
-                <li><a href="documentation/latest/getting-started.html">Tutorial</a></li>
+                <li><a href="documentation/latest/tutorial.html">Tutorial</a></li>
                 <li><a href="documentation/latest/reference.html">Reference Guide</a></li>
                 <li><a href="javadoc/latest/index.html">Javadoc</a></li>
               </ul>
@@ -94,8 +94,11 @@
         <li class="liexpandable"><a href="javascript:jerkarMoveTo('Out-of-the-box features',2);">Out-of-the-box features</a>
           <ul class="sub-menu">
             <li><a href="javascript:jerkarMoveTo('Basic tasks',3);">Basic tasks</a></li>
-            <li><a href="javascript:jerkarMoveTo('Plugin tasks',3);">Plugin tasks</a></li>
-            <li><a href="javascript:jerkarMoveTo('Examples',3);">Examples</a></li>
+            <li class="liexpandable"><a href="javascript:jerkarMoveTo('Plugin tasks',3);">Plugin tasks</a>
+              <ul class="sub-menu">
+                <li><a href="javascript:jerkarMoveTo('Examples',4);">Examples</a></li>
+              </ul>
+            </li>
           </ul>
         </li>
         <li class="liexpandable"><a href="javascript:jerkarMoveTo('Build API',2);">Build API</a>
@@ -309,7 +312,7 @@ public class DistribAllBuild extends JkBuildDependencySupport {
   <li>To parameter a plugin, just mention <code>-pluginName#fieldName=value</code>.</li>
   <li>To launch a method of a plugin, just mention <code>-pluginName#methodName</code>, note that the plugin does not need to be activated for invoking a plugin method.</li>
   <li>To display information about available plugins in current Jerkar instance, simply execute <code>jerkar helpPlugins</code>.</li>
-</ul><h3>Examples</h3><p>Jerkar is shipped with <a href="http://eclipse.org/">Eclipse</a>, <a href="http://www.eclemma.org/jacoco">Jacoco</a> and <a href="http://www.sonarqube.org/">SonarQube</a> plugins out of the box.<br/>This is how you can leverage these plugins : </p>
+</ul><h4>Examples</h4><p>Jerkar is shipped with <a href="http://eclipse.org/">Eclipse</a>, <a href="http://www.eclemma.org/jacoco">Jacoco</a> and <a href="http://www.sonarqube.org/">SonarQube</a> plugins out of the box.<br/>This is how you can leverage these plugins : </p>
 <ul>
   <li><code>jerkar jacoco#</code> : does <code>doDefault</code> but unit tests will be instrumented by Jacoco code coverage tool</li>
   <li><code>jerkar jacoco# -jacoco#produceHtml</code> : same but also set the <code>JkBuildPluginJacoco#produceHtml</code> field to <code>true</code>. It leads in producing an html report along the standard jacoco.exec binary report</li>
@@ -370,7 +373,16 @@ Iterable&lt;File&gt; depFiles = JkDependencyrResolver.managed(repos, dependencie
 Iterable&lt;File&gt; springFiles = JkRepos.maven(&quot;http://my.main.repo&quot;)
 	.get(&quot;org.springframework:spring-core:3.0.+&quot;, true);
 </code></pre><h3>Publication</h3><p>Jerkar can publish artifacts in both <em>Maven</em> and <em>Ivy</em> repository. </p><p>Depending on the target repository (Maven or Ivy) the structure of publication may differ so we use especific classes for each type.</p><p>To publish on Maven repo (as Nexus) : </p>
-<pre><code>// These info will be added in the generated POM file. Note that it is optional.
+<pre><code>// Define the module/version you want publish for
+JkVersionedModule versionedModule = JkModuleId.of(&quot;myGroup&quot;,&quot;myName&quot;).version(&quot;1.2&quot;)
+
+// Define its dependencies
+JkDependencies dependencies = JkDependencies.builder()
+	.on(GUAVA, &quot;18.0&quot;).scope(JkJavaBuild.COMPILE)
+	.on(JUNIT, &quot;4.11&quot;).scope(JKJavaBuild.TEST)
+	.build();
+
+// These info will be added in the generated POM file. Note that it is optional.
 JkMavenPublicationInfo info = JkMavenPublicationInfo
 	.of(&quot;Jerkar&quot;, &quot;Build simpler, stronger, faster&quot;, &quot;http://jerkar.github.io&quot;)
 	.withScm(&quot;https://github.com/jerkar/jerkar.git&quot;)
@@ -384,11 +396,15 @@ JkMavenPublication publication = JkMavenPublication.of(mainArtifactFile)
 	.with(info);  // add the extra info defined above to this publication
 
 // Define repo 
-JkPublishRepos repos = JkPublishRepos.maven(&quot;http://my.nexus.repo/myRepo&quot;)
- 	.withMd5AndSha1Checksum().withUniqueSnapshot(false);
+JkPublishRepos repos = JkPublishRepo
+    .ofSnapshot(JkRepo.maven(&quot;http://my.nexus.repo/snapshot&quot;))
+	.andRelease(JkRepo.maven(&quot;http://my.nexus.repo/release&quot;))
+ 	.withMd5AndSha1Checksum()
+ 	.withUniqueSnapshot(false)
+ 	.withSigner(myPgpSigner);  // Instance of JkPgp class if artifact signature is requiered
 
-	
-final IvyPublisher jkIvyResolver = IvyPublisher.of(mavenRepos().withMd5AndSha1Checksum().withUniqueSnapshot(false), new File(&quot;build/output/test-out&quot;));
+// Actually do the publication
+JkPublisher.of(repos).publishMaven(versionedModule, publication, dependencies) ;
 
 </code></pre><h3>Cryptography</h3><p>You can sign files or check signature with PGP using the <code>JkPgp</code> class. </p>
 <pre><code>JkPgp pgp = JkPgp.of(publicRingKeyFile, privateRingKeyFile, secret);

@@ -245,7 +245,7 @@ A plugin is just a class extending `JkBuildPlugin`  or `JkJavaBuildPlugin` and o
 - To launch a method of a plugin, just mention `-pluginName#methodName`, note that the plugin does not need to be activated for invoking a plugin method.
 - To display information about available plugins in current Jerkar instance, simply execute `jerkar helpPlugins`.
 
-### Examples
+#### Examples
 
 Jerkar is shipped with [Eclipse](http://eclipse.org/), [Jacoco](http://www.eclemma.org/jacoco) and [SonarQube](http://www.sonarqube.org/) plugins out of the box.
 This is how you can leverage these plugins : 
@@ -409,6 +409,15 @@ Depending on the target repository (Maven or Ivy) the structure of publication m
 To publish on Maven repo (as Nexus) : 
 
 ```
+// Define the module/version you want publish for
+JkVersionedModule versionedModule = JkModuleId.of("myGroup","myName").version("1.2")
+
+// Define its dependencies
+JkDependencies dependencies = JkDependencies.builder()
+	.on(GUAVA, "18.0").scope(JkJavaBuild.COMPILE)
+	.on(JUNIT, "4.11").scope(JKJavaBuild.TEST)
+	.build();
+
 // These info will be added in the generated POM file. Note that it is optional.
 JkMavenPublicationInfo info = JkMavenPublicationInfo
 	.of("Jerkar", "Build simpler, stronger, faster", "http://jerkar.github.io")
@@ -423,11 +432,15 @@ JkMavenPublication publication = JkMavenPublication.of(mainArtifactFile)
 	.with(info);  // add the extra info defined above to this publication
 
 // Define repo 
-JkPublishRepos repos = JkPublishRepos.maven("http://my.nexus.repo/myRepo")
- 	.withMd5AndSha1Checksum().withUniqueSnapshot(false);
+JkPublishRepos repos = JkPublishRepo
+    .ofSnapshot(JkRepo.maven("http://my.nexus.repo/snapshot"))
+	.andRelease(JkRepo.maven("http://my.nexus.repo/release"))
+ 	.withMd5AndSha1Checksum()
+ 	.withUniqueSnapshot(false)
+ 	.withSigner(myPgpSigner);  // Instance of JkPgp class if artifact signature is requiered
 
-	
-final IvyPublisher jkIvyResolver = IvyPublisher.of(mavenRepos().withMd5AndSha1Checksum().withUniqueSnapshot(false), new File("build/output/test-out"));
+// Actually do the publication
+JkPublisher.of(repos).publishMaven(versionedModule, publication, dependencies) ;
 
 ```
 

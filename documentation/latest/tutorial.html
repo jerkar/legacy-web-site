@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8"/>
-    <title>getting-started</title>
+    <title>tutorial</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Java build tool">
     <meta name="author" content="Jerome Angibaud">
@@ -63,7 +63,7 @@
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">Documentation<b class="caret"></b></a>
               <ul class="dropdown-menu">
-                <li><a href="../../documentation/latest/getting-started.html">Tutorial</a></li>
+                <li><a href="../../documentation/latest/tutorial.html">Tutorial</a></li>
                 <li><a href="../../documentation/latest/reference.html">Reference Guide</a></li>
                 <li><a href="../../javadoc/latest/index.html">Javadoc</a></li>
               </ul>
@@ -79,9 +79,13 @@
 	<p>
 	<div id="sidebar-menu" class="col-md-3 hidden-xs hidden-sm">
     <ul class="main-menu nav nav-stacked affix">
-        <li><a href="javascript:jerkarMoveTo('How to install Jerkar',2);">How to install Jerkar</a></li>
-        <li><a href="javascript:jerkarMoveTo('How to scaffold a Jerkar project',2);">How to scaffold a Jerkar project</a></li>
-        <li><a href="javascript:jerkarMoveTo('How to setup Jerkar on existing Java project',2);">How to setup Jerkar on existing Java...</a></li>
+        <li><a href="javascript:jerkarMoveTo('Install Jerkar',2);">Install Jerkar</a></li>
+        <li class="liexpandable"><a href="javascript:jerkarMoveTo('Start a new Java project with Jerkar',2);">Start a new Java project with Jerkar</a>
+          <ul class="sub-menu">
+            <li><a href="javascript:jerkarMoveTo('Create a project by hand',3);">Create a project by hand</a></li>
+            <li><a href="javascript:jerkarMoveTo('Create a project by scaffolding',3);">Create a project by scaffolding</a></li>
+          </ul>
+        </li>
     </ul>
 </div>
 <script>
@@ -100,12 +104,12 @@ function jerkarMoveTo(title, level) {
         scrollTop: $(elem).offset().top -50
     }, 200);
 }
-</script><p><div id="static-content" class="col-md-9"></p><h1>Getting Started</h1>
-<hr/><h2>How to install Jerkar</h2>
+</script><p><div id="static-content" class="col-md-9"></p><h1>Tutorial</h1>
+<hr/><h2>Install Jerkar</h2>
 <ol>
-  <li>unzip the <a href="http://jerkar.github.io/binaries/jerkar-distrib.zip">distribution archive</a> to the directory you want to install Jerkar : let's call it <code>[Jerkar Home]</code></li>
+  <li>unzip the <a href="http://jerkar.github.io/binaries/jerkar-distrib.zip">distribution archive</a> to the directory you want to install Jerkar : let's call it <em>[Jerkar Home]</em></li>
   <li>make sure that either a valid <em>JDK</em> (6 or above) is on your <em>PATH</em> environment variable or that a <em>JAVA_HOME</em> variable is pointing on</li>
-  <li>add <code>[Jerkar Home]</code> to your <em>PATH</em> environment variable</li>
+  <li>add <em>[Jerkar Home]</em> to your <em>PATH</em> environment variable</li>
   <li>execute <code>jerkar</code> in the command line. You should get an output starting by :</li>
 </ol>
 <pre><code>
@@ -116,23 +120,24 @@ function jerkarMoveTo(title, level) {
 | |_| | ____| |   |  _ (/ ___ | |
  \___/|_____)_|   |_| \_)_____|_|
                                      The 100% Java build tool.
-</code></pre><p><br/></p><h2>How to scaffold a Jerkar project</h2>
+</code></pre><p><br/></p><h2>Start a new Java project with Jerkar</h2><p>When starting with a new project you have the choice of creating the project by hand or let Jerkar scaffold it.</p><h3>Create a project by hand</h3>
 <ol>
-  <li>create a directory named as <em>groupName.projectName</em>. You can use only <em>projectName</em> if your project has no group</li>
-  <li>under this directory, execute <code>jerkar scaffold</code>. This generates the project structures.</li>
+  <li>Create a new java project in your IDE : You can follow convention by naming your project as <em>groupName.projectName</em>.</li>
+  <li>Add the <em>[Jerkar Home]/org.jerkar.core-fat.jar</em> lib to your project build-path and attach the source code ( <em>[Jerkar Home]/lib-sources</em> ). This jar includes Jerkar core along plugins classes.</li>
+  <li>Create a <em>build/def</em> folder at the base of your project and make it a source folder in your IDE. In Jerkar, all build related stuff (build definition, local 3rd party libs, produced artifacts,...) lie in <em>build</em> directory located at the root of your project</li>
+  <li>Write the build definition class extending <code>JkJavaBuild</code> in the <em>build/def</em> folder (in whatever package).</li>
+  <li>Launch the <code>org.jerkar.tool.Main</code> class in your IDE or type <code>jerkar</code> in the command line (with the root of your project as working directory).</li>
+</ol>
+<p class="alert alert-success">
+If your project is <a href="../../tour.html#100conventional">100% conventional</a>, you can even skip steps <strong>2.</strong> and <strong>3.</strong>.
+</p><h3>Create a project by scaffolding</h3>
+<ol>
+  <li>Create a new java project in your IDE</li>
+  <li>Execute <code>jerkar scaffold</code> under the project base directory. This generates the project structures.</li>
 </ol>
 <p class="alert alert-success">
 	<strong>Eclipse users : </strong> You can execute <code>jerkar scaffold eclipse#generateFiles</code> altogether to generate <small>.project</small> and <small>.classpath</small> files.
-</p><h2>How to setup Jerkar on existing Java project</h2>
-<ol>
-  <li>add the <code>[Jerkar Home]/org.jerkar.core-fat.jar</code> lib to your project build-path on your IDE and attach the source code (<code>[Jerkar Home]/lib-sources</code>). This jar includes Jerkar core along plugins classes</li>
-  <li>create a <code>build/def</code> folder at the base of your project and make it a source folder in your IDE. In Jerkar, all build related stuff (build definition, local 3rd party libs, produced artifacts,...) lie in <code>build</code> directory located at the root of your project</li>
-  <li>write the build definition class extending <code>JkJavaBuild</code> in the <code>build/def</code> folder (in whatever package)</li>
-  <li>launch the <code>org.jerkar.tool.Main</code> class in your IDE or type <code>jerkar</code> in the command line (with the root of your project as working directory)</li>
-</ol><p>As Jerkar builds itself, you can have a look at <a href="https://github.com/jerkar/jerkar/tree/master/org.jerkar.core">how Jerkar project is structured</a>.</p>
-<p class="alert alert-success">
-If your project is <a href="../../tour.html#100conventional">100% conventional</a>, you can even skip steps <strong>2.</strong> and <strong>3.</strong>.
-</p><p></div> <!--end of wrapper div --> </p>
+</p><p>As Jerkar builds itself, you can have a look at <a href="https://github.com/jerkar/jerkar/tree/master/org.jerkar.core">how Jerkar project is structured</a>.</p><p><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/></p><p></div> <!--end of wrapper div --> </p>
 	</p>
 
 	<hr />

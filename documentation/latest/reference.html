@@ -63,7 +63,7 @@
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">Documentation<b class="caret"></b></a>
               <ul class="dropdown-menu">
-                <li><a href="../../documentation/latest/getting-started.html">Tutorial</a></li>
+                <li><a href="../../documentation/latest/tutorial.html">Tutorial</a></li>
                 <li><a href="../../documentation/latest/reference.html">Reference Guide</a></li>
                 <li><a href="../../javadoc/latest/index.html">Javadoc</a></li>
               </ul>
@@ -103,8 +103,8 @@
                 <li><a href="javascript:jerkarMoveTo('Define scopes',4);">Define scopes</a></li>
                 <li class="liexpandable"><a href="javascript:jerkarMoveTo('Defining individual dependency',4);">Defining individual dependency</a>
                   <ul class="sub-menu">
-                    <li><a href="javascript:jerkarMoveTo('File system dependencies',5);">File system dependencies</a></li>
-                    <li><a href="javascript:jerkarMoveTo('Project dependencies',5);">Project dependencies</a></li>
+                    <li><a href="javascript:jerkarMoveTo('Dependency on arbitrary files',5);">Dependency on arbitrary files</a></li>
+                    <li><a href="javascript:jerkarMoveTo('Dependency on files produced by computation',5);">Dependency on files produced b...</a></li>
                   </ul>
                 </li>
                 <li><a href="javascript:jerkarMoveTo('Bind dependencies to scope',4);">Bind dependencies to scope</a></li>
@@ -173,15 +173,15 @@ function jerkarMoveTo(title, level) {
 @JkDoc(&quot;Make the test run in a forked process&quot;)
 private boolean forkTests = false;
 </code></p><p><br/></p><h2>Dependency Management</h2>
-<hr/><p>May the project you are building is standalone : you won't need any library or file coming from other project to build it. In that case you are not concerned with dependency management so you can skip this section.</p><p>If your project relies on libraries or files coming from other projects then <strong>dependency management</strong> comes in play.</p><h3>What is a dependency ?</h3><p>In this context, we call a <em>dependency</em> an indication that can be translated to a set of files needed to accomplish certain part of the build. In Jerkar code, the dependency concept is embodied by the abstract <code>JkDependency</code> class.<br/>So for example if a project <em>Foo</em> has a <em>dependency</em> on <em>barDep</em>, this means that for building, <em>Foo</em> will need the files indicated by <em>barDep</em>. </p><p>Jerkar distinguishes 3 types of dependency :</p>
+<hr/><p>May the project you are building is standalone : you won't need any library or file coming from other project to build it. In that case you are not concerned with dependency management so you can skip this section.</p><p>If your project relies on libraries or files coming from other projects then <strong>dependency management</strong> comes in play.</p><h3>What is a dependency ?</h3><p>In this context, we call a <em>dependency</em> an indication that can be translated to a set of files needed to accomplish certain part of the build. In Jerkar code, the dependency concept is embodied by the abstract <code>JkDependency</code> class.<br/>So for example if a project <em>Foo</em> has a <strong>dependency</strong> <em>bar</em>, this means that <em>Foo</em> may need the files indicated by <em>bar</em> for building. </p><p>Jerkar distinguishes 3 types of <strong>dependency</strong> :</p>
 <ul>
   <li><strong>Arbitrary files</strong> located on the file system (Embodied by <code>JkFileSystemDependency</code> class). These files are assumed to be present on the file system when the build is running.</li>
-  <li><strong>Files produced by other projects</strong> (Embodied by <code>JkProjectDependency</code> class). These files may be present on file system or not. If they are not present, the external project is built in order to produce the missing files.</li>
-  <li><strong>Reference to libraries</strong> (Embodied by <code>JkExternalModuleDependency</code>) hosted in a binary repository (Ivy or Maven for instance) : Jerkar can consume and resolve transitively any artifact located in a repository as you would do with Maven or Ivy.</li>
+  <li><strong>Files produced by a computation</strong> (Embodied by <code>JkComputedDependency</code> class). These files may be present on file system or not. If they are not present, the computation is run in order to produce the missing files. Generally the computation stands for the build of an external project.</li>
+  <li><strong>Reference to module</strong> (Embodied by <code>JkModuleDependency</code>) hosted in a binary repository (Ivy or Maven for instance) : Jerkar can consume and resolve transitively any artifact located in a repository as you would do with Maven or Ivy.</li>
 </ul>
 <p class="alert alert-success">
 For the last, Jerkar is using <b>Ivy 2.4.0</b> under the hood. The library is embedded in the Jerkar jar itself and is executed in a dedicated classloader to make the presence of Ivy invisible when you edit code so Ivy classes won't bloat your build path.
-</p><h3>What is a scope ?</h3><p>Projects may need dependencies to accomplish certain tasks and needed dependencies may vary according the executed tasks.<br/>For example, to <strong>compile</strong> you may need <em>guava</em> library only but to <strong>test</strong> you'll need <em>junit</em> library as well.<br/>To segregate dependencies according their usage, Jerkar uses the notion of <strong>scope</strong> (embodied by <code>JkScope</code> class). This notion is similar to the Maven scope.</p><p>Scopes can inherit from each other. This means that if a <em>scope A</em> inherits from <em>scope B</em> then a dependencies declared with <em>scope B</em> will be also considered as declared with <em>scope A</em>.<br/>For example, in <code>JkJavaBuild</code> scope <code>TEST</code> inherits from <code>RUNTIME</code> that inherits from <code>COMPILE</code> so every dependencies declared with scope <code>COMPILE</code> are considered to be declared with scope <code>RUNTIME</code> and <code>TEST</code> as well. </p><p>By default, scopes are <em>transitive</em>. This has only a meaning for <strong>Reference to libraries</strong>.<br/>If <code>A</code> -&gt; <code>B</code> -&gt; <code>C</code> and the <code>A</code>-&gt; <code>B</code> dependency is declared with a non transitive scope, then <code>A</code> won't depend from <code>C</code>. </p><p>Projects consuming artifacts coming from Ivy repository can also use <code>JkScopeMapping</code> which is more powerfull. This notion maps strictly to the <a href="http://ant.apache.org/ivy/history/2.2.0/ivyfile/configurations.html">Ivy configuration</a> concept.</p><h3>Define dependencies for a project</h3><p>To define dependencies of a project, you basically define a list of <strong>scoped dependency</strong> (embodied by <code>JkScopedDependency</code>).<br/>A scoped dependency is a <strong>dependency</strong> associated with one or several <strong>scopes</strong>.</p><p>So practically, you define some scopes then you bind <em>dependencies</em> to these scopes.</p>
+</p><h3>What is a scope ?</h3><p>Projects may need dependencies to accomplish certain tasks and needed dependencies may vary according the executed tasks.<br/>For example, to <strong>compile</strong> you may need <em>guava</em> library only but to <strong>test</strong> you'll need <em>junit</em> library as well.<br/>To segregate dependencies according their usage, Jerkar uses the notion of <strong>scope</strong> (embodied by <code>JkScope</code> class). This notion is similar to the Maven scope.</p><p>Scopes can <strong>inherit</strong> from each other. This means that if a scope <em>Foo</em> inherits from scope <em>Bar</em> then a dependencies declared with scope <em>Bar</em> will be also considered as declared with scope <em>Foo</em>.<br/>For instance, in <code>JkJavaBuild</code>, scope <code>TEST</code> inherits from <code>RUNTIME</code> that inherits from <code>COMPILE</code> so every dependencies declared with scope <code>COMPILE</code> are considered to be declared with scope <code>RUNTIME</code> and <code>TEST</code> as well. </p><p>By default, scopes are <strong>transitive</strong>. This has only a meaning for <strong>reference to module</strong>.<br/>If <code>A</code> -&gt; <code>B</code> -&gt; <code>C</code> and the <code>A</code>-&gt; <code>B</code> dependency is declared with a <strong>non transitive scope</strong>, then <code>A</code> won't depend from <code>C</code>. </p><p>Projects consuming artifacts coming from Ivy repository can also use <code>JkScopeMapping</code> which is more powerfull. This notion maps strictly to the <a href="http://ant.apache.org/ivy/history/2.2.0/ivyfile/configurations.html">Ivy configuration</a> concept.</p><h3>Define dependencies for a project</h3><p>To define dependencies of a project, you basically define a list of <strong>scoped dependency</strong> (embodied by <code>JkScopedDependency</code>).<br/>A scoped dependency is a <strong>dependency</strong> associated with one or several <strong>scopes</strong>.</p><p>So practically, you define some scopes then you bind <em>dependencies</em> to these scopes.</p>
 <pre><code class="Java">return JkDependencies.builder()
 			.on(GUAVA, &quot;18.0&quot;).scope(COMPILE)  
 			.on(JERSEY_SERVER, &quot;1.19&quot;).scope(COMPILE)
@@ -198,8 +198,8 @@ For the last, Jerkar is using <b>Ivy 2.4.0</b> under the hood. The library is em
 			.on(MOCKITO_ALL, &quot;1.9.5&quot;).scope(TEST)
 		.build();
 ...
-deps = deps.withDefaultScope(COMPILE):
-</code></pre><p>Look at the <a href="http://jerkar.github.io/javadoc/latest/org/jerkar/api/depmanagement/JkDependencies.html">JkDepencies class API</a> to get see all possibilities.</p><h4>Define scopes</h4><p>In the examples above, we use the predefined scopes <code>COMPILE</code> or <code>TEST</code>. These scopes are standard scopes defined on the <a href="https://github.com/jerkar/jerkar/blob/master/org.jerkar.core/src/main/java/org/jerkar/tool/builtins/javabuild/JkJavaBuild.java">JkJavaBuild class</a>.<br/>So if your build definition class inherit from <code>JkJavaBuild</code> template you won't need to create it. </p><p>A good practice is to declare <strong>scope</strong> as java constant (<code>static final</code>) as it will be reusable anywhere all over your build definition.</p><p>As an example, these are the scopes declared in <code>JkJavaBuild</code> :</p>
+deps = deps.withDefaultScope(COMPILE);
+</code></pre><p>Look at the <a href="http://jerkar.github.io/javadoc/latest/org/jerkar/api/depmanagement/JkDependencies.html">JkDepencies class API</a> to get see all possibilities.</p><h4>Define scopes</h4><p>In the examples above, we use the predefined scopes <code>COMPILE</code> or <code>TEST</code>. These scopes are standard scopes defined on the <a href="https://github.com/jerkar/jerkar/blob/master/org.jerkar.core/src/main/java/org/jerkar/tool/builtins/javabuild/JkJavaBuild.java">JkJavaBuild class</a>.<br/>So if your build definition class inherit from <code>JkJavaBuild</code> template you won't need to create it. </p><p>If you need to create your own <em>scope</em>, a good practice is to declare it as java constant (<code>static final</code>) as it will be reusable anywhere all over your build definition.</p><p>As an example, these are the scopes declared in <code>JkJavaBuild</code> :</p>
 <pre><code class="Java">public static final JkScope PROVIDED = JkScope.of(&quot;provided&quot;).transitive(false)
     .descr(&quot;Dependencies to compile the project but that should not be embedded in produced artifacts.&quot;);
 
@@ -211,20 +211,48 @@ public static final JkScope RUNTIME = JkScope.of(&quot;runtime&quot;).extending(
 
 public static final JkScope TEST = JkScope.of(&quot;test&quot;).extending(RUNTIME, PROVIDED)
 	.descr(&quot;Dependencies necessary to compile and run tests.&quot;); 
-</code></pre><h4>Defining individual dependency</h4><p>Now get focus on each type of dependency we can declare.</p><h5>File system dependencies</h5><h5>Project dependencies</h5><p>This stands for files produced by other project builds. It is typically used in multi-projects (aka multi-module projects).</p><p>The principle is that if the specified file are not found, then the dependee project is built in order to generate the missing files.<br/>You can create a <strong>project dependency</strong> from a Jerkar build defined in another project .<code>doDefault</code> method will be invoked on that build to generate missing files.</p>
+</code></pre><h4>Defining individual dependency</h4><p>Now get focus on each type of dependency we can declare.</p><h5>Dependency on arbitrary files</h5><p>You just have to mention the path of a file. If the file does not exist at resolution time (when the dependency is actually retrieved) the build fails.<br/>You can declare many files for one dependency.</p>
+<pre><code>    final File depFile1 = new File(&quot;/my/file1.jar&quot;);
+	
+	final File depFile2 = new File(&quot;/my/file2.zip&quot;);
+
+	@Override
+	protected JkDependencies dependencies() {
+		return JkDependencies.builder()
+			.on(depFile1, depFile2)
+		.build();
+	}
+		
+</code></pre><h5>Dependency on files produced by computation</h5><p>It is typically used for <strong>multi projects builds</strong> or <strong>multi module</strong> projects.</p><p>The principle is that if the specified files are not found, then the computation is run in order to generate the missing files.<br/>If some files still missing after the computation run, the build fails (an exception is thrown).</p><p>This mechanism is quite simple yet powerfull as it allows to adress following use case :</p>
+<ul>
+  <li>Dependency on files produced by other Jerkar project</li>
+  <li>Dependency on files produced by external project built with any type of techno (Ant, Grunt, Maven, Gradle, SBT, Android SDK, Make, ...)</li>
+  <li>Dependency on files produced by a method of the main build.</li>
+</ul><p>The generic way is to construct this kind of dependency using a <code>java.lang.Runnable</code>.</p>
+<pre><code>	private Runnable computation = new Runnable() {...}; 
+	
+	File fooFile = new File(&quot;../otherproject/target/outpufoo.jar&quot;);  // dependency file  
+	
+	@Override
+	protected JkDependencies dependencies() {
+		return JkDependencies.builder()
+			.on(JkComputedDependency.of(computation, fooFile))
+		.build();
+	}
+</code></pre><p>Here, if the <em>fooFile</em> is absent then the <strong>computation</strong> will be run prior to retry to find <em>FooFile</em>.</p><p>Jerkar provides some shortcuts to deal with other Jerkar projects : For this, you can create the dependency directly from the dependee build instance. </p>
 <pre><code>	@JkProject(&quot;../foo&quot;)          // The external project path relative to the current project root
 	public JkJavaBuild fooBuild;  // This is the build coming from the &#39;foo&#39; project 
 	
 	@Override
 	protected JkDependencies dependencies() {
 		return JkDependencies.builder()
-			.on(fooBuild.asProjectDependency( fooBuid.packer().jarFile() ))
+			.on(fooBuild.asComputedDependency(&quot;doPack&quot;, fooBuid.packer().jarFile() ))
 		.build();
 	}
-</code></pre><p>If the <code>fooBuild.packer().jarFile()</code> is absent then the <em>foo</em> project will be built by invoking the <code>doDefault</code> method.</p><p>You can also use another kind of project mentioning the command line to run in order to build the project, as such you can easily integrate with Maven, Grunt, SBT, Ant, Gradle projects.</p>
+</code></pre><p>Here the method <code>doPack</code> of <code>fooBuild</code> will be invoked if the specified file does not exist.<br/>See <em>Multi Module Project</em> to get details how parameters are propagated to dependee builds.</p><p>You can also use another kind of project mentioning the command line to run in order to build the project.</p>
 <pre><code> 	File fooDir = new File(&quot;../../foo&quot;);  // base dir of a Ant project 
 	File fooJar = new File(fooDir, &quot;build/foo.jar&quot;);
-	JkProcess antBuid = JkProcess.of(&quot;ant&quot;, &quot;makeJar&quot;).withWorkingDir(fooDir));
+	JkProcess antBuild = JkProcess.of(&quot;ant&quot;, &quot;makeJar&quot;).withWorkingDir(fooDir));
 	...
 	@Override
 	protected JkDependencies dependencies() {
@@ -232,7 +260,7 @@ public static final JkScope TEST = JkScope.of(&quot;test&quot;).extending(RUNTIM
 			.on(JkProjectDependency.of(antBuild, fooJar))).scope(PROVIDED)  
 		.build();
 	}
-</code></pre><p>This defines a dependency on a file produced by a Ant project. If the file is not present at dependency resolution time, then<br/>the Ant project is built to produce the missing files. </p><h4>Bind dependencies to scope</h4><p>The whole project dependency description lie in a single instance of <code>JkDependencies</code>. This class offers convenient factory methods and builder to define the dependencies.</p><p>```</p><p>```</p><p><br/></p><p></div> <!--end of wrapper div --> </p>
+</code></pre><p>Here, if <em>fooJar</em> file does not exist the <code>ant makeJar</code> command line will be invoked prior to retry to find the file.<br/>If the file still does not exist then the build fails.</p><h4>Bind dependencies to scope</h4><p>The whole project dependency description lie in a single instance of <code>JkDependencies</code>. This class offers convenient factory methods and builder to define the dependencies.</p><p>```</p><p>```</p><p><br/></p><p></div> <!--end of wrapper div --> </p>
 	</p>
 
 	<hr />
