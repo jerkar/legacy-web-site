@@ -105,11 +105,12 @@
                   <ul class="sub-menu">
                     <li><a href="javascript:jerkarMoveTo('Dependency on arbitrary files',5);">Dependency on arbitrary files</a></li>
                     <li><a href="javascript:jerkarMoveTo('Dependency on files produced by computation',5);">Dependency on files produced b...</a></li>
+                    <li><a href="javascript:jerkarMoveTo('Dependency on module',5);">Dependency on module</a></li>
                   </ul>
                 </li>
-                <li><a href="javascript:jerkarMoveTo('Bind dependencies to scope',4);">Bind dependencies to scope</a></li>
               </ul>
             </li>
+            <li><a href="javascript:jerkarMoveTo('Bind dependencies to scope',3);">Bind dependencies to scope</a></li>
           </ul>
         </li>
     </ul>
@@ -260,7 +261,7 @@ public static final JkScope TEST = JkScope.of(&quot;test&quot;).extending(RUNTIM
 			.on(JkProjectDependency.of(antBuild, fooJar))).scope(PROVIDED)  
 		.build();
 	}
-</code></pre><p>Here, if <em>fooJar</em> file does not exist the <code>ant makeJar</code> command line will be invoked prior to retry to find the file.<br/>If the file still does not exist then the build fails.</p><h4>Bind dependencies to scope</h4><p>The whole project dependency description lie in a single instance of <code>JkDependencies</code>. This class offers convenient factory methods and builder to define the dependencies.</p><p>```</p><p>```</p><p><br/></p><p></div> <!--end of wrapper div --> </p>
+</code></pre><p>Here, if <em>fooJar</em> file does not exist the <code>ant makeJar</code> command line will be invoked prior to retry to find the file.<br/>If the file still does not exist then the build fails.</p><h5>Dependency on module</h5><p>This is for declaring a dependency on a module hosted on a <em>Maven</em> or <em>Ivy</em> repository.</p><h3>Bind dependencies to scope</h3><p>The whole project dependency description lie in a single instance of <code>JkDependencies</code>. This class offers convenient factory methods and builder to define the dependencies.</p><p>```</p><p>```</p><p><br/></p><p></div> <!--end of wrapper div --> </p>
 	</p>
 
 	<hr />
