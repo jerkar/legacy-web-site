@@ -87,7 +87,7 @@
             <li class="liexpandable"><a href="javascript:jerkarMoveTo('Jerkar options',3);">Jerkar options</a>
               <ul class="sub-menu">
                 <li><a href="javascript:jerkarMoveTo('Injecting options',4);">Injecting options</a></li>
-                <li><a href="javascript:jerkarMoveTo('Retrieve Jerkar option',4);">Retrieve Jerkar option</a></li>
+                <li><a href="javascript:jerkarMoveTo('Retrieve Jerkar options',4);">Retrieve Jerkar options</a></li>
                 <li><a href="javascript:jerkarMoveTo('Composite options',4);">Composite options</a></li>
                 <li><a href="javascript:jerkarMoveTo('Standard options',4);">Standard options</a></li>
                 <li><a href="javascript:jerkarMoveTo('How to document options ?',4);">How to document options ?</a></li>
@@ -154,17 +154,17 @@ function jerkarMoveTo(title, level) {
   <li>By editing <strong><em>[Jerkar Home]/options.properties</em></strong> file.<br/> Note that if you are running Jerkar in embedded mode, the <strong><em>[Jerkar Home]/options.properties</em></strong> file will not be taken in account but <strong><em>[project dir]/build/def/build/options.properties</em></strong>.</li>
   <li>By editing <strong><em>[Jerkar User Home]/options.properties</em></strong> file.</li>
   <li>By mentioning the property/value in the Jerkar command line as <code>Jerkar doDefault -myOption=myValue</code>.</li>
-</ul><p>As for system properties, The <strong>command line</strong> takes precedence on <strong><em>[Jerkar User Home]/options.properties</em></strong> that takes in turn, precedence on <strong><em>[Jerkar Home]/options.properties</em></strong>.</p><p>Note for boolean, when no value is specified, <code>true</code> will be used as default.</p><h4>Retrieve Jerkar option</h4><p>You can retrieve string values using the <code>JkOptions</code> API providing convenient static methods as <code>JkOptions#get</code>, <code>JkOptions#asMap</code> or <code>JkOptions#getAllStartingWith(String prefix)</code>.</p><p>You can also retrieve options just by <strong>declaring fields in build definition class</strong>.<br/>All non private instance fields of the build definition class, are likely to be injected as an option.</p><p>For example, if you declare a field like <code>protected int size = 3;</code> then you can override the default value by injecting the option value with any of the 3 ways described above.</p><p>Any fields <strong>except static fields or private fields</strong> can be used to inject options.<br/>If you want <strong>inject option in a private field</strong>, you must annotate it with <code>@JkDoc</code> as <code>@JkDoc private boolean myField;</code> </p><p>Note that the injected string value will be automatically converted to the target type.<br/>Handled types are <strong>String</strong>, <strong>all primitive types (and their wrappers)</strong>, <strong>enum</strong>, <strong>File</strong> and <strong>composite object</strong>.<br/>To get a precise idea on how types are converted see <a href="https://github.com/jerkar/jerkar/blob/master/org.jerkar.core/src/main/java/org/jerkar/tool/OptionInjector.java">this code</a>.</p><h4>Composite options</h4><p>Composite options are a way to structure your options. Say that you want to configure some server access with url, userName and passwsord,<br/>you can gather all these information in a object as </p>
+</ul><p>As for system properties, The <strong>command line</strong> takes precedence on <strong><em>[Jerkar User Home]/options.properties</em></strong> that takes in turn, precedence on <strong><em>[Jerkar Home]/options.properties</em></strong>.</p><p>Note for boolean, when no value is specified, <code>true</code> will be used as default.</p><h4>Retrieve Jerkar options</h4><p>You can retrieve string values using the <code>JkOptions</code> API providing convenient static methods as <code>JkOptions#get</code>, <code>JkOptions#asMap</code> or <code>JkOptions#getAllStartingWith(String prefix)</code>.</p><p>You can also retrieve options just by <strong>declaring fields in build definition class</strong>.<br/>All non private instance fields of the build definition class, are likely to be injected as an option.</p><p>For example, if you declare a field like <code>protected int size = 3;</code> then you can override the default value by injecting the option value with any of the 3 ways described above.</p><p>Any fields <strong>except static fields or private fields</strong> can be used to inject options.<br/>If you want <strong>inject option in a private field</strong>, you must annotate it with <code>@JkDoc</code> as <code>@JkDoc private boolean myField;</code> </p><p>Note that the injected string value will be automatically converted to the target type.<br/>Handled types are <strong>String</strong>, <strong>all primitive types (and their wrappers)</strong>, <strong>enum</strong>, <strong>File</strong> and <strong>composite object</strong>.<br/>To get a precise idea on how types are converted see <a href="https://github.com/jerkar/jerkar/blob/master/org.jerkar.core/src/main/java/org/jerkar/tool/OptionInjector.java">this code</a>.</p><h4>Composite options</h4><p>Composite options are a way to structure your options. Say that you want to configure some server access with url, userName and passwsord,<br/>you can gather all these information in a object as </p>
 <pre><code class="Java">class Server {
-	private String url;
-	private String userName;
-	private String password;
-	// ...
+    private String url;
+    private String userName;
+    private String password;
+    // ...
 }
 </code></pre><p>declare a Server field in your build :</p>
 <pre><code class="Java">class MyBuild extends JkBuild {
-	Server deployServer;
-	...
+   Server deployServer;
+   ...
 }
 </code></pre><p>Then you can inject the server object using following options :</p>
 <pre><code>deployServer.url=http:/myServer:8090/to
@@ -220,14 +220,13 @@ public static final JkScope TEST = JkScope.of(&quot;test&quot;).extending(RUNTIM
 </code></pre><h4>Defining individual dependency</h4><p>Now get focus on each type of dependency we can declare.</p><h5>Dependency on arbitrary files</h5><p>You just have to mention the path of a file. If the file does not exist at resolution time (when the dependency is actually retrieved) the build fails.<br/>You can declare many files for one dependency.</p>
 <pre><code>    final File depFile1 = new File(&quot;/my/file1.jar&quot;);
 	
-	final File depFile2 = new File(&quot;/my/file2.zip&quot;);
+    final File depFile2 = new File(&quot;/my/file2.zip&quot;);
 
-	@Override
-	protected JkDependencies dependencies() {
-		return JkDependencies.builder()
-			.on(depFile1, depFile2)
-		.build();
-	}
+    @Override
+    protected JkDependencies dependencies() {
+        return JkDependencies.builder()
+            .on(depFile1, depFile2).build();
+    }
 		
 </code></pre><h5>Dependency on files produced by computation</h5><p>It is typically used for <strong>multi projects builds</strong> or <strong>multi module</strong> projects.</p><p>The principle is that if the specified files are not found, then the computation is run in order to generate the missing files.<br/>If some files still missing after the computation run, the build fails (an exception is thrown).</p><p>This mechanism is quite simple yet powerfull as it allows to adress following use case :</p>
 <ul>
@@ -235,15 +234,14 @@ public static final JkScope TEST = JkScope.of(&quot;test&quot;).extending(RUNTIM
   <li>Dependency on files produced by external project built with any type of techno (Ant, Grunt, Maven, Gradle, SBT, Android SDK, Make, ...)</li>
   <li>Dependency on files produced by a method of the main build.</li>
 </ul><p>The generic way is to construct this kind of dependency using a <code>java.lang.Runnable</code>.</p>
-<pre><code>	private Runnable computation = new Runnable() {...}; 
+<pre><code>    private Runnable computation = new Runnable() {...}; 
 	
-	File fooFile = new File(&quot;../otherproject/target/outpufoo.jar&quot;);  // dependency file  
+    File fooFile = new File(&quot;../otherproject/target/outpufoo.jar&quot;);  // dependency file  
 	
-	@Override
-	protected JkDependencies dependencies() {
-		return JkDependencies.builder()
-			.on(JkComputedDependency.of(computation, fooFile))
-		.build();
+    @Override
+    protected JkDependencies dependencies() {
+    return JkDependencies.builder()
+        .on(JkComputedDependency.of(computation, fooFile)).build();
 	}
 </code></pre><p>Here, if the <em>fooFile</em> is absent then the <strong>computation</strong> will be run prior to retry to find <em>FooFile</em>.</p><p>Jerkar provides some shortcuts to deal with other Jerkar projects : For this, you can create the dependency directly from the dependee build instance. </p>
 <pre><code>	@JkProject(&quot;../foo&quot;)          // The external project path relative to the current project root
