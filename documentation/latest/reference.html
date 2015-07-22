@@ -234,36 +234,36 @@ public static final JkScope TEST = JkScope.of(&quot;test&quot;).extending(RUNTIM
   <li>Dependency on files produced by external project built with any type of techno (Ant, Grunt, Maven, Gradle, SBT, Android SDK, Make, ...)</li>
   <li>Dependency on files produced by a method of the main build.</li>
 </ul><p>The generic way is to construct this kind of dependency using a <code>java.lang.Runnable</code>.</p>
-<pre><code>    private Runnable computation = new Runnable() {...}; 
+<pre><code>private Runnable computation = new Runnable() {...}; 
 	
-    File fooFile = new File(&quot;../otherproject/target/outpufoo.jar&quot;);  // dependency file  
+File fooFile = new File(&quot;../otherproject/target/outpufoo.jar&quot;);  // dependency file  
 	
-    @Override
-    protected JkDependencies dependencies() {
-    return JkDependencies.builder()
-        .on(JkComputedDependency.of(computation, fooFile)).build();
-	}
+@Override
+protected JkDependencies dependencies() {
+return JkDependencies.builder()
+    .on(JkComputedDependency.of(computation, fooFile)).build();
+}
 </code></pre><p>Here, if the <em>fooFile</em> is absent then the <strong>computation</strong> will be run prior to retry to find <em>FooFile</em>.</p><p>Jerkar provides some shortcuts to deal with other Jerkar projects : For this, you can create the dependency directly from the dependee build instance. </p>
-<pre><code>	@JkProject(&quot;../foo&quot;)          // The external project path relative to the current project root
-	public JkJavaBuild fooBuild;  // This is the build coming from the &#39;foo&#39; project 
+<pre><code>@JkProject(&quot;../foo&quot;)          // The external project path relative to the current project root
+public JkJavaBuild fooBuild;  // This is the build coming from the &#39;foo&#39; project 
 	
-	@Override
-	protected JkDependencies dependencies() {
-		return JkDependencies.builder()
-			.on(fooBuild.asComputedDependency(&quot;doPack&quot;, fooBuid.packer().jarFile() ))
-		.build();
-	}
+@Override
+protected JkDependencies dependencies() {
+    return JkDependencies.builder()
+	    .on(fooBuild.asComputedDependency(&quot;doPack&quot;, fooBuid.packer().jarFile() ))
+    .build();
+}
 </code></pre><p>Here the method <code>doPack</code> of <code>fooBuild</code> will be invoked if the specified file does not exist.<br/>See <em>Multi Module Project</em> to get details how parameters are propagated to dependee builds.</p><p>You can also use another kind of project mentioning the command line to run in order to build the project.</p>
-<pre><code> 	File fooDir = new File(&quot;../../foo&quot;);  // base dir of a Ant project 
-	File fooJar = new File(fooDir, &quot;build/foo.jar&quot;);
-	JkProcess antBuild = JkProcess.of(&quot;ant&quot;, &quot;makeJar&quot;).withWorkingDir(fooDir));
-	...
-	@Override
-	protected JkDependencies dependencies() {
-		return JkDependencies.builder()
-			.on(JkProjectDependency.of(antBuild, fooJar))).scope(PROVIDED)  
-		.build();
-	}
+<pre><code>File fooDir = new File(&quot;../../foo&quot;);  // base dir of a Ant project 
+File fooJar = new File(fooDir, &quot;build/foo.jar&quot;);
+JkProcess antBuild = JkProcess.of(&quot;ant&quot;, &quot;makeJar&quot;).withWorkingDir(fooDir));
+...
+@Override
+protected JkDependencies dependencies() {
+    return JkDependencies.builder()
+        .on(JkProjectDependency.of(antBuild, fooJar))).scope(PROVIDED)  
+    .build();
+}
 </code></pre><p>Here, if <em>fooJar</em> file does not exist the <code>ant makeJar</code> command line will be invoked prior to retry to find the file.<br/>If the file still does not exist then the build fails.</p><h5>Dependency on module</h5><p>This is for declaring a dependency on module hosted in <em>Maven</em> or <em>Ivy</em> repository.</p><h3>Bind dependencies to scope</h3><p>The whole project dependency description lie in a single instance of <code>JkDependencies</code>. This class offers convenient factory methods and builder to define the dependencies.</p><p>```</p><p>```</p><p><br/></p><p></div> <!--end of wrapper div --> </p>
 	</p>
 
