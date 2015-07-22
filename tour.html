@@ -148,7 +148,7 @@ function jerkarMoveTo(title, level) {
   <li>compiles every java sources found under the <em>build/def</em> folder</li>
   <li>instantiates the first compiled class found implementing <code>org.jerkar.tool.JkBuild</code>. If none the <code>org.jerkar.tool.builtins.templates.javabuild.JkJavaBuild</code> class is instantiated</li>
   <li>invokes specified methods on the created instance. If no method is specified then the <code>doDefault</code> method is invoked</li>
-</ul><p>You can also set instance field from the command line by typing <code>jerkar myMethod -myField=foo</code>.</p><p>Concretely your Java project will be structured as is :</p><p><img src="img/principle.png" alt="Project layout""/></p><h2>Build styles</h2><p>With Jerkar you can write task based build definition (ala <em>Ant</em>), templated ones (ala <em>Maven</em>) or rely on conventions only (no build script needed). The following section illustrates different approaches to use Jerkar. </p><h3>Task based builds (ala Ant)</h3><p>If you like to have complete control over your build, you may prefere the <em>Ant</em> build style.<br/>The price is that you have to <strong>write explicitly</strong> what your build is doing. </p><p>This example mimics the <a href="http://ant.apache.org/manual/tutorial-HelloWorldWithAnt.html">tutorial ANT build script</a> </p>
+</ul><p>You can also set instance field from the command line by typing <code>jerkar myMethod -myField=foo</code>.</p><p>Concretely your Java project will be structured as is :</p><p><img src="img/principle.png" alt="Project layout""/></p><h2>Build styles</h2><p>With Jerkar you can write task based build definition (ala <em>Ant</em>), templated ones (ala <em>Maven</em>) or rely on conventions only (no build script needed). The following section illustrates different approaches to use Jerkar. </p><h3>Task based builds (ala Ant)</h3><p>If you like to have <strong>complete control</strong> over your build, you may prefere the <em>Ant</em> build style.<br/>The price is that you have to <strong>write explicitly</strong> what your build is doing. </p><p>This example mimics the <a href="http://ant.apache.org/manual/tutorial-HelloWorldWithAnt.html">tutorial ANT build script</a> </p>
 <pre><code class="Java">public class AntStyleBuild extends JkBuild {
 
 	@JkDoc(&quot;Run tests in forked process if true&quot;)
@@ -212,72 +212,70 @@ function jerkarMoveTo(title, level) {
 </ul><p><br/></p><h3>Templated builds (ala Maven)</h3><p>For Java project you may directly extend <code>JkJavaBuild</code> template class which implements common methods for you.<br/>All you need is to implement what is specific.</p>
 <pre><code>public class MavenStyleBuild extends JkJavaBuild {
 	
-	@Override  // optional
-	public JkModuleId moduleId() {
-		return JkModuleId.of(&quot;org.jerkar&quot;, &quot;script-samples&quot;);
-	}
+    @Override  // optional
+    public JkModuleId moduleId() {
+        return JkModuleId.of(&quot;org.jerkar&quot;, &quot;script-samples&quot;);
+    }
 
-	@Override  // optional
-	protected JkVersion version() {
-		return JkVersion.ofName(&quot;0.3-SNAPSHOT&quot;);
-	}
+    @Override  // optional
+    protected JkVersion version() {
+        return JkVersion.ofName(&quot;0.3-SNAPSHOT&quot;);
+    }
 
-	@Override
-	// Optional : needless if you use only local dependencies
-	protected JkDependencies dependencies() {
-		return JkDependencies
-				.builder()
-				.on(GUAVA, &quot;18.0&quot;)  // Popular modules are available as Java constant
-				.on(JERSEY_SERVER, &quot;1.19&quot;)
-				.on(&quot;com.orientechnologies:orientdb-client:2.0.8&quot;)
-				.on(JUNIT, &quot;4.11&quot;).scope(TEST).on(MOCKITO_ALL, &quot;1.9.5&quot;)
-				.scope(TEST).build();
-	}
+    @Override
+    // Optional : needless if you use only local dependencies
+    protected JkDependencies dependencies() {
+        return JkDependencies.builder()
+            .on(GUAVA, &quot;18.0&quot;)  // Popular modules are available as Java constant
+            .on(JERSEY_SERVER, &quot;1.19&quot;)
+            .on(&quot;com.orientechnologies:orientdb-client:2.0.8&quot;)
+            .on(JUNIT, &quot;4.11&quot;).scope(TEST)
+            .on(MOCKITO_ALL, &quot;1.9.5&quot;).scope(TEST).build();
+    }
 
 }
 </code></pre><p>This example is for demo purpose. Some settings can be omitted by respecting naming conventions...<br/><br/></p><h3>Templated builds with conventions</h3><p>If you follow conventions (as project folder named as <em>groupName.projectName</em> and version stored in a <em>version.txt</em> file), the above script turns to :</p>
 <pre><code>public class BuildSampleClassic extends JkJavaBuild {
 	
-	@Override  // Optional :  needless if you use only local dependencies
-	protected JkDependencies dependencies() {
-		return JkDependencies.builder() 
-			.on(GUAVA, &quot;18.0&quot;)  
-			.on(JERSEY_SERVER, &quot;1.19&quot;)
-			.on(&quot;com.orientechnologies:orientdb-client:2.0.8&quot;)
-			.on(JUNIT, &quot;4.11&quot;).scope(TEST)
-			.on(MOCKITO_ALL, &quot;1.9.5&quot;).scope(TEST)
-		.build();
+    @Override  // Optional :  needless if you use only local dependencies
+    protected JkDependencies dependencies() {
+        return JkDependencies.builder() 
+            .on(GUAVA, &quot;18.0&quot;)  
+            .on(JERSEY_SERVER, &quot;1.19&quot;)
+            .on(&quot;com.orientechnologies:orientdb-client:2.0.8&quot;)
+            .on(JUNIT, &quot;4.11&quot;).scope(TEST)
+            .on(MOCKITO_ALL, &quot;1.9.5&quot;).scope(TEST).build();
 	}	
 }
 </code></pre><h3><a name="100conventional"></a><br/>Fully conventional style !!!</h3><p>If you use only local dependencies (jar dependencies located as bellow), you don't even need to write a build file.<br/>Note that local dependencies have to be located in subfolder corresponding to its scope (build, compile, runtime,...).</p><p><img src="img/full-convention-project.png" alt="Project layout full convention""/></p><h3>Eclipse style</h3><p>If Eclipse is your IDE, you can just reuse information from the <em>.classpath</em> file by using the Eclipse plugin.<br/>Project name, source folders and dependencies can be deducted from this file. Just activate the Eclipse plugin (see below).</p><h3>Custom builds with third parties</h3><p>Your build class can depend itself from managed dependencies </p>
 <pre><code>@JkImport(&quot;org.seleniumhq.selenium:selenium-java:2.45.0&quot;)
 public class SeleniumTaskBuild extends JkJavaBuild {
 	
-	@JkDoc(&quot;Performs some load test using Selenium&quot;)
-	public void seleniumLoadTest() {
-		WebDriver driver = new FirefoxDriver();
-		// ....
-	}
+    @JkDoc(&quot;Performs some load test using Selenium&quot;)
+    public void seleniumLoadTest() {
+        WebDriver driver = new FirefoxDriver();
+        // ....
+    }
 }
 </code></pre><h3>Multi-project builds</h3><p>In a multi project context, build instances, from different projects, can use each other.<br/>In general, the build dependency schema is the same than for the code.</p>
 <pre><code>// This is the master project for building the Jerkar full distribution
 public class DistribAllBuild extends JkBuildDependencySupport {
 	
-	@JkProject(&quot;../org.jerkar.plugins-sonar&quot;)
-	PluginsSonarBuild pluginsSonar;
+    @JkProject(&quot;../org.jerkar.plugins-sonar&quot;)
+    PluginsSonarBuild pluginsSonar;
 	
-	@JkProject(&quot;../org.jerkar.plugins-jacoco&quot;)
-	PluginsJacocoBuild pluginsJacoco;
+    @JkProject(&quot;../org.jerkar.plugins-jacoco&quot;)
+    PluginsJacocoBuild pluginsJacoco;
 	
-	public void doDefault() {
-		super.doDefault();
-		multiProjectDependencies().invokeDoDefaultMethodOnAllSubProjects();
-		CoreBuild core = pluginsJacoco.core;  // The core project is got by transitivity
+    public void doDefault() {
+        super.doDefault();
+        multiProjectDependencies().invokeDoDefaultMethodOnAllSubProjects();
+        CoreBuild core = pluginsJacoco.core;  // The core project is got by transitivity
 		
-		JkFileTree sourceDir = ...;
-		sourceDir.importFiles(pluginsSonar.packer().jarSourceFile(), pluginsJacoco.packer().jarSourceFile());
-		...
-	} 
+        JkFileTree sourceDir = ...;
+        sourceDir.importFiles(pluginsSonar.packer().jarSourceFile(), pluginsJacoco.packer().jarSourceFile());
+        ...
+    } 
 	
 	
 }

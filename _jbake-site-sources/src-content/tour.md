@@ -21,7 +21,7 @@ Concretely your Java project will be structured as is :
 With Jerkar you can write task based build definition (ala _Ant_), templated ones (ala _Maven_) or rely on conventions only (no build script needed). The following section illustrates different approaches to use Jerkar. 
 
 ### Task based builds (ala Ant)
-If you like to have complete control over your build, you may prefere the _Ant_ build style. 
+If you like to have __complete control__ over your build, you may prefere the _Ant_ build style. 
 The price is that you have to __write explicitly__ what your build is doing. 
 
 This example mimics the [tutorial ANT build script](http://ant.apache.org/manual/tutorial-HelloWorldWithAnt.html) 
@@ -98,27 +98,26 @@ All you need is to implement what is specific.
 ```
 public class MavenStyleBuild extends JkJavaBuild {
 	
-	@Override  // optional
-	public JkModuleId moduleId() {
-		return JkModuleId.of("org.jerkar", "script-samples");
-	}
+    @Override  // optional
+    public JkModuleId moduleId() {
+        return JkModuleId.of("org.jerkar", "script-samples");
+    }
 
-	@Override  // optional
-	protected JkVersion version() {
-		return JkVersion.ofName("0.3-SNAPSHOT");
-	}
+    @Override  // optional
+    protected JkVersion version() {
+        return JkVersion.ofName("0.3-SNAPSHOT");
+    }
 
-	@Override
-	// Optional : needless if you use only local dependencies
-	protected JkDependencies dependencies() {
-		return JkDependencies
-				.builder()
-				.on(GUAVA, "18.0")  // Popular modules are available as Java constant
-				.on(JERSEY_SERVER, "1.19")
-				.on("com.orientechnologies:orientdb-client:2.0.8")
-				.on(JUNIT, "4.11").scope(TEST).on(MOCKITO_ALL, "1.9.5")
-				.scope(TEST).build();
-	}
+    @Override
+    // Optional : needless if you use only local dependencies
+    protected JkDependencies dependencies() {
+        return JkDependencies.builder()
+            .on(GUAVA, "18.0")  // Popular modules are available as Java constant
+            .on(JERSEY_SERVER, "1.19")
+            .on("com.orientechnologies:orientdb-client:2.0.8")
+            .on(JUNIT, "4.11").scope(TEST)
+            .on(MOCKITO_ALL, "1.9.5").scope(TEST).build();
+    }
 
 }
 ```
@@ -133,15 +132,14 @@ If you follow conventions (as project folder named as _groupName.projectName_ an
 ```
 public class BuildSampleClassic extends JkJavaBuild {
 	
-	@Override  // Optional :  needless if you use only local dependencies
-	protected JkDependencies dependencies() {
-		return JkDependencies.builder() 
-			.on(GUAVA, "18.0")  
-			.on(JERSEY_SERVER, "1.19")
-			.on("com.orientechnologies:orientdb-client:2.0.8")
-			.on(JUNIT, "4.11").scope(TEST)
-			.on(MOCKITO_ALL, "1.9.5").scope(TEST)
-		.build();
+    @Override  // Optional :  needless if you use only local dependencies
+    protected JkDependencies dependencies() {
+        return JkDependencies.builder() 
+            .on(GUAVA, "18.0")  
+            .on(JERSEY_SERVER, "1.19")
+            .on("com.orientechnologies:orientdb-client:2.0.8")
+            .on(JUNIT, "4.11").scope(TEST)
+            .on(MOCKITO_ALL, "1.9.5").scope(TEST).build();
 	}	
 }
 ```
@@ -165,11 +163,11 @@ Your build class can depend itself from managed dependencies
 @JkImport("org.seleniumhq.selenium:selenium-java:2.45.0")
 public class SeleniumTaskBuild extends JkJavaBuild {
 	
-	@JkDoc("Performs some load test using Selenium")
-	public void seleniumLoadTest() {
-		WebDriver driver = new FirefoxDriver();
-		// ....
-	}
+    @JkDoc("Performs some load test using Selenium")
+    public void seleniumLoadTest() {
+        WebDriver driver = new FirefoxDriver();
+        // ....
+    }
 }
 ```
 ### Multi-project builds
@@ -180,21 +178,21 @@ In general, the build dependency schema is the same than for the code.
 // This is the master project for building the Jerkar full distribution
 public class DistribAllBuild extends JkBuildDependencySupport {
 	
-	@JkProject("../org.jerkar.plugins-sonar")
-	PluginsSonarBuild pluginsSonar;
+    @JkProject("../org.jerkar.plugins-sonar")
+    PluginsSonarBuild pluginsSonar;
 	
-	@JkProject("../org.jerkar.plugins-jacoco")
-	PluginsJacocoBuild pluginsJacoco;
+    @JkProject("../org.jerkar.plugins-jacoco")
+    PluginsJacocoBuild pluginsJacoco;
 	
-	public void doDefault() {
-		super.doDefault();
-		multiProjectDependencies().invokeDoDefaultMethodOnAllSubProjects();
-		CoreBuild core = pluginsJacoco.core;  // The core project is got by transitivity
+    public void doDefault() {
+        super.doDefault();
+        multiProjectDependencies().invokeDoDefaultMethodOnAllSubProjects();
+        CoreBuild core = pluginsJacoco.core;  // The core project is got by transitivity
 		
-		JkFileTree sourceDir = ...;
-		sourceDir.importFiles(pluginsSonar.packer().jarSourceFile(), pluginsJacoco.packer().jarSourceFile());
-		...
-	} 
+        JkFileTree sourceDir = ...;
+        sourceDir.importFiles(pluginsSonar.packer().jarSourceFile(), pluginsJacoco.packer().jarSourceFile());
+        ...
+    } 
 	
 	
 }
