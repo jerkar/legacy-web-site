@@ -80,6 +80,15 @@
 	<div id="sidebar-menu" class="col-md-3 hidden-xs hidden-sm">
     <ul class="main-menu nav nav-stacked affix">
         <li><a href="javascript:jerkarMoveTo('Introduction',2);">Introduction</a></li>
+        <li class="liexpandable"><a href="javascript:jerkarMoveTo('Jerkar runtime',2);">Jerkar runtime</a>
+          <ul class="sub-menu">
+            <li class="liexpandable"><a href="javascript:jerkarMoveTo('Launching Java Process',3);">Launching Java Process</a>
+              <ul class="sub-menu">
+                <li><a href="javascript:jerkarMoveTo('Embedded mode',4);">Embedded mode</a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
         <li class="liexpandable"><a href="javascript:jerkarMoveTo('Build Configuration',2);">Build Configuration</a>
           <ul class="sub-menu">
             <li><a href="javascript:jerkarMoveTo('Environment variables',3);">Environment variables</a></li>
@@ -138,7 +147,19 @@ function jerkarMoveTo(title, level) {
   <li><p>If you need an overall vision of Jerkar, please have a <a href="http://jerkar.github.io/tour.html"><strong>tour</strong></a>.</p></li>
   <li><p>If you need a a step-by-step learning guide, please visit <a href="http://jerkar.github.io/documentation/latest/getting-started.html"><strong>tutorial</strong></a>.</p></li>
   <li><p>If you need more details about the API or in-deep behavior, please consult <a href="http://jerkar.github.io/javadoc/latest/index.html"><strong>javadoc</strong></a> or browse <a href="https://github.com/jerkar/jerkar/tree/master/org.jerkar.core"><strong>source code</strong></a>. You can also raise an issue in Git-hub to request an improvement on the documentation.</p></li>
-</ul><p><br/></p><h2>Build Configuration</h2>
+</ul><p><br/></p><h2>Jerkar runtime</h2>
+<hr/><p>This section details what happens behind the cover when Jerkar is run.</p><h3>Launching Java Process</h3><p>Jerkar is a pure Java application requiring <strong>JDK 6 or above</strong>. <strong>JDK</strong> is required and <strong>JRE</strong> is not sufficient.<br/>Indeed Jerkar uses the JDK tools for compiling build definitions and generate Javadoc.</p><p>For an easy launching of the java process in command line, Jerkar provides native scripts ( <em>jerkar.bat</em> for <strong>Windows</strong> and <em>jerkar</em> for <strong>Unix</strong> ).<br/>These scripts do the following :</p>
+<ol>
+  <li><strong>Find the java executable path</strong> : If a <code>JAVA_HOME</code> environment variable is defined then it takes this value as <code>java</code> path. Otherwise it takes the <code>java</code> executable defined in the <em>PATH</em> environment variable if any.</li>
+  <li><strong>Get java execution option</strong> : If an environment variable <code>JERKAR_OPTS</code> exists then its value will be passed in the <code>java</code>command line parameters, otherwise default <code>-Xmx512m -XX:MaxPermSize=512m</code> is passed.</li>
+  <li><strong>Set Jerkar classpath</strong> in the following order :
+  <ul>
+    <li>all jar and zip files found under <em>[WORKING DIR]/build/libs/build</em></li>
+    <li>all jar and zip files found under <em>[JERKAR HOME]/libs/ext</em></li>
+    <li>the <em>[JERKAR_HOME]/org.jerkar.core.jar</em> file</li>
+  </ul></li>
+  <li><strong>Run the <code>org.jerkar.tool.Main</code> class</strong> passing the command line argument as is. So if you have typed <code>jerkar myArg1 myArg2</code> the <code>myArg1 myArg2</code> will be passed as Java command-line arguments.</li>
+</ol><h4>Embedded mode</h4><p>Note that <strong><em>[JERKAR_HOME]/org.jerkar.core.jar</em></strong> comes after <strong><em>[WORKING DIR]/build/libs/build/*</em></strong> in the classpath.<br/>This means that if a version of Jerkar (org.jerkar.core-fat.jar) is in this directory, then the build will be processed with this instance of Jerkar and not with the one located in in <em>[JERKAR HOME]</em>.</p><p>This is called the <strong>Embedded</strong> mode. It guarantees that your project will build regardless of the Jerkar version installed on the host machine.<br/>This mode allows to build your project even if Jerkar is not installed on the host machine. just execute <code>java -cp build/libs/build/* org.jerkar.tool.Main</code> instead of <code>jerkar</code>.</p><p><br/></p><h2>Build Configuration</h2>
 <hr/><p>Jerkar build are configurable. Build definition classes can retrieve values defined at runtime by reading :</p>
 <ul>
   <li>an environment variable</li>
@@ -146,10 +167,10 @@ function jerkarMoveTo(title, level) {
   <li>a Jerkar option</li>
 </ul><h3>Environment variables</h3><p>There is nothing specific to Jerkar. Just set the environment variable as you usually do on your OS and get the value from build using the standard Java <code>System#getenv</code> method.</p><h3>System properties</h3><p>Naturally, your build definitions can read system properties by using the standard method <code>System#getProperty</code>.</p><p>Jerkar proposes 3 ways to inject system properties :</p>
 <ul>
-  <li>By editing <strong><em>[Jerkar Home]/system.properties</em></strong> file. All properties defined in this property file are injected while creating the Jerkar Java process (via standard option -D).<br/> Note that if you are running Jerkar in embedded mode, the <strong><em>[Jerkar Home]/system.properties</em></strong> file will not be taken in account but <strong><em>[project dir]/build/def/build/system.properties</em></strong>.</li>
-  <li>By editing <strong><em>[Jerkar User Home]/system.properties</em></strong> file. These properties are injected the same way than for the previous point.</li>
-  <li>By mentioning the property/value in Jerkar <strong>command line</strong> as <code>Jerkar doDefault -DmyProperty=myValue</code>. These properties are injected after the jerkar Java process has been created (via <code>System#setProperty</code> method).</li>
-</ul><p>The <strong>command line</strong> takes precedence on <strong><em>[Jerkar User Home]/system.properties</em></strong> that in turn, takes precedence on <strong><em>[Jerkar Home]/system.properties</em></strong>.</p><h3>Jerkar options</h3><p>Jerkar options are similar to system properties as it stands for a set of <strong>key/value</strong>. You can read it by using a dedicated API or let it be injected in Java field as explained below.</p><h4>Injecting options</h4><p>Jerkar proposes 3 ways to inject options :</p>
+  <li>By editing <strong><em>[Jerkar Home]/system.properties</em></strong> file.<br/> Note that if you are running Jerkar in embedded mode, the <strong><em>[Jerkar Home]/system.properties</em></strong> file will not be taken in account but <strong><em>[project dir]/build/def/build/system.properties</em></strong>.</li>
+  <li>By editing <strong><em>[Jerkar User Home]/system.properties</em></strong> file.</li>
+  <li>By mentioning the property/value in Jerkar <strong>command line</strong> as <code>Jerkar doDefault -DmyProperty=myValue</code>.</li>
+</ul><p>The <strong>command line</strong> takes precedence on <strong><em>[Jerkar User Home]/system.properties</em></strong> that in turn, takes precedence on <strong><em>[Jerkar Home]/system.properties</em></strong>.</p><p>In every case, defined system properties are injected after the creation of the java process (via <code>System#setProperty</code> method).</p><h3>Jerkar options</h3><p>Jerkar options are similar to system properties as it stands for a set of <strong>key/value</strong>. You can read it by using a dedicated API or let it be injected in Java field as explained below.</p><h4>Injecting options</h4><p>Jerkar proposes 3 ways to inject options :</p>
 <ul>
   <li>By editing <strong><em>[Jerkar Home]/options.properties</em></strong> file.<br/> Note that if you are running Jerkar in embedded mode, the <strong><em>[Jerkar Home]/options.properties</em></strong> file will not be taken in account but <strong><em>[project dir]/build/def/build/options.properties</em></strong>.</li>
   <li>By editing <strong><em>[Jerkar User Home]/options.properties</em></strong> file.</li>
