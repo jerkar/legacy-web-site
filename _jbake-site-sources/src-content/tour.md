@@ -11,15 +11,21 @@ Jerkar is quite simpe in its principle. You write a class extending `org.jerkar.
 * invokes specified methods on the created instance. If no method is specified then the `doDefault` method is invoked 
 
 You can also set instance field from the command line by typing `jerkar myMethod -myField=foo`.
+
+Concretely your Java project will be structured as is
+![Project layout](img/principle.png)
+
 <br/>
+
+
 
 ## Build styles
 
-With Jerkar you can write task based build definition (ala _Ant_), templated ones (ala _Maven_) or rely on conventions only (no build script needed). In the following section, we will illustrate different different approach to use Jerkar. 
+With Jerkar you can write task based build definition (ala _Ant_), templated ones (ala _Maven_) or rely on conventions only (no build script needed). The following section illustrates different approaches to use Jerkar. 
 
 ### Task based builds (ala Ant)
 If you like to have complete control over your build, you may prefere the _Ant_ build style. 
-The price is that you have to *write explicitly* what your build is doing. 
+The price is that you have to __write explicitly__ what your build is doing. 
 
 This example mimics the [tutorial ANT build script](http://ant.apache.org/manual/tutorial-HelloWorldWithAnt.html) 
 
@@ -34,7 +40,7 @@ public class AntStyleBuild extends JkBuild {
 	File buildDir = baseDir("build/output");
 	File classDir = new File(buildDir, "classes");
 	File jarFile = new File(buildDir, "jar/" + name + ".jar");
-	String className = "my.mainClass";
+	String className = "my.MainClass";
 	JkClasspath classpath = JkClasspath.of(baseDir().include("libs/*.jar"));
 	File reportDir = new File(buildDir, "junitRreport");
 	
@@ -83,9 +89,9 @@ public class AntStyleBuild extends JkBuild {
 
 From this build definition, we can execute Jerkar the following way :
 
-- launch/debug the `AntStyleBuild main` within your IDE
-- launch/debug the `org.jerkar.JkMain main` method within your IDE. In this mode you can pass arguments as you would for the command line
-- execute a command line in a shell (or on a build server)  as `jerkar doDefault` or `jerkar cleanBuild -forkTests=true`.
+- Launch/debug the `AntStyleBuild main` within your IDE.
+- Launch/debug the `org.jerkar.tool.JkMain main` method within your IDE. In this mode you can pass arguments as you would do with command line.
+- Execute a command line in a shell (or on a build server)  as `jerkar doDefault` or `jerkar cleanBuild -forkTests=true`.
 
 <br/>
 ### Templated builds (ala Maven)

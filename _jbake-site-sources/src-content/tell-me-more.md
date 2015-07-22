@@ -28,7 +28,7 @@ As a **build framework** it provides :
 These two parts are seamlessly integrated to form a unique product that make **incredibly easy** to build Java projects.<br/>
 Of course Jerkar can be used for any automation purpose , as an example, [Jerkar is used](https://github.com/jerkar/jerkar.github.io/blob/master/_jbake-site-sources/build/def/jerkar/github/io/SiteBuild.java) to generate this site.
 
-As a library, Jerkar can be embedded in your product so you can leverage directly the the fluent API for manipulating files, launch external tools and so on.
+As a library, Jerkar can be embedded in your product so you can leverage directly the fluent API for manipulating files, launch external tools and so on.
 
 
 ## What makes Jerkar special ?
@@ -38,7 +38,7 @@ With Jerkar, build scripts are **plain old java classes**. This bare metal appro
 * when editing script, Java developers leverage of **compilation**, **code-completion** and **debug** facilities provided by their **IDE**
 * Java developers have **no extra language** or **XML soup** to master
 * scripts can be **launched/debugged** directly from the IDE as any class providing a Main method 
-* the tool is quite **simple and fast** : in essence, Jerkar engine simply performs direct method invocations on build classes. **No black box** : it's quite easy to discover what the build is actually doing under the hood. **Jerkar source code and javadoc** is a primary source of documentation.
+* the tool is quite **simple and fast** : in essence, Jerkar engine simply performs direct method invocations on build classes. **No black box** : it's quite easy to discover what the build is actually doing under the hood. **Jerkar source code and javadoc** are a primary source of documentation.
 * scripts can directly leverage of any Java **3rd party libraries** without needing to wrap it in a plugin or a specific component
 * it's straightforward to **extend**
 * **refactoring** build script is easy and safe (thanks to statically typed nature of Java) 
