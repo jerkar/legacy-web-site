@@ -10,7 +10,7 @@ Jerkar is quite simpe in its principle. You write a class extending `org.jerkar.
 * instantiates the first compiled class found implementing `org.jerkar.tool.JkBuild`. If none the `org.jerkar.tool.builtins.templates.javabuild.JkJavaBuild` class is instantiated
 * invokes specified methods on the created instance. If no method is specified then the `doDefault` method is invoked 
 
-You can also set instance field from the command line by typing `jerkar myMethod -myField=foo`.
+You can also set instance fields from the command line by typing `jerkar myMethod -myField=foo`.
 
 Concretely your Java project will be structured as is :
 
@@ -29,58 +29,58 @@ This example mimics the [tutorial ANT build script](http://ant.apache.org/manual
 ```Java
 public class AntStyleBuild extends JkBuild {
 
-	@JkDoc("Run tests in forked process if true")
-	boolean forkTests;
+    @JkDoc("Run tests in forked process if true")
+    boolean forkTests;
 	
-	String name = "myProject";
-	File src = baseDir("src");
-	File buildDir = baseDir("build/output");
-	File classDir = new File(buildDir, "classes");
-	File jarFile = new File(buildDir, "jar/" + name + ".jar");
-	String className = "my.MainClass";
-	JkClasspath classpath = JkClasspath.of(baseDir().include("libs/*.jar"));
-	File reportDir = new File(buildDir, "junitRreport");
+    String name = "myProject";
+    File src = baseDir("src");
+    File buildDir = baseDir("build/output");
+    File classDir = new File(buildDir, "classes");
+    File jarFile = new File(buildDir, "jar/" + name + ".jar");
+    String className = "my.MainClass";
+    JkClasspath classpath = JkClasspath.of(baseDir().include("libs/*.jar"));
+    File reportDir = new File(buildDir, "junitRreport");
 	
-	@Override
-	public void doDefault() {
-		clean();jar();run();
-	}
+    @Override
+    public void doDefault() {
+        clean();jar();run();
+    }
 	
-	public void compile() {
-		JkJavaCompiler.ofOutput(classDir).withClasspath(classpath).andSourceDir(src).compile();
-		JkFileTree.of(src).exclude("**/*.java").copyTo(classDir);
-	}
+    public void compile() {
+        JkJavaCompiler.ofOutput(classDir).withClasspath(classpath).andSourceDir(src).compile();
+        JkFileTree.of(src).exclude("**/*.java").copyTo(classDir);
+    }
 	
-	public void jar() {
-		compile();
-		JkManifest.empty().addMainClass("my.main.RunClass").writeToStandardLocation(classDir);
-		JkZipper.of(classDir).to(jarFile);
-	}	
+    public void jar() {
+        compile();
+        JkManifest.empty().addMainClass("my.main.RunClass").writeToStandardLocation(classDir);
+        JkZipper.of(classDir).to(jarFile);
+    }	
 	
-	@JkDoc("Run the application")
-	public void run() {
-		JkJavaProcess.of(jarFile).andClasspath(classpath).runSync();
-	}
+    @JkDoc("Run the application")
+    public void run() {
+        JkJavaProcess.of(jarFile).andClasspath(classpath).runSync();
+    }
 	
-	public void cleanBuild() {
-		clean();
-		junit();
-	}
+    public void cleanBuild() {
+        clean();
+        junit();
+    }
 	
-	public void junit() {
-		jar();
-		JkUnit.of(classpath.and(jarFile))
-				.withClassesToTest(JkFileTree.of(classDir).include("**/*Test.class"))
-				.withReportDir(reportDir)
-				.withReport(JunitReportDetail.FULL)
-				.forked(forkTests)
-				.run();
-	}
+    public void junit() {
+        jar();
+        JkUnit.of(classpath.and(jarFile))
+            .withClassesToTest(JkFileTree.of(classDir).include("**/*Test.class"))
+            .withReportDir(reportDir)
+            .withReport(JunitReportDetail.FULL)
+            .forked(forkTests)
+            .run();
+    }
 	
-	public static void main(String[] args) {
-		new AntStyleBuild().doDefault();
-	}
-	
+    public static void main(String[] args) {
+        new AntStyleBuild().doDefault();
+    }
+
 }
 ```
 
