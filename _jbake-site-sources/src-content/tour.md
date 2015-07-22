@@ -12,12 +12,9 @@ Jerkar is quite simpe in its principle. You write a class extending `org.jerkar.
 
 You can also set instance field from the command line by typing `jerkar myMethod -myField=foo`.
 
-Concretely your Java project will be structured as is
+Concretely your Java project will be structured as is :
+
 ![Project layout](img/principle.png)
-
-<br/>
-
-
 
 ## Build styles
 

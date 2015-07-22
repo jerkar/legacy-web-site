@@ -1,10 +1,10 @@
 title=Download
-date=2015-05-18
-type=flat-page
+date=2015-07-22
+type=page
 status=published
 ~~~~~~
 
 ## Snapshot version
 
-* [Last build](binaries/jerkar-distrib.zip) ${published_date}
+* [Last build](binaries/jerkar-distrib.zip) (2015-07-22)
 
