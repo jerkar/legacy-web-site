@@ -87,6 +87,7 @@
                 <li><a href="javascript:jerkarMoveTo('Embedded mode',4);">Embedded mode</a></li>
               </ul>
             </li>
+            <li><a href="javascript:jerkarMoveTo('Jerkar execution',3);">Jerkar execution</a></li>
           </ul>
         </li>
         <li class="liexpandable"><a href="javascript:jerkarMoveTo('Build Configuration',2);">Build Configuration</a>
@@ -159,7 +160,18 @@ function jerkarMoveTo(title, level) {
     <li>the <em>[JERKAR_HOME]/org.jerkar.core.jar</em> file</li>
   </ul></li>
   <li><strong>Run the <code>org.jerkar.tool.Main</code> class</strong> passing the command line argument as is. So if you have typed <code>jerkar myArg1 myArg2</code> the <code>myArg1 myArg2</code> will be passed as Java command-line arguments.</li>
-</ol><h4>Embedded mode</h4><p>Note that <strong><em>[JERKAR_HOME]/org.jerkar.core.jar</em></strong> comes after <strong><em>[WORKING DIR]/build/libs/build/*</em></strong> in the classpath.<br/>This means that if a version of Jerkar (org.jerkar.core-fat.jar) is in this directory, then the build will be processed with this instance of Jerkar and not with the one located in in <em>[JERKAR HOME]</em>.</p><p>This is called the <strong>Embedded</strong> mode. It guarantees that your project will build regardless of the Jerkar version installed on the host machine.<br/>This mode allows to build your project even if Jerkar is not installed on the host machine. just execute <code>java -cp build/libs/build/* org.jerkar.tool.Main</code> instead of <code>jerkar</code>.</p><p><br/></p><h2>Build Configuration</h2>
+</ol><h4>Embedded mode</h4><p>Note that <strong><em>[JERKAR_HOME]/org.jerkar.core.jar</em></strong> comes after <strong><em>[WORKING_DIR]/build/libs/build/*</em></strong> in the classpath.<br/>This means that if a version of Jerkar (org.jerkar.core-fat.jar) is in this directory, then the build will be processed with this instance of Jerkar and not with the one located in in <em>[JERKAR HOME]</em>.</p><p>This is called the <strong>Embedded</strong> mode. It guarantees that your project will build regardless of the Jerkar version installed on the host machine.<br/>This mode allows to build your project even if Jerkar is not installed on the host machine. just execute <code>java -cp build/libs/build/* org.jerkar.tool.Main</code> instead of <code>jerkar</code>.</p><h3>Jerkar execution</h3><p>The <code>org.jerkar.tool.Main#main</code> is the entry point of Jerkar. It's the method you invoke to launch/debug a Jerkar build within your IDE.</p><p>It processes as follow :</p>
+<ol>
+  <li>Parse the command line.</li>
+  <li>Populate the system properties and Jerkar options from configuration files and command line (see <strong>build configuration</strong>).</li>
+  <li>Pre-process Java source files located under <em>[WORKING DIR]/build/def</em> directory if any. The preprocessor will parse source code to extract content of <code>@JkImport</code> and <code>@JkProject</code> Java annotations.<br/>The <code>@JkImport</code> contains the binary dependencies on modules hosted in Maven/Ivy repository while the <code>@JkProject</code> contains dependency on build definition classes of an other project.<br/>If the project build definition sources contain some <code>@JkProject</code> annotations, the dependee project are pre-processed and compiled recursively prior to go next.</li>
+  <li>Compile Java source files located under <em>[WORKING DIR]/build/def</em> directory. The compilation is done using classpath constituted in the prevous step.</li>
+  <li>Instantiate the build class. The build class is the class specified by the <code>buildClass</code> option if present. If not, it is the first class implementing <code>org.jerkar.tool.JkBuild</code>.<br/>The class scanning processes classes in alphabetic order then subpackage in deep first. This mean that class <code>MyBuid</code> will be scanned before <code>apackage.ABuild</code>.<br/>If no class implementing <code>org.jerkar.tool.JkBuild</code> is found then the <code>org.jerkar.tool.builtins.javabuild.JkJavaBuild</code> is instantiated.<br/>The <code>buildClass</code> option can mention a simple name class (class name omitting its package).<br/>If no class matches the specified <code>buildClass</code> then an exception is thrown.</li>
+  <li>Inject options in build instance fields (see <strong>build configuration</strong>).</li>
+  <li>Call the <code>init()</code> method on the build instance.</li>
+  <li>Instantiate and bind plugins.</li>
+  <li>Invoke methods specified in arguments.</li>
+</ol><p><br/></p><h2>Build Configuration</h2>
 <hr/><p>Jerkar build are configurable. Build definition classes can retrieve values defined at runtime by reading :</p>
 <ul>
   <li>an environment variable</li>
