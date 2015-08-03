@@ -79,23 +79,28 @@
 	<p>
 	<div id="sidebar-menu" class="col-md-3 hidden-xs hidden-sm">
     <ul class="main-menu nav nav-stacked affix">
-        <li><a href="javascript:jerkarMoveTo('Introduction',2);">Introduction</a></li>
-        <li class="liexpandable"><a href="javascript:jerkarMoveTo('Jerkar runtime',2);">Jerkar runtime</a>
+        <li class="liexpandable"><a href="javascript:jerkarMoveTo('Introduction',2);">Introduction</a>
+          <ul class="sub-menu">
+            <li><a href="javascript:jerkarMoveTo('Lexical',3);">Lexical</a></li>
+          </ul>
+        </li>
+        <li class="liexpandable"><a href="javascript:jerkarMoveTo('Jerkar Runtime',2);">Jerkar Runtime</a>
           <ul class="sub-menu">
             <li class="liexpandable"><a href="javascript:jerkarMoveTo('Launching Java Process',3);">Launching Java Process</a>
               <ul class="sub-menu">
-                <li><a href="javascript:jerkarMoveTo('Embedded mode',4);">Embedded mode</a></li>
+                <li><a href="javascript:jerkarMoveTo('Embedded Mode',4);">Embedded Mode</a></li>
               </ul>
             </li>
-            <li class="liexpandable"><a href="javascript:jerkarMoveTo('Jerkar execution',3);">Jerkar execution</a>
+            <li class="liexpandable"><a href="javascript:jerkarMoveTo('Jerkar Execution',3);">Jerkar Execution</a>
               <ul class="sub-menu">
-                <li class="liexpandable"><a href="javascript:jerkarMoveTo('Build Definition Compilation',4);">Build Definition Compilation</a>
+                <li class="liexpandable"><a href="javascript:jerkarMoveTo('Build Definition File Compilation',4);">Build Definition File Compilatio...</a>
                   <ul class="sub-menu">
-                    <li><a href="javascript:jerkarMoveTo('Libraries located on Maven/Ivy Repository ',5);">Libraries located on Maven/Ivy...</a></li>
-                    <li><a href="javascript:jerkarMoveTo('Libraries on file system',5);">Libraries on file system</a></li>
-                    <li><a href="javascript:jerkarMoveTo('Build definitions of other project',5);">Build definitions of other pro...</a></li>
+                    <li><a href="javascript:jerkarMoveTo('Libraries Located on Maven/Ivy Repository ',5);">Libraries Located on Maven/Ivy...</a></li>
+                    <li><a href="javascript:jerkarMoveTo('Libraries on File System',5);">Libraries on File System</a></li>
+                    <li><a href="javascript:jerkarMoveTo('Build Definitions of Other Project',5);">Build Definitions of Other Pro...</a></li>
                   </ul>
                 </li>
+                <li><a href="javascript:jerkarMoveTo('Build Class Instantiation',4);">Build Class Instantiation</a></li>
               </ul>
             </li>
           </ul>
@@ -126,7 +131,12 @@
                   <ul class="sub-menu">
                     <li><a href="javascript:jerkarMoveTo('Dependency on arbitrary files',5);">Dependency on arbitrary files</a></li>
                     <li><a href="javascript:jerkarMoveTo('Dependency on files produced by computation',5);">Dependency on files produced b...</a></li>
-                    <li><a href="javascript:jerkarMoveTo('Dependency on module',5);">Dependency on module</a></li>
+                    <li class="liexpandable"><a href="javascript:jerkarMoveTo('Dependency on Module',5);">Dependency on Module</a>
+                      <ul class="sub-menu">
+                        <li><a href="javascript:jerkarMoveTo('Dependencies on Dynamic Versions',6);">Dependencies on Dynamic Vers...</a></li>
+                        <li><a href="javascript:jerkarMoveTo('Specifying Maven Classifier and extension of the artifact',6);">Specifying Maven Classifier ...</a></li>
+                      </ul>
+                    </li>
                   </ul>
                 </li>
               </ul>
@@ -153,16 +163,15 @@ function jerkarMoveTo(title, level) {
     }, 200);
 }
 </script><p><div id="static-content" class="col-md-9"></p><h2>Introduction</h2>
-<hr/><p>This document stands for reference guide. You'll find here details on Jerkar behaviour. </p>
+<hr/><p>This document stands for reference guide and provides details about Jerkar behaviour. If you are new to Jerkar you may find other places to learn about Jerkar : </p>
 <ul>
-  <li><p>If you need an overall vision of Jerkar, please have a <a href="http://jerkar.github.io/tour.html"><strong>tour</strong></a>.</p></li>
-  <li><p>If you need a a step-by-step learning guide, please visit <a href="http://jerkar.github.io/documentation/latest/getting-started.html"><strong>tutorial</strong></a>.</p></li>
-  <li><p>If you need more details about the API or in-deep behavior, please consult <a href="http://jerkar.github.io/javadoc/latest/index.html"><strong>javadoc</strong></a> or browse <a href="https://github.com/jerkar/jerkar/tree/master/org.jerkar.core"><strong>source code</strong></a>. You can also raise an issue in Git-hub to request an improvement on the documentation.</p></li>
-</ul><p><br/></p><h2>Jerkar runtime</h2>
-<hr/><p>This section details what happens behind the cover when Jerkar is run.</p><h3>Launching Java Process</h3><p>Jerkar is a pure Java application requiring <strong>JDK 6 or above</strong>. <strong>JDK</strong> is required and <strong>JRE</strong> is not sufficient.<br/>Indeed Jerkar uses the JDK tools to compile build definitions.</p><p>To ease launching java process in command line, Jerkar provides native scripts ( <em>jerkar.bat</em> for <strong>Windows</strong> and <em>jerkar</em> for <strong>Unix</strong> ).<br/>These scripts do the following :</p>
+  <li><p>To have an overall vision of Jerkar, please have a <a href="http://jerkar.github.io/tour.html"><strong>tour</strong></a>.</p></li>
+  <li><p>To get a step-by-step learning guide, please visit <a href="http://jerkar.github.io/documentation/latest/getting-started.html"><strong>tutorial</strong></a>.</p></li>
+</ul><p>If you are looking for how exactly Jerkar behaves or you want to get a pretty exhaustive list of Jerkar features, you are in the right document.</p><p>However, a document can not replace a source code or API for exhaustion, so please please consult <a href="http://jerkar.github.io/javadoc/latest/index.html"><strong>javadoc</strong></a> or browse <a href="https://github.com/jerkar/jerkar/tree/master/org.jerkar.core"><strong>source code</strong></a> to get deeper knowledge. </p><p>Also, you're welcome to raise an issue in Git-hub for requesting an improvement on documentation.</p><h3>Lexical</h3><p>These terms are used all over the document, this lexical disambiguates their meanings.</p><p><strong>Build Definition Files :</strong> These are files that define the build for a given project. In Jerkar, those files are Java sources (.java files) located under <em>[PROJECT DIR]/build/def</em> directory.<br/>A Jerkar project may contain 0 or many build definition files as a definition file stands for both the main build class and <em>utilities</em> classes.</p><p><strong>Build Class :</strong> This is the class containing the methods executed by Jerkar when a project is built.<br/>The build class may be a class coming the compilation of the build definition files or a <em>standard</em> class coming from Jerkar runtime. </p><p><strong>Jerkar Options :</strong> This is a set of key-value used to inject parameters in builds. The options can be mentioned as command line arguments or stored in specific files.<br/>The section <em>Build Configuration</em> details about Jerkar options.</p><h2>Jerkar Runtime</h2>
+<hr/><p>This section details what happens behind the cover when Jerkar is run.</p><h3>Launching Java Process</h3><p>Jerkar is a pure Java application requiring <strong>JDK 6 or above</strong>. <strong>JDK</strong> is required and <strong>JRE</strong> is not sufficient.<br/>Indeed Jerkar uses the JDK tools to compile build definition files.</p><p>To ease launching Java process in command line, Jerkar provides native scripts ( <em>jerkar.bat</em> for <strong>Windows</strong> and <em>jerkar</em> for <strong>Unix</strong> ).<br/>These scripts do the following :</p>
 <ol>
-  <li><strong>Find the java executable path</strong> : If a <code>JAVA_HOME</code> environment variable is defined then it takes this value as <code>java</code> path. Otherwise it takes the <code>java</code> executable defined in the <em>PATH</em> of your OS.</li>
-  <li><strong>Get java execution option</strong> : If an environment variable <code>JERKAR_OPTS</code> exists then its value will be passed in the <code>java</code>command line parameters, otherwise default <code>-Xmx512m -XX:MaxPermSize=512m</code> is passed.</li>
+  <li><strong>Find the java executable path</strong> : If a <code>JAVA_HOME</code> environment variable is defined then it takes its value as <code>java</code> path. Otherwise it takes the <code>java</code> executable defined in the <em>PATH</em> of your OS.</li>
+  <li><strong>Get java execution option</strong> : If an environment variable <code>JERKAR_OPTS</code> exists then its value is passed to the <code>java</code> command line parameters, otherwise default <code>-Xmx512m -XX:MaxPermSize=512m</code> is passed.</li>
   <li><strong>Set Jerkar classpath</strong> in the following order :
   <ul>
     <li>all jar and zip files found under <em>[WORKING DIR]/build/libs/build</em></li>
@@ -170,17 +179,17 @@ function jerkarMoveTo(title, level) {
     <li>the <em>[JERKAR_HOME]/org.jerkar.core.jar</em> file</li>
   </ul></li>
   <li><strong>Run the <code>org.jerkar.tool.Main</code> class</strong> passing the command line argument as is. So if you have typed <code>jerkar myArg1 myArg2</code> the <code>myArg1 myArg2</code> will be passed as Java command-line arguments.</li>
-</ol><h4>Embedded mode</h4><p>Note that <strong><em>[JERKAR_HOME]/org.jerkar.core.jar</em></strong> comes after <strong><em>[WORKING_DIR]/build/libs/build/*</em></strong> in the classpath.<br/>This means that if a version of Jerkar (org.jerkar.core.jar) is in this directory, the build will be processed with this instance of Jerkar and not with the one located in in <em>[JERKAR HOME]</em>.</p><p>This is called the <strong>Embedded</strong> mode. It guarantees that your project will build regardless of Jerkar version installed on the host machine.<br/>This mode allows to build your project even if Jerkar is not installed on the host machine. just execute <code>java -cp build/libs/build/* org.jerkar.tool.Main</code> instead of <code>jerkar</code>.</p><h3>Jerkar execution</h3><p>The <code>org.jerkar.tool.Main#main</code> is the entry point of Jerkar. This is the method you invoke to launch or debug a Jerkar build within your IDE.</p><p>It processes as follow :</p>
+</ol><h4>Embedded Mode</h4><p>Note that <strong><em>[JERKAR_HOME]/org.jerkar.core.jar</em></strong> comes after <strong><em>[WORKING_DIR]/build/libs/build/*</em></strong> in the classpath.<br/>This means that if a version of Jerkar (org.jerkar.core.jar) is in this directory, the build will be processed with this instance of Jerkar and not with the one located in in <em>[JERKAR HOME]</em>.</p><p>This is called the <strong>Embedded</strong> mode. It guarantees that your project will build regardless of Jerkar version installed on the host machine.<br/>This mode allows to build your project even if Jerkar is not installed on the host machine. just execute <code>java -cp build/libs/build/* org.jerkar.tool.Main</code> instead of <code>jerkar</code>.</p><h3>Jerkar Execution</h3><p>The <code>org.jerkar.tool.Main#main</code> is the entry point of Jerkar. This is the method you invoke to launch or debug a Jerkar build within your IDE.</p><p>It processes as follow :</p>
 <ol>
   <li>Parse the command line.</li>
   <li>Populate system properties and Jerkar options from configuration files and command line (see <strong>build configuration</strong>).</li>
   <li>Pre-process and compile build definition files (see <strong>Build Definition Compilation</strong>).</li>
-  <li>Instantiate the build class. The build class is the class specified by the <code>buildClass</code> option if present. If not, it is the first class implementing <code>org.jerkar.tool.JkBuild</code>. If no class implementing <code>org.jerkar.tool.JkBuild</code> is found then the <code>org.jerkar.tool.builtins.javabuild.JkJavaBuild</code> is instantiated.<br/>The class scanning processes classes in alphabetic order then subpackage in deep first. This mean that class <code>MyBuid</code> will be scanned prior <code>apackage.ABuild</code>, and <code>aa.bb.MyClass</code> will be scanned prior <code>ab.OtherClass</code>.<br/>The <code>buildClass</code> option can mention a simple name class (class name omitting its package). If no class matches the specified <code>buildClass</code> then an exception is thrown.</li>
-  <li>Inject options in build instance fields (see <strong>build configuration</strong>).</li>
-  <li>Call the <code>init()</code> method on the build instance.</li>
-  <li>Instantiate and bind plugins.</li>
-  <li>Invoke methods specified in command line arguments.</li>
-</ol><h4>Build Definition Compilation</h4><p>Jerkar compiles the build definition files prior to execute it. The build definition sources are expected to be in <em>[PROJECT DIR]/build/def</em>. If this directory does not exist or does not contains java sources, the compilation is skipped.<br/>Compilation outputs class files in <em>[PROJECT DIR]/build/output/def-bin</em> directory and uses classpath containing :</p>
+  <li>Instantiate the build class (see <strong>Build Class Instantiation</strong>)</li>
+  <li>Inject options in build instance fields along the project root directory (see <strong>Build Configuration</strong>).</li>
+  <li>Call the <code>init()</code> method on the build instance. This is the place to set location related variable and to configure plugins.</li>
+  <li>Instantiate and configure plugins specified in command line arguments.</li>
+  <li>Invoke methods specified in command line arguments : methods are executed in the order they appear on the command line.</li>
+</ol><h4>Build Definition File Compilation</h4><p>Jerkar compiles the build definition files prior to execute it. The build definition files are expected to be in <em>[PROJECT DIR]/build/def</em>. If this directory does not exist or does not contains java sources, the compilation is skipped.<br/>Compilation outputs class files in <em>[PROJECT DIR]/build/output/def-bin</em> directory and uses classpath containing :</p>
 <ul>
   <li>Java libraries located in <em>[PROJECT DIR]/build/libs/build</em>.</li>
   <li>Java libraries located in <em>[JERKAR HOME]/libs/ext</em> (not in embedded mode).</li>
@@ -189,15 +198,15 @@ function jerkarMoveTo(title, level) {
   <li>Java libraries hosted on a Maven or Ivy repositories</li>
   <li>Java libraries located on file system.</li>
   <li>Build definition (java sources) of other projects</li>
-</ul><p>The information about the extra lib to add to classpath are located in the build definition files, inside <code>@JkImport</code> and <code>@JkProject</code> annotation.<br/>To read this information, build definition files are parsed prior to be compile in order to constitute the classpath.</p><h5>Libraries located on Maven/Ivy Repository</h5><p>To add libraries from Maven/Ivy repository you need to annotate the build definition with <code>@JkImport</code>. This annotation takes an array of String as its default parameter so you can specify several dependencies.<br/>The mentioned dependencies are resolved transitively. </p>
+</ul><p>Information about extra lib to add to classpath are located in the build definition files, inside <code>@JkImport</code> and <code>@JkProject</code> annotation.<br/>To read this information, build definition files are parsed prior to be compiled in order to extract classpath from source code.</p><h5>Libraries Located on Maven/Ivy Repository</h5><p>To add libraries from Maven/Ivy repository you need to annotate the build definition with <code>@JkImport</code>. This annotation takes an array of String as its default parameter so you can specify several dependencies.<br/>The mentioned dependencies are resolved transitively. </p>
 <pre><code>@JkImport(`{&quot;commons-httpclient:commons-httpclient:3.1&quot;, &quot;com.google.guava:guava:18.0&quot;})
 public class HttpClientTaskBuild extends JkJavaBuild {`
 ...
-</code></pre><p>Url of the maven/ivy repository is given by <code>downloadRepoUrl</code> Jerkar option (or it uses Maven Central if this option is not specified).<br/>If this repository needs credentials, you need to supply it through Jerkar options <code>dowloadRepoUsername</code> and <code>downloadRepoPassword</code>.</p><p>If the download repository is an Ivy repo, you have to prefix url with <code>ivy:</code> so for example you'll get <code>ivy:http://my.ivy/repo</code>.</p><h5>Libraries on file system</h5><p>To add library from file system you need to annotate the build definition with <code>@JkImport</code>. This annotation takes an array of String as argument so you can specify several dependencies.<br/>The mentioned dependencies are not resolved transitively.<br/>The expected value is a Ant include pattern applied to the project root directory.</p>
+</code></pre><p>Url of the maven/ivy repository is given by <code>downloadRepoUrl</code> Jerkar option (or it uses Maven Central if this option is not specified).<br/>If this repository needs credentials, you need to supply it through Jerkar options <code>dowloadRepoUsername</code> and <code>downloadRepoPassword</code>.</p><p>If the download repository is an Ivy repo, you have to prefix url with <code>ivy:</code> so for example you'll get <code>ivy:http://my.ivy/repo</code>.</p><h5>Libraries on File System</h5><p>To add library from file system you need to annotate the build definition with <code>@JkImport</code>. This annotation takes an array of String as argument so you can specify several dependencies.<br/>The mentioned dependencies are not resolved transitively.<br/>The expected value is a Ant include pattern applied to the project root directory.</p>
 <pre><code>@JkImport(`{&quot;commons-httpclient:commons-httpclient:3.1&quot;, &quot;build/libs/compile/*.jar&quot;})
 public class HttpClientTaskBuild extends JkJavaBuild {`
 ...
-</code></pre><p>Thiis will include <em>commons-httpclient</em> and its dependencies in the classpath along all jar file located in <em>[PROJECT DIR]/build/libs/compile</em>.</p><h5>Build definitions of other project</h5><p>Your build definitions can depends on build definitions of other projects. It is typically the case for multi-project builds.<br/>This capability allows to share build elements in a static typed way as the build definitions files can consume classes coming from build definitions of other projects.</p><p><code>@JkProject</code> is an annotation that applies on fields instance of <code>org.jerkar.tool.JkBuild</code> of its subclasses. This annotation contains the relative path of the consumed project.<br/>If the project build definition sources contain some <code>@JkProject</code> annotations, the build definition files of the consumed project are pre-processed and compiled recursively.<br/>The classes and the classpath of the consumed project are added to the build definition classpath of the consumer project.</p>
+</code></pre><p>This will include <em>commons-httpclient</em> and its dependencies in the classpath along all jar file located in <em>[PROJECT DIR]/build/libs/compile</em>.</p><h5>Build Definitions of Other Project</h5><p>Your build definitions can depends on build definitions of other projects. It is typically the case for multi-project builds.<br/>This capability allows to share build elements in a static typed way as the build definitions files can consume classes coming from build definitions of other projects.</p><p><code>@JkProject</code> is an annotation that applies on fields instance of <code>org.jerkar.tool.JkBuild</code> or its subclasses. This annotation contains the relative path of the consumed project.<br/>If the project build definition sources contain some <code>@JkProject</code> annotations, the build definition files of the consumed project are pre-processed and compiled recursively.<br/>The classes and the classpath of the consumed project are added to the build definition classpath of the consumer project.</p>
 <pre><code>public class DistribAllBuild extends JkBuildDependencySupport {
 	
 	@JkProject(&quot;../org.jerkar.plugins-sonar&quot;)
@@ -216,7 +225,7 @@ public class HttpClientTaskBuild extends JkJavaBuild {`
 		File distDir = this.ouputDir(&quot;dist&quot;);
 		JkFileTree dist = JkFileTree.of(distDir).importDirContent(core.distribFolder);
 		...
-</code></pre><p><br/></p><h2>Build Configuration</h2>
+</code></pre><h4>Build Class Instantiation</h4><p>Once the build definition files compiled. Jerkar instantiate the build class.<br/>The build class is specified by the <code>buildClass</code> option if present. If not, it is the first class implementing <code>org.jerkar.tool.JkBuild</code>.<br/>If no class implementing <code>org.jerkar.tool.JkBuild</code> is found then the <code>org.jerkar.tool.builtins.javabuild.JkJavaBuild</code> is instantiated.</p><p>The class scanning processes classes in alphabetic order then subpackage in deep first. This mean that class <code>MyBuid</code> will be scanned prior <code>apackage.ABuild</code>, and <code>aa.bb.MyClass</code> will be scanned prior <code>ab.OtherClass</code>.</p><p>The <code>buildClass</code> option can mention a simple name class (class name omitting its package). If no class matches the specified <code>buildClass</code> then an exception is thrown.</p><p>The <code>org.jerkar.tool.JkBuild</code> constructor instantiate fields annotated with <code>@JkProject</code>. If a project build appears many time in the annotated project tree, a single instance is created then shared.</p><h2>Build Configuration</h2>
 <hr/><p>Jerkar build are configurable. Build definition classes can retrieve values defined at runtime by reading :</p>
 <ul>
   <li>an environment variable</li>
@@ -256,7 +265,7 @@ deployServer.password=myPassword
 </ul><h4>How to document options ?</h4><p>If you want your option been displayed when invoking <code>jerkar help</code> you need to annotate it with <code>@JkDoc</code>.</p><p>For example :</p>
 <pre><code>@JkDoc(&quot;Make the test run in a forked process&quot;)
 private boolean forkTests = false;
-</code></pre><p><br/></p><h2>Dependency Management</h2>
+</code></pre><h2>Dependency Management</h2>
 <hr/><h3>What is a dependency ?</h3><p>In this context, we call a <strong>dependency</strong> an indication that can be resolved to a file (or a set of file) needed to accomplish certain part of the build.<br/>So for example if a project <em>Foo</em> has a <strong>dependency</strong> <em>bar</em>, this means that <em>Foo</em> may need the files indicated by <em>bar</em> for building.<br/>In Jerkar code, the dependency concept is embodied by the abstract <code>JkDependency</code> class.</p><p>Jerkar distinguishes 3 types of <strong>dependency</strong> :</p>
 <ul>
   <li><strong>Arbitrary files</strong> located on the file system (Embodied by <code>JkFileSystemDependency</code> class). These files are assumed to be present on the file system when the build is running.</li>
@@ -314,7 +323,7 @@ public static final JkScope TEST = JkScope.of(&quot;test&quot;).extending(RUNTIM
 </ul><p>The generic way is to construct this kind of dependency using a <code>java.lang.Runnable</code>.</p>
 <pre><code>private Runnable computation = new Runnable() {...}; 
 	
-File fooFile = new File(&quot;../otherproject/target/outpufoo.jar&quot;);  // dependency file  
+File fooFile = new File(&quot;../otherproject/target/output/foo.jar&quot;);  // dependency file  
 	
 @Override
 protected JkDependencies dependencies() {
@@ -328,7 +337,7 @@ public JkJavaBuild fooBuild;  // This is the build coming from the &#39;foo&#39;
 @Override
 protected JkDependencies dependencies() {
     return JkDependencies.builder()
-	    .on(fooBuild.asComputedDependency(&quot;doPack&quot;, fooBuid.packer().jarFile() ))
+	    .on(fooBuild.asComputedDependency(&quot;doPack&quot;, fooBuild.packer().jarFile() ))
     .build();
 }
 </code></pre><p>Here the method <code>doPack</code> of <code>fooBuild</code> will be invoked if the specified file does not exist.<br/>See <em>Multi Module Project</em> to get details how parameters are propagated to dependee builds.</p><p>You can also use another kind of project mentioning the command line to run in order to build the project.</p>
@@ -339,10 +348,50 @@ JkProcess antBuild = JkProcess.of(&quot;ant&quot;, &quot;makeJar&quot;).withWork
 @Override
 protected JkDependencies dependencies() {
     return JkDependencies.builder()
-        .on(JkProjectDependency.of(antBuild, fooJar))).scope(PROVIDED)  
+        .on(JkProjectDependency.of(antBuild, fooJar)).scope(PROVIDED)  
     .build();
 }
-</code></pre><p>Here, if <em>fooJar</em> file does not exist the <code>ant makeJar</code> command line will be invoked prior to retry to find the file.<br/>If the file still does not exist then the build fails.</p><h5>Dependency on module</h5><p>This is for declaring a dependency on module hosted in <em>Maven</em> or <em>Ivy</em> repository.</p><h3>Bind dependencies to scope</h3><p>The whole project dependency description lie in a single instance of <code>JkDependencies</code>. This class offers convenient factory methods and builder to define the dependencies.</p><p>```</p><p>```</p><p><br/></p><p></div> <!--end of wrapper div --> </p>
+</code></pre><p>Here, if <em>fooJar</em> file does not exist the <code>ant makeJar</code> command line will be invoked prior to retry to find the file.<br/>If the file still does not exist then the build fails.</p><h5>Dependency on Module</h5><p>This is for declaring a dependency on module hosted in <em>Maven</em> or <em>Ivy</em> repository. Basically you instantiate a <code>JkModuleDepency</code> from it's group, name and version.</p>
+<pre><code>...	
+@Override  // Optional :  needless if you use only local dependencies
+protected JkDependencies dependencies() {
+    return JkDependencies.builder()
+        .on(GUAVA, &quot;18.0&quot;)
+        .on(&quot;com.orientechnologies:orientdb-client:2.0.8&quot;)
+        .on(&quot;my.group:mymodule:0.2-SNAPSHOT&quot;)
+	.build();
+}
+...   
+</code></pre><p>There is many way to indicate the dependee modules, see <a href="http://jerkar.github.io/javadoc/latest/index.html?org/jerkar/api/depmanagement/JkModuleDependency.html">Javadoc</a> for browsing possibilities. </p><p>Note that a version ending by <code>-SNAPSHOT</code> has a special meaning, Jerkar will consider it <em>changing</em> meaning that it won't cache it locally and will<br/>download the latest version. </p><h6>Dependencies on Dynamic Versions</h6><p>Jerkar allows to specify a version range, for example, the following is legal :</p>
+<pre><code>...	
+@Override  
+protected JkDependencies dependencies() {
+    return JkDependencies.builder()
+        .on(GUAVA, &quot;16.+&quot;)
+        .on(&quot;com.orientechnologies:orientdb-client:[2.0.8, 2.1.0[&quot;)
+	.build();
+}
+...   
+</code></pre><p>As Jerkar relies on Ivy under the hood, you can use any expression mentioned (here) [http://ant.apache.org/ivy/history/latest-milestone/ivyfile/dependency.html].</p><h6>Specifying Maven Classifier and extension of the artifact</h6><p>If the module repository is a Maven one, you can specify the classifier of the artifact you want to retrieve :</p>
+<pre><code>...	
+@Override 
+protected JkDependencies dependencies() {
+    return JkDependencies.builder()
+        .on(&quot;my.group:mymodule:1.0.1:jdk15&quot;)
+	.build();
+}
+...   
+</code></pre><p>You can also precise the extension of the artifact :</p>
+<pre><code>...	
+@Override 
+protected JkDependencies dependencies() {
+    return JkDependencies.builder()
+        .on(&quot;my.group:mymodule:1.0.1:jdk15@zip&quot;)
+        .on(&quot;my.group:otherModule:1.0.15@exe&quot;)
+	.build();
+}
+...   
+</code></pre><h3>Bind dependencies to scope</h3><p>The whole project dependency description lie in a single instance of <code>JkDependencies</code>. This class offers convenient factory methods and builder to define the dependencies.</p><p>```</p><p>```</p><p></div> <!--end of wrapper div --> </p>
 	</p>
 
 	<hr />
