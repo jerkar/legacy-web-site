@@ -31,8 +31,12 @@ public class ImplicitMenu {
 					Item parent = findParent(parents, item);
 					if (parent == null) {
 						items.add(item);
+						int index = items.size();
+						item.number = "" + index + ".";
 					} else {
 						parent.children.add(item);
+						int index = parent.children.size();
+						item.number = parent.number + index + ".";
 					}
 					parents.add(item);
 					
@@ -92,8 +96,11 @@ public class ImplicitMenu {
 		builder.append(indent);
 		boolean hasChild = !item.children.isEmpty();
 		String liClass = hasChild ? " class=\"liexpandable\"" : "";
-		builder.append("<li" + liClass + "><a href=\""+action(item)).append("\">")
-			.append(JkUtilsString.elipse(item.name, 40 - item.level*2)).append("</a>");
+		builder.append("<li" + liClass + "><a href=\""+action(item)).append("\">");
+		if (item.level <= 4) {
+			builder.append(item.number);
+		}
+		builder.append(JkUtilsString.elipse(item.name, 40 - item.level*2)).append("</a>");
 		if (!hasChild) {
 			builder.append("</li>\n");
 		} else {
@@ -122,6 +129,8 @@ public class ImplicitMenu {
 		final int level;
 		
 		final List<Item> children;
+		
+		String number;
 
 		public Item(String name, int level) {
 			super();

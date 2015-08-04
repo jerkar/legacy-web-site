@@ -37,6 +37,10 @@
 	
 	<!-- sidebar css -->
 	<link href="<#if (content.rootpath)??>${content.rootpath}<#else></#if>css/sidebar.css" rel="stylesheet">
+	
+	<#if (content.addSideMenu)??>
+		<link href="<#if (content.rootpath)??>${content.rootpath}<#else></#if>css/numberify.css" rel="stylesheet">
+	</#if>
   
   </head>
   <body onload="prettyPrint()">

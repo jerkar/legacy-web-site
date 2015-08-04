@@ -1,3 +1,9 @@
+title=Tell me more
+date=2015-08-05
+type=page
+status=published
+~~~~~~
+
 # Tell me more
 ----
 

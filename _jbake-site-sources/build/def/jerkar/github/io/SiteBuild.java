@@ -30,6 +30,8 @@ public class SiteBuild extends JkBuild {
 	File siteDistDir = siteBase.file("binaries");
 	JkFileTree siteTargetDocDir = baseDir().from("content/documentation");
 	
+	List<File> menuAddedFiles = jbakeSrcContent.include("**/*.md").exclude("about.md", "download.md", "tell-me-more.md").files(false);
+	
 	@Override
 	public void clean() {
 		siteBase.exclude(".*/**", "_*/**", "binaries/**").deleteAll();
@@ -77,8 +79,7 @@ public class SiteBuild extends JkBuild {
 	}
 	
 	public void addHeaders() {
-		List<File> files = jbakeSrcContent.include("**/*.md").exclude("about.md", "download.md").files(false);
-		for (File file : files) {
+		for (File file : menuAddedFiles) {
 			String content = header(file);
 			JkUtilsFile.writeStringAtTop(file, content);
 		}
@@ -111,6 +112,7 @@ public class SiteBuild extends JkBuild {
 			.append("date="+ JkUtilsTime.now("yyyy-MM-dd")).append("\n")
 			.append("type=page\n")
 			.append("status=published\n")
+			.append("addSideMenu=true\n")
 			.append("~~~~~~\n\n");
 		return result.toString();
 	}
@@ -120,11 +122,13 @@ public class SiteBuild extends JkBuild {
 	}
 	
 	private void addMenu() {
-		for (File file : jbakeSrcContent.include("**/*.md").exclude("about.md", "download.md")) {
+		for (File file : menuAddedFiles) {
 			String menuHtml = ImplicitMenu.ofMdFile(file, 2).divSideBarAndScriptHtml();
 			JkUtilsFile.writeStringAtTop(file, menuHtml);
 			JkUtilsFile.writeString(file, ImplicitMenu.endDivHtml("end of wrapper div"), true);
 		}
 	}
+	
+	
 
 }
