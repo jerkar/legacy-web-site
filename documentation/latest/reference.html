@@ -122,14 +122,20 @@
             </li>
           </ul>
         </li>
-        <li class="liexpandable"><a href="javascript:jerkarMoveTo('Dependency Management',2);">4.Dependency Management</a>
+        <li class="liexpandable"><a href="javascript:jerkarMoveTo('Plugins',2);">4.Plugins</a>
           <ul class="sub-menu">
-            <li><a href="javascript:jerkarMoveTo('What is a dependency ?',3);">4.1.What is a dependency ?</a></li>
-            <li><a href="javascript:jerkarMoveTo('What is a scope ?',3);">4.2.What is a scope ?</a></li>
-            <li class="liexpandable"><a href="javascript:jerkarMoveTo('Define dependencies for a project',3);">4.3.Define dependencies for a project</a>
+            <li><a href="javascript:jerkarMoveTo('Declare Plugin in Build Class',3);">4.1.Declare Plugin in Build Class</a></li>
+            <li><a href="javascript:jerkarMoveTo('Mention plugin in the Command Line',3);">4.2.Mention plugin in the Command Line</a></li>
+          </ul>
+        </li>
+        <li class="liexpandable"><a href="javascript:jerkarMoveTo('Dependency Management',2);">5.Dependency Management</a>
+          <ul class="sub-menu">
+            <li><a href="javascript:jerkarMoveTo('What is a dependency ?',3);">5.1.What is a dependency ?</a></li>
+            <li><a href="javascript:jerkarMoveTo('What is a scope ?',3);">5.2.What is a scope ?</a></li>
+            <li class="liexpandable"><a href="javascript:jerkarMoveTo('Define dependencies for a project',3);">5.3.Define dependencies for a project</a>
               <ul class="sub-menu">
-                <li><a href="javascript:jerkarMoveTo('Define scopes',4);">4.3.1.Define scopes</a></li>
-                <li class="liexpandable"><a href="javascript:jerkarMoveTo('Defining individual dependency',4);">4.3.2.Defining individual dependency</a>
+                <li><a href="javascript:jerkarMoveTo('Define scopes',4);">5.3.1.Define scopes</a></li>
+                <li class="liexpandable"><a href="javascript:jerkarMoveTo('Defining individual dependency',4);">5.3.2.Defining individual dependency</a>
                   <ul class="sub-menu">
                     <li><a href="javascript:jerkarMoveTo('Dependency on arbitrary files',5);">Dependency on arbitrary files</a></li>
                     <li><a href="javascript:jerkarMoveTo('Dependency on files produced by computation',5);">Dependency on files produced b...</a></li>
@@ -143,7 +149,7 @@
                 </li>
               </ul>
             </li>
-            <li><a href="javascript:jerkarMoveTo('Bind dependencies to scope',3);">4.4.Bind dependencies to scope</a></li>
+            <li><a href="javascript:jerkarMoveTo('Bind dependencies to scope',3);">5.4.Bind dependencies to scope</a></li>
           </ul>
         </li>
     </ul>
@@ -267,7 +273,51 @@ deployServer.password=myPassword
 </ul><h4>How to document options ?</h4><p>If you want your option been displayed when invoking <code>jerkar help</code> you need to annotate it with <code>@JkDoc</code>.</p><p>For example :</p>
 <pre><code>@JkDoc(&quot;Make the test run in a forked process&quot;)
 private boolean forkTests = false;
-</code></pre><h2>Dependency Management</h2>
+</code></pre><h2>Plugins</h2>
+<hr/><p>Jerkar provides a plugable architecture. To be precise, build templates provided with Jerkar (<code>org.jerkar.tool.JkBuild</code>, <code>org.jerkar.tool.builtins.javabuild.JkJavaBuildPlugin</code>) provides methods designed for extension point.<br/>Methods designed for extension point alter their behavior according plugins activated in the enclosing template.</p><p>Example for <code>JkJavaBuild</code> </p>
+<pre><code>    /**
+	 * Returns location of production source code (containing edited + generated sources).
+	 */
+	public JkFileTreeSet sources() {
+		return JkJavaBuildPlugin.applySourceDirs(this.plugins.getActives(),
+				editedSources().and(generatedSourceDir()));
+	}
+</code></pre><p>And its <code>JkJavaBuildPlugin</code> class plugin :</p>
+<pre><code>    static JkFileTreeSet applySourceDirs(Iterable&lt;? extends JkBuildPlugin&gt; plugins, JkFileTreeSet original) {
+		JkFileTreeSet result = original;
+		for (final JkBuildPlugin plugin : plugins) {
+			result = ((JkJavaBuildPlugin) plugin).alterSourceDirs(result);
+		}
+		return result;
+	}
+	
+	/**
+	 * Override this method if the plugin need to alter the source directory to use for compiling.
+	 * 
+	 * @see JkJavaBuild#sources()
+	 */
+	protected JkFileTreeSet alterSourceDirs(JkFileTreeSet original) {
+		return original;
+	}
+</code></pre><p>There is 2 ways for binding a plugin to a template : by declaring it inside the build class or by mention it in the command line.</p><h3>Declare Plugin in Build Class</h3><p>The best place to declare plugin is within <code>#init()</code> method. Indeed, when this method is invoked, fields and project base directory have been yet set to proper value.<br/>At this point you can choose either to activate it (mean that the the plugin is always taken in account) or just configure it (in this case the plugin is taken in account only if specified in command line).</p><p>To activate a plugin, just invoke <code>JkBuildPlugins#activate</code> method passing the instantiated plugin as :</p>
+<pre><code>@Override
+	protected void init() {
+		JkBuildPluginSonar sonarPlugin = new JkBuildPluginSonar()
+			.prop(JkSonar.HOST_URL, sonarEnv.url)
+			.prop(JkSonar.BRANCH, &quot;myBranch&quot;);
+		JkBuildPluginJacoco pluginJacoco = new JkBuildPluginJacoco();
+		this.plugins.activate(sonarPlugin);
+	}
+</code></pre><p>Here, the SonarQube plugin is active at each build. When activated, this plugin launches a SonarQube analysis when the <code>verify</code> method is invoked on the <code>JkBuild</code> instance.</p><p>But in this case :</p>
+<pre><code>@Override
+	protected void init() {
+		JkBuildPluginSonar sonarPlugin = new JkBuildPluginSonar()
+			.prop(JkSonar.HOST_URL, sonarEnv.url)
+			.prop(JkSonar.BRANCH, &quot;myBranch&quot;);
+		JkBuildPluginJacoco pluginJacoco = new JkBuildPluginJacoco();
+		this.plugins.configure(sonarPlugin);
+	}
+</code></pre><p>the SonarQube plugin is not activated unless you specify <code>#sonar</code> in the command line (see below).</p><h3>Mention plugin in the Command Line</h3><p>You can both configure plugin, activate plugin and invoke plugin methods from the command line without declaring anything in the build definition files.</p><h2>Dependency Management</h2>
 <hr/><h3>What is a dependency ?</h3><p>In this context, we call a <strong>dependency</strong> an indication that can be resolved to a file (or a set of file) needed to accomplish certain part of the build.<br/>So for example if a project <em>Foo</em> has a <strong>dependency</strong> <em>bar</em>, this means that <em>Foo</em> may need the files indicated by <em>bar</em> for building.<br/>In Jerkar code, the dependency concept is embodied by the abstract <code>JkDependency</code> class.</p><p>Jerkar distinguishes 3 types of <strong>dependency</strong> :</p>
 <ul>
   <li><strong>Arbitrary files</strong> located on the file system (Embodied by <code>JkFileSystemDependency</code> class). These files are assumed to be present on the file system when the build is running.</li>
