@@ -32,7 +32,7 @@
       </div>
       
        <div class="github hidden-phone hidden-tablet">
-		<a href="https://github.com/jerkar/jerkar"><img style="position: fixed; top: 0; right: 0; border: 0; z-index: 1050;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png" alt="Fork me on GitHub"></a>
+		<a href="https://github.com/jerkar/jerkar"><img style="position: fixed; top: 0; right: 0; border: 0; z-index: 1050;" src="img/forkme_right_orange_ff7600.png" alt="Fork me on GitHub"></a>
 	</div>
       
 

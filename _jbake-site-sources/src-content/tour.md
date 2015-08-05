@@ -1,27 +1,27 @@
 # Enjoy the Jerkar tour !
 --------------------------
 
-This page will give you a concrete idea on how Jerkar is working and what you can do with.
+This page gives a concrete idea on how Jerkar is working and what you can do with.
 
 ## Principles
-Jerkar is quite simpe in its principle. You write a class extending `org.jerkar.tool.JkBuild` in the _build/def_ folder of your project then you can execute any public zero arg methods from the command line by executing `jerkar myMethod1 myOtherMethod` at the root folder of your project. To accomplish this, Jerkar :
+Jerkar is quite simpe in its principle. You write a class extending `org.jerkar.tool.JkBuild` in the _build/def_ directory of your project then you can execute any public zero arg methods from the command line by executing `jerkar myMethod1 myOtherMethod` at the project root directory. To accomplish this, Jerkar :
 
-* compiles every java sources found under the _build/def_ folder
-* instantiates the first compiled class found implementing `org.jerkar.tool.JkBuild`. If none the `org.jerkar.tool.builtins.templates.javabuild.JkJavaBuild` class is instantiated
-* invokes specified methods on the created instance. If no method is specified then the `doDefault` method is invoked 
+* Compiles every java sources found under the _[PROJECT DIR]/build/def_ folder.
+* Instantiates the first compiled class found implementing `org.jerkar.tool.JkBuild`. If none the `org.jerkar.tool.builtins.templates.javabuild.JkJavaBuild` class is instantiated.
+* Invokes specified methods on the created instance. If no method is specified then the `doDefault` method is invoked.
 
 You can also set instance fields from the command line by typing `jerkar myMethod -myField=foo`.
 
-Concretely your Java project will be structured as is :
+Concretely your Java project is structured as :
 
 ![Project layout](img/principle.png)
 
-## Build styles
+## Build Styles
 
-With Jerkar you can write task based build definition (ala _Ant_), templated ones (ala _Maven_) or rely on conventions only (no build script needed). The following section illustrates different approaches to use Jerkar. 
+With Jerkar you can write task based build definitions (ala _Ant_), templated ones (ala _Maven_) or rely on conventions only (no build script needed). The following section illustrates different approaches to use Jerkar. 
 
-### Task based builds (ala Ant)
-If you like to have __complete control__ over your build, you may prefere the _Ant_ build style. 
+### Task Based Builds (ala Ant)
+If you like to have __complete control__ over your builds, you may prefer the _Ant_ build style. 
 The price is that you have to __write explicitly__ what your build is doing. 
 
 This example mimics the [tutorial ANT build script](http://ant.apache.org/manual/tutorial-HelloWorldWithAnt.html) 
@@ -91,8 +91,8 @@ From this build definition, we can execute Jerkar the following way :
 - Execute a command line in a shell (or on a build server)  as `jerkar doDefault` or `jerkar cleanBuild -forkTests=true`.
 
 <br/>
-### Templated builds (ala Maven)
-For Java project you may directly extend `JkJavaBuild` template class which implements common methods for you. 
+### Templated Builds (ala Maven)
+For Java projects you may directly extend `JkJavaBuild` template class which implements common methods for you. 
 All you need is to implement what is specific.
 
 ```
@@ -125,7 +125,7 @@ public class MavenStyleBuild extends JkJavaBuild {
 This example is for demo purpose. Some settings can be omitted by respecting naming conventions...
 <br/>
 
-### Templated builds with conventions
+### Templated Builds with Conventions
 
 If you follow conventions (as project folder named as _groupName.projectName_ and version stored in a _version.txt_ file), the above script turns to :
 
@@ -143,19 +143,21 @@ public class BuildSampleClassic extends JkJavaBuild {
 	}	
 }
 ```
-### <a name="100conventional"></a><br/>Fully conventional style !!!
 
-If you use only local dependencies (jar dependencies located as bellow), you don't even need to write a build file.
-Note that local dependencies have to be located in subfolder corresponding to its scope (build, compile, runtime,...).
+<a name="100conventional">&nbsp;</a>
+### Fully Conventional Style
+
+If your project uses local file dependencies only (jar dependencies located as below), you don't even need to write a build definitions.
+Note that local file dependencies have to be located in sub-folder corresponding to its scope (build, compile, runtime,...).
 
 ![Project layout full convention](img/full-convention-project.png)
 
-### Eclipse style
+### Eclipse Style
 
 If Eclipse is your IDE, you can just reuse information from the _.classpath_ file by using the Eclipse plugin.
 Project name, source folders and dependencies can be deducted from this file. Just activate the Eclipse plugin (see below).
 
-### Custom builds with third parties
+### Custom Builds with Third Parties
 
 Your build class can depend itself from managed dependencies 
 
@@ -170,13 +172,14 @@ public class SeleniumTaskBuild extends JkJavaBuild {
     }
 }
 ```
-### Multi-project builds
+### Multi-project Builds
 In a multi project context, build instances, from different projects, can use each other.
-In general, the build dependency schema is the same than for the code.
+You just have to declare the "slave" build instance as field and annotate it with the `@JkProject` mentioning the "slave" project relative path.
+The annotated field is instantiated and configured when the "master" build is instantiated so you can invoke any of the "slave" methods in your "master" build class.  
 
 ```
 // This is the master project for building the Jerkar full distribution
-public class DistribAllBuild extends JkBuildDependencySupport {
+public class DistribAllBuild extends JkBuild {
 	
     @JkProject("../org.jerkar.plugins-sonar")
     PluginsSonarBuild pluginsSonar;
@@ -201,13 +204,13 @@ public class DistribAllBuild extends JkBuildDependencySupport {
 <strong>Note that you can reuse external build elements in a statically typed way !!! </strong>
 </div>
 
-## Out-of-the-box features
+## Out-of-the-box Features
 
-This section answer to the following question : <blockquote>What Jerkar can do for me if I haven't written build file or have just a build file declaring dependencies only ?</blockquote>
+This section answers to the following question : <blockquote>What Jerkar can do for me if I haven't written build file or have just a build file declaring dependencies only ?</blockquote>
 
 Yep, with Jerkar, if you don't have written any build file or just have a build file containing dependency definition, you can yet perform pretty sophisticated tasks. 
 
-### Basic tasks
+### Basic Tasks
     
 - `jerkar help` : outputs on console available methods and options for Jerkar in the current project.
 - `jerkar clean` : clean the output directory that is _[project dir]/build/output_.
@@ -229,16 +232,16 @@ Whitout omitting the shorthands :
  
 - `jerkar` = `jerkar doDefault` = `jerkar doPack`
 
-These taskscan be parametrized :
+These tasks can be parametrized :
 
 - `jerkar -fatJar=true -forkTests=true` = `jerkar doPack` + forking the unit tests and produce a fat jar
 
 The last will result in the following artifact creation :
 ![Created artifacts](img/output.png)
 
-### Plugin tasks
+### Plugin Tasks
 
-Template classes (`JkBuild` and `JkJavaBuild`) enable plugability by providing hooks on several methods. 
+Template classes (`JkBuild` and `JkJavaBuild`) enable pluggability by featuring methods with extension points. 
 A plugin is just a class extending `JkBuildPlugin`  or `JkJavaBuildPlugin` and overriding default hook methods. Plugins can also provide their own methods.
 
 - To activate a plugin on the command line, just mention the name of the plugin followed by a `#`.
@@ -266,7 +269,7 @@ Almost all classes coming from this API are <strong>immutable</strong> providing
 
 The follow will give you some ideas of what you can accomplish with this API. To have more insight, please visit [Javadoc](http://jerkar.github.io/javadoc/latest/index.html).
 
-### File manipulation & selection
+### File Manipulation & Selection
 
 The `JkFileTree` class allow to define a set of files having a common root folder and to performs numerous operation on.
 The following code, show how to construct a *war* file from dispersed elements.
@@ -284,7 +287,7 @@ war.zip().to(warFileDest);
 `JkFileTreeSet`, `JkPath` (sequence of files), `JkZipper`, `JkFileFilter` and `JkUtilsFile` are the other players for manipulate files.
 All belong to `org.jerkar.api.file` package.
 
-### Process launching
+### Process Launching
 
 The `JkProcess` class provides super easy way to launch external process.
 The follow show how to launch a Maven process on the project located at __projectBaseDir__.
@@ -297,7 +300,7 @@ JkProcess.of("mvn", "clean","install","-U")
     .runSync();
 ```
 
-### Java core stuffs
+### Java Core Stuffs
 
 #### Classpaths
 
@@ -309,7 +312,7 @@ then returns the first one containing the `my.SearchedClass` class.
 File jar = JkClasspath.of(lib1, lb2, lib3).getEntryContainingClass("my.SearchedClass"); 
 ```
 
-#### Class loarders
+#### Class Loarders
 
 `JkClassloader` allows to get or construct class-loaders then scan the class-path or invoke methods within. 
 
@@ -321,7 +324,7 @@ JkClassLoader.current().loadClasses("com/mypack/**/*");
 
 This class provides also methods to perform cross class-loader calls friendly.
 
-#### Running Java programs
+#### Running Java Programs
 
 `JkJavaProcess` is a Java specific flavor of `JkProcess`. 
 
@@ -331,7 +334,7 @@ JkJavaProcess.of().withWorkingDir(myWorkingDir)
 ```			
 
 
-### Java build API
+### Java Build API
 
 Jerkar provides Fluent API for addressing build of Java projects.
 
@@ -444,9 +447,6 @@ JkPublishRepos repos = JkPublishRepo
 JkPublisher.of(repos).publishMaven(versionedModule, publication, dependencies) ;
 
 ```
-
-
-
 
 ### Cryptography
 
