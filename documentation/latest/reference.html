@@ -122,27 +122,36 @@
             </li>
           </ul>
         </li>
-        <li class="liexpandable"><a href="javascript:jerkarMoveTo('Plugins',2);">4.Plugins</a>
+        <li class="liexpandable"><a href="javascript:jerkarMoveTo('Master/Slave Projects',2);">4.Master/Slave Projects</a>
           <ul class="sub-menu">
-            <li><a href="javascript:jerkarMoveTo('Declare Plugin in Build Class',3);">4.1.Declare Plugin in Build Class</a></li>
-            <li class="liexpandable"><a href="javascript:jerkarMoveTo('Mention plugin in the Command Line',3);">4.2.Mention plugin in the Command Line</a>
-              <ul class="sub-menu">
-                <li><a href="javascript:jerkarMoveTo('Activate a Plugin',4);">4.2.1.Activate a Plugin</a></li>
-                <li><a href="javascript:jerkarMoveTo('Configure a Plugin',4);">4.2.2.Configure a Plugin</a></li>
-                <li><a href="javascript:jerkarMoveTo('Execute a Plugin Method',4);">4.2.3.Execute a Plugin Method</a></li>
-              </ul>
-            </li>
-            <li><a href="javascript:jerkarMoveTo('Plugins Location',3);">4.3.Plugins Location</a></li>
+            <li><a href="javascript:jerkarMoveTo('Principle',3);">4.1.Principle</a></li>
+            <li><a href="javascript:jerkarMoveTo('Declare Slave Builds',3);">4.2.Declare Slave Builds</a></li>
+            <li><a href="javascript:jerkarMoveTo('Invoke Slave Methods from Master Build Code',3);">4.3.Invoke Slave Methods from Master B...</a></li>
+            <li><a href="javascript:jerkarMoveTo('Invoke Slave Builds from Command Line.',3);">4.4.Invoke Slave Builds from Command L...</a></li>
+            <li><a href="javascript:jerkarMoveTo('Configure Slave Builds from command line.',3);">4.5.Configure Slave Builds from comman...</a></li>
           </ul>
         </li>
-        <li class="liexpandable"><a href="javascript:jerkarMoveTo('Dependency Management',2);">5.Dependency Management</a>
+        <li class="liexpandable"><a href="javascript:jerkarMoveTo('Plugins',2);">5.Plugins</a>
           <ul class="sub-menu">
-            <li><a href="javascript:jerkarMoveTo('What is a dependency ?',3);">5.1.What is a dependency ?</a></li>
-            <li><a href="javascript:jerkarMoveTo('What is a scope ?',3);">5.2.What is a scope ?</a></li>
-            <li class="liexpandable"><a href="javascript:jerkarMoveTo('Define dependencies for a project',3);">5.3.Define dependencies for a project</a>
+            <li><a href="javascript:jerkarMoveTo('Declare Plugin in Build Class',3);">5.1.Declare Plugin in Build Class</a></li>
+            <li class="liexpandable"><a href="javascript:jerkarMoveTo('Mention Plugins in the Command Line',3);">5.2.Mention Plugins in the Command Lin...</a>
               <ul class="sub-menu">
-                <li><a href="javascript:jerkarMoveTo('Define scopes',4);">5.3.1.Define scopes</a></li>
-                <li class="liexpandable"><a href="javascript:jerkarMoveTo('Defining individual dependency',4);">5.3.2.Defining individual dependency</a>
+                <li><a href="javascript:jerkarMoveTo('Activate a Plugin',4);">5.2.1.Activate a Plugin</a></li>
+                <li><a href="javascript:jerkarMoveTo('Configure a Plugin',4);">5.2.2.Configure a Plugin</a></li>
+                <li><a href="javascript:jerkarMoveTo('Execute a Plugin Method',4);">5.2.3.Execute a Plugin Method</a></li>
+              </ul>
+            </li>
+            <li><a href="javascript:jerkarMoveTo('Plugins Location',3);">5.3.Plugins Location</a></li>
+          </ul>
+        </li>
+        <li class="liexpandable"><a href="javascript:jerkarMoveTo('Dependency Management',2);">6.Dependency Management</a>
+          <ul class="sub-menu">
+            <li><a href="javascript:jerkarMoveTo('What is a dependency ?',3);">6.1.What is a dependency ?</a></li>
+            <li><a href="javascript:jerkarMoveTo('What is a scope ?',3);">6.2.What is a scope ?</a></li>
+            <li class="liexpandable"><a href="javascript:jerkarMoveTo('Define dependencies for a project',3);">6.3.Define dependencies for a project</a>
+              <ul class="sub-menu">
+                <li><a href="javascript:jerkarMoveTo('Define scopes',4);">6.3.1.Define scopes</a></li>
+                <li class="liexpandable"><a href="javascript:jerkarMoveTo('Defining individual dependency',4);">6.3.2.Defining individual dependency</a>
                   <ul class="sub-menu">
                     <li><a href="javascript:jerkarMoveTo('Dependency on arbitrary files',5);">Dependency on arbitrary files</a></li>
                     <li><a href="javascript:jerkarMoveTo('Dependency on files produced by computation',5);">Dependency on files produced b...</a></li>
@@ -156,7 +165,7 @@
                 </li>
               </ul>
             </li>
-            <li><a href="javascript:jerkarMoveTo('Bind dependencies to scope',3);">5.4.Bind dependencies to scope</a></li>
+            <li><a href="javascript:jerkarMoveTo('Bind dependencies to scope',3);">6.4.Bind dependencies to scope</a></li>
           </ul>
         </li>
     </ul>
@@ -201,8 +210,8 @@ function jerkarMoveTo(title, level) {
   <li>Pre-process and compile build definition files (see <strong>Build Definition Compilation</strong>).</li>
   <li>Instantiate the build class (see <strong>Build Class Instantiation</strong>)</li>
   <li>Inject options in build instance fields along the project root directory (see <strong>Build Configuration</strong>).</li>
-  <li>Call the <code>init()</code> method on the build instance. This is the place to set location related variable and to configure plugins.</li>
-  <li>Instantiate and configure plugins specified in command line arguments.</li>
+  <li>Call the <code>init()</code> method on the build instance. This is the place to set location related variable and to configure plugins (see <strong>Plugins</strong>).</li>
+  <li>Instantiate and configure plugins specified in command line arguments (see <strong>Mention Plugins in the Command Line</strong>).</li>
   <li>Invoke methods specified in command line arguments : methods are executed in the order they appear on the command line.</li>
 </ol><h4>Build Definition File Compilation</h4><p>Jerkar compiles the build definition files prior to execute it. The build definition files are expected to be in <em>[PROJECT DIR]/build/def</em>. If this directory does not exist or does not contains java sources, the compilation is skipped.<br/>Compilation outputs class files in <em>[PROJECT DIR]/build/output/def-bin</em> directory and uses classpath containing :</p>
 <ul>
@@ -280,7 +289,21 @@ deployServer.password=myPassword
 </ul><h4>How to document options ?</h4><p>If you want your option been displayed when invoking <code>jerkar help</code> you need to annotate it with <code>@JkDoc</code>.</p><p>For example :</p>
 <pre><code>@JkDoc(&quot;Make the test run in a forked process&quot;)
 private boolean forkTests = false;
-</code></pre><h2>Plugins</h2>
+</code></pre><h2>Master/Slave Projects</h2>
+<hr/><p>Jerkar proposes 2 ways to deal with multi-project builds : </p>
+<ul>
+  <li>By using computed dependencies (see <strong>Dependency Managemment / Dependency on files produced by computation </strong>).</li>
+  <li>By defining slave builds. This is what is developed in this section.</li>
+</ul><h3>Principle</h3><p>A build class (master build) declares its slave builds. The slave builds can be triggered individually or all-in-one from the master build.<br/>The slave builds are not aware they are used as slave. In fact any build can be used as slave.</p><p><code>JkBuild</code> declare a method <code>#slaves()</code> returning the slaves of its instances (embodied as <code>org.jerkar.tool.JkSlaveBuilds</code>). Naturally this result is recursive as it contains<br/>slaves of the slaves and so on ...</p><p>From this result you can invoke a method for all slaves as <code>slaves().invokeOnAll(&quot;clean&quot;)</code>. The iteration order ensure that an invokation on a build can not be done until all its slaves has been invoked first. </p><p>Also from the command line you can invoke a method or set an option either for the master build only or for the master builds along all its slaves.</p><h3>Declare Slave Builds</h3><p>By default the <code>#slaves()</code> methods all the <code>JkBuild</code> instance declared as field and annotated with <code>@JkProject</code>. You modify this behavior by overriding this method.</p><p>This is an example of how to declare external build with <code>@JkProject</code> annotation.</p>
+<pre><code>public class DistribAllBuild extends JkBuildDependencySupport {
+	
+	@JkProject(&quot;../org.jerkar.plugins-sonar&quot;)
+	PluginsSonarBuild pluginsSonar;
+	
+	@JkProject(&quot;../org.jerkar.plugins-jacoco&quot;)
+	PluginsJacocoBuild pluginsJacoco;
+	
+</code></pre><p>If you don't override <code>JkBuild#slaves()</code> method, the <code>@JkProject</code> annotated fields are considered as slaves.</p><h3>Invoke Slave Methods from Master Build Code</h3><p>To invoke methods on all slaves you can use the <code>JkSlaveBuilds#invokeOnAll()</code> method from the instance returned by <code>JkBuild#slaves()</code>.</p><p>To invoke methods on a single slave, you can just invoke the method on the build instance as <code>pluginsJacoco.clean()</code>.</p><h3>Invoke Slave Builds from Command Line.</h3><p>When mentioning a method on the command line, it only applies to the master build. </p><p>If you want this method to be executed on the slave build as well, you must append a <code>*</code> at the end of the method name as <code>jerkar doSomething*</code>.</p><p>If a slave build do not have such a method, the build does not fail but warns it.</p><h3>Configure Slave Builds from command line.</h3><p>When mentioning an option on the command line, only the master build try to inject its corresponding field with the option value.</p><p>If you want to inject option field on the slave build as well, just append a <code>*</code> at the end of the option declaration as <code>jerkar aField=myValue*</code>.<br/>In this case, for all builds (either master or slaves) <code>myValue</code> will be injected on their <code>aField</code> field if they have one. </p><p>If a build don't have such field, the injection simply does not happen and the build does not fail.</p><h2>Plugins</h2>
 <hr/><p>Jerkar provides a plugable architecture. To be precise, build templates provided with Jerkar (<code>org.jerkar.tool.JkBuild</code>, <code>org.jerkar.tool.builtins.javabuild.JkJavaBuildPlugin</code>) are plugable.<br/>They provide methods designed for extension point. Methods designed for extension point alter their behavior according template plugins activated in the enclosing template.</p><p>Example for <code>JkJavaBuild</code> template : </p>
 <pre><code>/**
  * Returns location of production source code (containing edited + generated sources).
@@ -324,7 +347,7 @@ protected void init() {
     JkBuildPluginJacoco pluginJacoco = new JkBuildPluginJacoco();
     this.plugins.configure(sonarPlugin);
 }
-</code></pre><p>SonarQube plugin is not activated unless you specify <code>#sonar</code> in the command line (see below).</p><h3>Mention plugin in the Command Line</h3><p>You can both configure plugin, activate plugin and invoke plugin methods from the command line without declaring anything in the build definition files.</p><p>For such, you need to get the plugin name. By construction the plugin name is plugin class short name minus <em>JkBuildPlugin</em> with lower case at the first letter.<br/>Indeed, plugin classes are required to be called <code>JkBuildPluginXxxx</code> and so <code>xxxx</code> is the plugin name for <code>JkBuildPluginXxxx</code> plugin class.<br/>If 2 plugins has the same name in your classpath then you have to name it with the fully qualified class name of the plugin class (<code>xx.xxxx.xx.JkBuildPluginXxxx</code> for instance).</p><h4>Activate a Plugin</h4><p>To activate a plugin, you have to mention its name followed by a <code>#</code> in the command line. For example if you want to launch unit tests with Jacoco plugin activated, you may execute the following command line : <code>jerkar doUnitTest jacoco#</code>.</p><p>If a project has slave projects, then you can activate the plugin for both main and slave projects by mentioning a <code>*</code> after the plugin declaration as <code>jerkar doUnitTest jacoco#*</code>.</p><h4>Configure a Plugin</h4><p>Configuring a plugin consists in setting its instance fields via the option mechanism. So for setting a plugin field, just mention <code>-pluginName#fieldName=value</code> in the command line.</p><p>This setting will apply to both master and slave build plugin instances.</p><h4>Execute a Plugin Method</h4><p>Plugin provide extension point methods to alter template methods but can also provide their own methods.<br/>To invoke a plugin method, just mention <code>pluginName#methodName</code> in the command line. Any public zero argument method is valid.</p><p>If a project has slave projects, then you can invoke the plugin method for both main and slave projects by mentioning a <code>*</code> after the method invokation as <code>jerkar myPlugin#doSomething*</code>.</p><h3>Plugins Location</h3><p>To be activated or configured a plugin has to be in the Jerkar classpath. Plugins are assumed to be packaged as jar file. There is 3 ways to add a plugin in the classpath :</p>
+</code></pre><p>SonarQube plugin is not activated unless you specify <code>#sonar</code> in the command line (see below).</p><h3>Mention Plugins in the Command Line</h3><p>You can both configure plugin, activate plugin and invoke plugin methods from the command line without declaring anything in the build definition files.</p><p>For such, you need to get the plugin name. By construction the plugin name is plugin class short name minus <em>JkBuildPlugin</em> with lower case at the first letter.<br/>Indeed, plugin classes are required to be called <code>JkBuildPluginXxxx</code> and so <code>xxxx</code> is the plugin name for <code>JkBuildPluginXxxx</code> plugin class.<br/>If 2 plugins has the same name in your classpath then you have to name it with the fully qualified class name of the plugin class (<code>xx.xxxx.xx.JkBuildPluginXxxx</code> for instance).</p><h4>Activate a Plugin</h4><p>To activate a plugin, you have to mention its name followed by a <code>#</code> in the command line. For example if you want to launch unit tests with Jacoco plugin activated, you may execute the following command line : <code>jerkar doUnitTest jacoco#</code>.</p><p>If a project has slave projects, then you can activate the plugin for both main and slave projects by mentioning a <code>*</code> after the plugin declaration as <code>jerkar doUnitTest jacoco#*</code>.</p><h4>Configure a Plugin</h4><p>Configuring a plugin consists in setting its instance fields via the option mechanism. So for setting a plugin field, just mention <code>-pluginName#fieldName=value</code> in the command line.</p><p>This setting will apply to both master and slave build plugin instances.</p><h4>Execute a Plugin Method</h4><p>Plugin provide extension point methods to alter template methods but can also provide their own methods.<br/>To invoke a plugin method, just mention <code>pluginName#methodName</code> in the command line. Any public zero argument method is valid.</p><p>If a project has slave projects, then you can invoke the plugin method for both main and slave projects by mentioning a <code>*</code> after the method invokation as <code>jerkar myPlugin#doSomething*</code>.</p><h3>Plugins Location</h3><p>To be activated or configured a plugin has to be in the Jerkar classpath. Plugins are assumed to be packaged as jar file. There is 3 ways to add a plugin in the classpath :</p>
 <ul>
   <li>Add the jar file in <em>[JERKAR HOME]/libs/ext</em>. The plugin will be available for all builds within this Jerkar installation but some builds may be not portable to other Jerkar installation.</li>
   <li>Add the jar file in the <em>[PROJECT DIR]/build/libs/build</em> directory. The build is portable as the plugin jar will be provided with the build definition. If the build has dependencies, they should be provided as well.</li>
