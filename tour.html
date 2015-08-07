@@ -157,8 +157,8 @@ function jerkarMoveTo(title, level) {
     boolean forkTests;
 	
     String name = &quot;myProject&quot;;
-    File src = baseDir(&quot;src&quot;);
-    File buildDir = baseDir(&quot;build/output&quot;);
+    File src = file(&quot;src&quot;);
+    File buildDir = file(&quot;build/output&quot;);
     File classDir = new File(buildDir, &quot;classes&quot;);
     File jarFile = new File(buildDir, &quot;jar/&quot; + name + &quot;.jar&quot;);
     String className = &quot;my.MainClass&quot;;

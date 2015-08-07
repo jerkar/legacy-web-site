@@ -18,10 +18,10 @@ public class SiteBuild extends JkBuild {
 	JkFileTree contentSource = baseDir().from("src-content");
 	
 	JkFileTree jbakeDir = baseDir().from("build/binaries/jbake-2.3.2");
-	JkFileTree siteBase = JkFileTree.of(baseDir("..")); 
+	JkFileTree siteBase = JkFileTree.of(file("..")); 
 	
-	JkFileTree jerkarCoreDocDir = JkFileTree.of(baseDir("../../jerkar/org.jerkar.core/src/main/doc"));
-	JkFileTree jerkarDistJavadoc = JkFileTree.of(baseDir("../../jerkar/org.jerkar.distrib-all/build/output/javadoc-all"));
+	JkFileTree jerkarCoreDocDir = JkFileTree.of(file("../../jerkar/org.jerkar.core/src/main/doc"));
+	JkFileTree jerkarDistJavadoc = JkFileTree.of(file("../../jerkar/org.jerkar.distrib-all/build/output/javadoc-all"));
 	File jerkarDistZip = siteBase.file("../jerkar/org.jerkar.distrib-all/build/output/jerkar-distrib.zip");
 
 	

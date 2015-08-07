@@ -165,7 +165,13 @@
                 </li>
               </ul>
             </li>
-            <li><a href="javascript:jerkarMoveTo('Bind dependencies to scope',3);">6.4.Bind dependencies to scope</a></li>
+            <li class="liexpandable"><a href="javascript:jerkarMoveTo('Bind Dependencies to Scopes',3);">6.4.Bind Dependencies to Scopes</a>
+              <ul class="sub-menu">
+                <li><a href="javascript:jerkarMoveTo('Simple scopes',4);">6.4.1.Simple scopes</a></li>
+                <li><a href="javascript:jerkarMoveTo('Scope Mapping',4);">6.4.2.Scope Mapping</a></li>
+                <li><a href="javascript:jerkarMoveTo('Default Scope and Default Scope Mapping',4);">6.4.3.Default Scope and Default Scope ...</a></li>
+              </ul>
+            </li>
           </ul>
         </li>
     </ul>
@@ -292,9 +298,9 @@ private boolean forkTests = false;
 </code></pre><h2>Master/Slave Projects</h2>
 <hr/><p>Jerkar proposes 2 ways to deal with multi-project builds : </p>
 <ul>
-  <li>By using computed dependencies (see <strong>Dependency Managemment / Dependency on files produced by computation </strong>).</li>
-  <li>By defining slave builds. This is what is developed in this section.</li>
-</ul><h3>Principle</h3><p>A build class (master build) declares its slave builds. The slave builds can be triggered individually or all-in-one from the master build.<br/>The slave builds are not aware they are used as slave. In fact any build can be used as slave.</p><p><code>JkBuild</code> declare a method <code>#slaves()</code> returning the slaves of its instances (embodied as <code>org.jerkar.tool.JkSlaveBuilds</code>). Naturally this result is recursive as it contains<br/>slaves of the slaves and so on ...</p><p>From this result you can invoke a method for all slaves as <code>slaves().invokeOnAll(&quot;clean&quot;)</code>. The iteration order ensure that an invokation on a build can not be done until all its slaves has been invoked first. </p><p>Also from the command line you can invoke a method or set an option either for the master build only or for the master builds along all its slaves.</p><h3>Declare Slave Builds</h3><p>By default the <code>#slaves()</code> methods all the <code>JkBuild</code> instance declared as field and annotated with <code>@JkProject</code>. You modify this behavior by overriding this method.</p><p>This is an example of how to declare external build with <code>@JkProject</code> annotation.</p>
+  <li>By using computed dependencies (see <strong>Dependency Managemment</strong>).</li>
+  <li>By defining slave builds. This sections focus on this way.</li>
+</ul><h3>Principle</h3><p>A build class (master build) declares its slave builds. The slave builds can be triggered individually or all-in-one from the master build.<br/>The slave builds are not aware they are slave. In fact any build can be used as slave. The relation is uni-directional </p><p><code>JkBuild</code> declare a method <code>#slaves()</code> returning the slaves of its instances (embodied as <code>org.jerkar.tool.JkSlaveBuilds</code>). Naturally this result is recursive as it contains<br/>slaves of the slaves and so on ...</p><p>From this result you can invoke a method for all slaves as <code>slaves().invokeOnAll(&quot;clean&quot;)</code>. The iteration order ensure that an invokation on a build can not be done until all its slaves has been invoked first. </p><p>Also from the command line you can invoke a method or set an option either for the master build only or for the master builds along all its slaves.</p><h3>Declare Slave Builds</h3><p>By default the <code>#slaves()</code> methods all the <code>JkBuild</code> instance declared as field and annotated with <code>@JkProject</code>. You modify this behavior by overriding this method.</p><p>This is an example of how to declare external build with <code>@JkProject</code> annotation.</p>
 <pre><code>public class DistribAllBuild extends JkBuildDependencySupport {
 	
 	@JkProject(&quot;../org.jerkar.plugins-sonar&quot;)
@@ -487,7 +493,35 @@ protected JkDependencies dependencies() {
 	.build();
 }
 ...   
-</code></pre><h3>Bind dependencies to scope</h3><p>The whole project dependency description lie in a single instance of <code>JkDependencies</code>. This class offers convenient factory methods and builder to define the dependencies.</p><p>```</p><p>```</p><p></div> <!--end of wrapper div --> </p>
+</code></pre><h3>Bind Dependencies to Scopes</h3><p>The whole project dependency description lie in a single instance of <code>JkDependencies</code>. This class offers convenient factory methods and builder to define the dependencies.</p><h4>Simple scopes</h4><p>You can bind any kind of dependency to on one or several scopes as :</p>
+<pre><code>private static final JkScope FOO = JkScope.of(&quot;foo&quot;); 
+
+private static final JkScope BAR = JkScope.of(&quot;bar&quot;); 
+
+protected JkDependencies dependencies() {
+		return JkDependencies.builder()
+		    .on(file(&quot;libs/foo3.jar&quot;)).scope(BAR)  
+		    .on(file(&quot;libs/foo1.jar&quot;)).scope(BAR, FOO)  
+			.on(&quot;com.foo:barcomp&quot;, &quot;1.19&quot;).scope(BAR, FOO)  
+			.on(&quot;com.google.guava:guava, &quot;18.0&quot;)
+		.build();
+}
+</code></pre><p>When the dependency is a <strong>module dependency</strong>, transitive resolution comes in play and more subtle concepts appear.<br/>For resolving <strong>module dependency</strong> Jerkar uses <a href="http://ant.apache.org/ivy/"><strong>Ivy</strong></a> under the cover and scopes are translated to Ivy <a href="http://ant.apache.org/ivy/history/latest-milestone/tutorial/conf.html"><em>configurations</em></a>.</p><p>So the above module dependencies are translated to Ivy equivalent :</p>
+<pre><code>...
+&lt;dependency org=&quot;org.foo&quot; name=&quot;barcomp&quot; rev=&quot;1.19&quot; conf=&quot;bar;foo&quot;/&gt;
+&lt;dependency org=&quot;com.google.guava&quot; name=&quot;guava&quot; rev=&quot;18.0&quot;/&gt;
+</code></pre><h4>Scope Mapping</h4><p>You can also specify a <em>scope mapping</em> (aka <em>Ivy configuration mapping</em>) for <strong>module dependencies</strong> :</p>
+<pre><code>protected JkDependencies dependencies() {
+		return JkDependencies.builder()
+			.on(&quot;com.foo:barcomp&quot;, &quot;1.19&quot;)
+				.mapScope(COMPILE).to(RUNTIME, BAR)
+				.and(FOO, PROVIDED).to(&quot;fish&quot;, &quot;master(*)&quot;)
+		.build();
+}
+</code></pre><p>So the above module dependencies are translated to Ivy equivalent :</p>
+<pre><code>...
+&lt;dependency org=&quot;org.foo&quot; name=&quot;barcomp&quot; rev=&quot;1.19&quot; conf=&quot;compile-&gt;runtime,bar; foo-&gt;fish,master(*); provided-&gt;fish,master(*)&quot;/&gt;
+</code></pre><h4>Default Scope and Default Scope Mapping</h4><p>The way transitive dependencies are actually resolved depends on the <code>JkDependencyResolver</code> used for resolution.<br/>Indeed you can set <em>default scope</em> and <em>default scope mapping</em> on the resolver. This two settings ends at being translated to respectively <em>Ivy configuration</em> and <em>Ivy configuration mapping</em>.<br/><a href="http://ant.apache.org/ivy/history/2.2.0/ivyfile/configurations.html">This page</a> explains how <em>Ivy configurations</em> works.</p><p>... TODO : code sample</p><p></div> <!--end of wrapper div --> </p>
 	</p>
 
 	<hr />

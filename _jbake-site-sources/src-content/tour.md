@@ -33,8 +33,8 @@ public class AntStyleBuild extends JkBuild {
     boolean forkTests;
 	
     String name = "myProject";
-    File src = baseDir("src");
-    File buildDir = baseDir("build/output");
+    File src = file("src");
+    File buildDir = file("build/output");
     File classDir = new File(buildDir, "classes");
     File jarFile = new File(buildDir, "jar/" + name + ".jar");
     String className = "my.MainClass";
