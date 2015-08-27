@@ -170,6 +170,7 @@
                 <li><a href="javascript:jerkarMoveTo('Simple scopes',4);">6.4.1.Simple scopes</a></li>
                 <li><a href="javascript:jerkarMoveTo('Scope Mapping',4);">6.4.2.Scope Mapping</a></li>
                 <li><a href="javascript:jerkarMoveTo('Default Scope and Default Scope Mapping',4);">6.4.3.Default Scope and Default Scope ...</a></li>
+                <li><a href="javascript:jerkarMoveTo('Excluding Module from the Dependency Tree',4);">6.4.4.Excluding Module from the Depend...</a></li>
               </ul>
             </li>
           </ul>
@@ -521,7 +522,7 @@ protected JkDependencies dependencies() {
 </code></pre><p>So the above module dependencies are translated to Ivy equivalent :</p>
 <pre><code>...
 &lt;dependency org=&quot;org.foo&quot; name=&quot;barcomp&quot; rev=&quot;1.19&quot; conf=&quot;compile-&gt;runtime,bar; foo-&gt;fish,master(*); provided-&gt;fish,master(*)&quot;/&gt;
-</code></pre><h4>Default Scope and Default Scope Mapping</h4><p>The way transitive dependencies are actually resolved depends on the <code>JkDependencyResolver</code> used for resolution.<br/>Indeed you can set <em>default scope</em> and <em>default scope mapping</em> on the resolver, through <code>JkResolutionParameter</code>. This two settings ends at being translated to respectively <em>Ivy configuration</em> and <em>Ivy configuration mapping</em>.<br/><a href="http://ant.apache.org/ivy/history/2.2.0/ivyfile/configurations.html">This page</a> explains how <em>Ivy configurations</em> works.</p><p></div> <!--end of wrapper div --> </p>
+</code></pre><h4>Default Scope and Default Scope Mapping</h4><p>The way transitive dependencies are actually resolved depends on the <code>JkDependencyResolver</code> used for resolution.<br/>Indeed you can set <em>default scope</em> and <em>default scope mapping</em> on the resolver, through <code>JkResolutionParameter</code>. This two settings ends at being translated to respectively <em>Ivy configuration</em> and <em>Ivy configuration mapping</em>.<br/><a href="http://ant.apache.org/ivy/history/2.2.0/ivyfile/configurations.html">This page</a> explains how <em>Ivy configurations</em> works.</p><h4>Excluding Module from the Dependency Tree</h4><p>When resolving dependency transitively you may grab unwanted dependencies. To filter them out you can exclude them from the tree using appropriate methods.</p><p></div> <!--end of wrapper div --> </p>
 	</p>
 
 	<hr />
