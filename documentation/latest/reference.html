@@ -169,7 +169,7 @@
               <ul class="sub-menu">
                 <li><a href="javascript:jerkarMoveTo('Simple scopes',4);">6.4.1.Simple scopes</a></li>
                 <li><a href="javascript:jerkarMoveTo('Scope Mapping',4);">6.4.2.Scope Mapping</a></li>
-                <li><a href="javascript:jerkarMoveTo('Default Scope and Default Scope Mapping',4);">6.4.3.Default Scope and Default Scope ...</a></li>
+                <li><a href="javascript:jerkarMoveTo('Default Scope Mapping',4);">6.4.3.Default Scope Mapping</a></li>
                 <li><a href="javascript:jerkarMoveTo('Excluding Module from the Dependency Tree',4);">6.4.4.Excluding Module from the Depend...</a></li>
               </ul>
             </li>
@@ -395,7 +395,10 @@ For the last, Jerkar is using <b>Ivy 2.4.0</b> under the hood. The library is em
 .build();
 ...
 deps = deps.withDefaultScope(COMPILE);
-</code></pre><p>Instances of <code>JkDependencies</code> can be added to each other.</p><p>Look at the <a href="http://jerkar.github.io/javadoc/latest/org/jerkar/api/depmanagement/JkDependencies.html">JkDepencies class API</a> to get see all possibilities.</p><h4>Define scopes</h4><p>In the examples above, we use the predefined scopes <code>COMPILE</code> or <code>TEST</code>. These scopes are standard scopes defined on the <a href="https://github.com/jerkar/jerkar/blob/master/org.jerkar.core/src/main/java/org/jerkar/tool/builtins/javabuild/JkJavaBuild.java">JkJavaBuild class</a>.<br/>So if your build definition class inherit from <code>JkJavaBuild</code> template you won't need to create it. </p><p>If you need to create your own <em>scope</em>, a good practice is to declare it as java constant (<code>static final</code>) as it will be reusable anywhere all over your build definition.</p><p>As an example, these are the scopes declared in <code>JkJavaBuild</code> :</p>
+</code></pre><p>If you don't specify scope on a module and you don't set default scope, then at resolution time the dependency will be considerer as binded to every scope. </p>
+<p class="alert alert-success">
+<b>Note :</b> Instances of <code>JkDependencies</code> can be added to each other. Look at the <a href="http://jerkar.github.io/javadoc/latest/org/jerkar/api/depmanagement/JkDependencies.html">JkDepencies class API</a> for further details.
+</p><h4>Define scopes</h4><p>In the examples above, we use the predefined scopes <code>COMPILE</code> or <code>TEST</code>. These scopes are standard scopes defined on the <a href="https://github.com/jerkar/jerkar/blob/master/org.jerkar.core/src/main/java/org/jerkar/tool/builtins/javabuild/JkJavaBuild.java">JkJavaBuild class</a>.<br/>So if your build definition class inherit from <code>JkJavaBuild</code> template you won't need to create it. </p><p>If you need to create your own <em>scope</em>, a good practice is to declare it as java constant (<code>static final</code>) as it will be reusable anywhere all over your build definition.</p><p>As an example, these are the scopes declared in <code>JkJavaBuild</code> :</p>
 <pre><code class="Java">public static final JkScope PROVIDED = JkScope.of(&quot;provided&quot;).transitive(false)
     .descr(&quot;Dependencies to compile the project but that should not be embedded in produced artifacts.&quot;);
 
@@ -407,7 +410,7 @@ public static final JkScope RUNTIME = JkScope.of(&quot;runtime&quot;).extending(
 
 public static final JkScope TEST = JkScope.of(&quot;test&quot;).extending(RUNTIME, PROVIDED)
 	.descr(&quot;Dependencies necessary to compile and run tests.&quot;); 
-</code></pre><h4>Defining individual dependency</h4><p>Now get focus on each type of dependency we can declare.</p><h5>Dependency on arbitrary files</h5><p>You just have to mention the path of one or several files. If one of the files does not exist at resolution time (when the dependency is actually retrieved), build fails.</p>
+</code></pre><h4>Defining individual dependency</h4><p>Jerkar can deal with different types of dependency, as simple files located on the filesystem or artifacts located on a Maven/Ivy repositories.<br/>This section focus on describing the different types of dependencies Jerkar can handle.</p><h5>Dependency on arbitrary files</h5><p>You just have to mention the path of one or several files. If one of the files does not exist at resolution time (when the dependency is actually retrieved), build fails.</p>
 <pre><code>    final File depFile1 = new File(&quot;/my/file1.jar&quot;);
 	
     final File depFile2 = new File(&quot;/my/file2.zip&quot;);
@@ -522,7 +525,7 @@ protected JkDependencies dependencies() {
 </code></pre><p>So the above module dependencies are translated to Ivy equivalent :</p>
 <pre><code>...
 &lt;dependency org=&quot;org.foo&quot; name=&quot;barcomp&quot; rev=&quot;1.19&quot; conf=&quot;compile-&gt;runtime,bar; foo-&gt;fish,master(*); provided-&gt;fish,master(*)&quot;/&gt;
-</code></pre><h4>Default Scope and Default Scope Mapping</h4><p>The way transitive dependencies are actually resolved depends on the <code>JkDependencyResolver</code> used for resolution.<br/>Indeed you can set <em>default scope</em> and <em>default scope mapping</em> on the resolver, through <code>JkResolutionParameter</code>. This two settings ends at being translated to respectively <em>Ivy configuration</em> and <em>Ivy configuration mapping</em>.<br/><a href="http://ant.apache.org/ivy/history/2.2.0/ivyfile/configurations.html">This page</a> explains how <em>Ivy configurations</em> works.</p><h4>Excluding Module from the Dependency Tree</h4><p>When resolving dependency transitively you may grab unwanted dependencies. To filter them out you can exclude them from the tree using appropriate methods.</p><p></div> <!--end of wrapper div --> </p>
+</code></pre><h4>Default Scope Mapping</h4><p>The way transitive dependencies are actually resolved depends on the <code>JkDependencyResolver</code> used for resolution.<br/>Indeed you can set <em>default scope</em> and <em>default scope mapping</em> on the resolver, through <code>JkResolutionParameter</code>. This two settings ends at being translated to respectively <em>Ivy configuration</em> and <em>Ivy configuration mapping</em>.<br/><a href="http://ant.apache.org/ivy/history/2.2.0/ivyfile/configurations.html">This page</a> explains how <em>Ivy configurations</em> works.</p><h4>Excluding Module from the Dependency Tree</h4><p>When resolving dependency transitively you may grab unwanted dependencies. To filter them out you can exclude them from the tree using appropriate methods.</p><p></div> <!--end of wrapper div --> </p>
 	</p>
 
 	<hr />
