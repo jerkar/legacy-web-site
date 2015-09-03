@@ -151,11 +151,11 @@
             <li class="liexpandable"><a href="javascript:jerkarMoveTo('Define a set of dependencies',3);">6.3.Define a set of dependencies</a>
               <ul class="sub-menu">
                 <li><a href="javascript:jerkarMoveTo('Define scopes',4);">6.3.1.Define scopes</a></li>
-                <li class="liexpandable"><a href="javascript:jerkarMoveTo('Defining individual dependency',4);">6.3.2.Defining individual dependency</a>
+                <li class="liexpandable"><a href="javascript:jerkarMoveTo('Defining different type of dependencies',4);">6.3.2.Defining different type of depen...</a>
                   <ul class="sub-menu">
-                    <li><a href="javascript:jerkarMoveTo('Dependency on arbitrary files',5);">Dependency on arbitrary files</a></li>
-                    <li><a href="javascript:jerkarMoveTo('Dependency on files produced by computation',5);">Dependency on files produced b...</a></li>
-                    <li class="liexpandable"><a href="javascript:jerkarMoveTo('Dependency on Module',5);">Dependency on Module</a>
+                    <li><a href="javascript:jerkarMoveTo('Dependencies on local files',5);">Dependencies on local files</a></li>
+                    <li><a href="javascript:jerkarMoveTo('Dependencies on files produced by computation',5);">Dependencies on files produced...</a></li>
+                    <li class="liexpandable"><a href="javascript:jerkarMoveTo('Dependencies on Module',5);">Dependencies on Module</a>
                       <ul class="sub-menu">
                         <li><a href="javascript:jerkarMoveTo('Dependencies on Dynamic Versions',6);">Dependencies on Dynamic Vers...</a></li>
                         <li><a href="javascript:jerkarMoveTo('Specifying Maven Classifier and extension of the artifact',6);">Specifying Maven Classifier ...</a></li>
@@ -410,7 +410,7 @@ public static final JkScope RUNTIME = JkScope.of(&quot;runtime&quot;).extending(
 
 public static final JkScope TEST = JkScope.of(&quot;test&quot;).extending(RUNTIME, PROVIDED)
 	.descr(&quot;Dependencies necessary to compile and run tests.&quot;); 
-</code></pre><h4>Defining individual dependency</h4><p>Jerkar can deal with different types of dependency, as simple files located on the filesystem or artifacts located on a Maven/Ivy repositories.<br/>This section focus on describing the different types of dependencies Jerkar can handle.</p><h5>Dependency on arbitrary files</h5><p>You just have to mention the path of one or several files. If one of the files does not exist at resolution time (when the dependency is actually retrieved), build fails.</p>
+</code></pre><h4>Defining different type of dependencies</h4><p>This section describes different types of dependencies Jerkar can handle.</p><h5>Dependencies on local files</h5><p>You just have to mention the path of one or several files. If one of the files does not exist at resolution time (when the dependency is actually retrieved), build fails.</p>
 <pre><code>    final File depFile1 = new File(&quot;/my/file1.jar&quot;);
 	
     final File depFile2 = new File(&quot;/my/file2.zip&quot;);
@@ -418,14 +418,14 @@ public static final JkScope TEST = JkScope.of(&quot;test&quot;).extending(RUNTIM
     @Override
     protected JkDependencies dependencies() {
         return JkDependencies.builder()
-            .on(depFile1, depFile2).build();
+            .on(depFile1, depFile2, file(&quot;libs/my.jar&quot;)).build();
     }
 		
-</code></pre><h5>Dependency on files produced by computation</h5><p>It is typically used for <strong>multi projects builds</strong> or <strong>multi module</strong> projects.</p><p>The principle is that if the specified files are not found, then the computation is run in order to generate the missing files.<br/>If some files still missing after the computation has run, the build fails.</p><p>This mechanism is quite simple yet powerful as it addresses following use case :</p>
+</code></pre><h5>Dependencies on files produced by computation</h5><p>It is typically used for <strong>multi projects builds</strong> or <strong>multi module</strong> projects.</p><p>The principle is that if the specified files are not found, then the computation is run in order to generate the missing files.<br/>If some files still missing after the computation has run, the build fails.</p><p>This mechanism is quite simple yet powerful as it addresses following use cases :</p>
 <ul>
-  <li>Dependency on files produced by other Jerkar project.</li>
-  <li>Dependency on files produced by external project built with any type of technology (Ant, Grunt, Maven, Gradle, SBT, Android SDK, Make, ...).</li>
-  <li>Dependency on files produced by a method of the main build.</li>
+  <li>Dependencies on files produced by other Jerkar project.</li>
+  <li>Dependencies on files produced by external project built with any type of technology (Ant, Grunt, Maven, Gradle, SBT, Android SDK, Make, ...).</li>
+  <li>Dependencies on files produced by a method of the main build.</li>
 </ul><p>The generic way is to construct this kind of dependency using a <code>java.lang.Runnable</code>.</p>
 <pre><code>private Runnable computation = new Runnable() {...}; 
 	
@@ -438,7 +438,7 @@ return JkDependencies.builder()
 }
 </code></pre><p>Here, if the <em>fooFile</em> is absent then the <strong>computation</strong> will be run prior to retry to find <em>FooFile</em>.</p><p>Jerkar provides some shortcuts to deal with other Jerkar projects : For this, you can create the dependency directly from the slave build instance. </p>
 <pre><code>@JkProject(&quot;../foo&quot;)          // The external project path relative to the current project root
-public JkJavaBuild fooBuild;  // This is the build coming from the &#39;foo&#39; project 
+public JkJavaBuild fooBuild;  // This build comes from &#39;foo&#39; project 
 	
 @Override
 protected JkDependencies dependencies() {
@@ -457,7 +457,7 @@ protected JkDependencies dependencies() {
         .on(JkProjectDependency.of(antBuild, fooJar)).scope(PROVIDED)  
     .build();
 }
-</code></pre><p>Here, if <em>fooJar</em> file does not exist, <code>ant makeJar</code> command line is invoked prior to retry to find the file.<br/>If the file still does not exist then the build fails.</p><h5>Dependency on Module</h5><p>This is for declaring a dependency on module hosted in <em>Maven</em> or <em>Ivy</em> repository. Basically you instantiate a <code>JkModuleDepency</code> from it's group, name and version.</p>
+</code></pre><p>Here, if <em>fooJar</em> file does not exist, <code>ant makeJar</code> command line is invoked prior to retry to find the file.<br/>If the file still does not exist then the build fails.</p><h5>Dependencies on Module</h5><p>This is for declaring a dependency on module hosted in <em>Maven</em> or <em>Ivy</em> repository. Basically you instantiate a <code>JkModuleDepency</code> from it's group, name and version.</p>
 <pre><code>...	
 @Override  
 protected JkDependencies dependencies() {
