@@ -131,27 +131,14 @@
             <li><a href="javascript:jerkarMoveTo('Configure Slave Builds from command line.',3);">4.5.Configure Slave Builds from comman...</a></li>
           </ul>
         </li>
-        <li class="liexpandable"><a href="javascript:jerkarMoveTo('Plugins',2);">5.Plugins</a>
+        <li class="liexpandable"><a href="javascript:jerkarMoveTo('Dependency Management',2);">5.Dependency Management</a>
           <ul class="sub-menu">
-            <li><a href="javascript:jerkarMoveTo('Declare Plugin in Build Class',3);">5.1.Declare Plugin in Build Class</a></li>
-            <li class="liexpandable"><a href="javascript:jerkarMoveTo('Mention Plugins in the Command Line',3);">5.2.Mention Plugins in the Command Lin...</a>
+            <li><a href="javascript:jerkarMoveTo('What is a dependency ?',3);">5.1.What is a dependency ?</a></li>
+            <li><a href="javascript:jerkarMoveTo('What is a scope ?',3);">5.2.What is a scope ?</a></li>
+            <li class="liexpandable"><a href="javascript:jerkarMoveTo('Define a set of dependencies',3);">5.3.Define a set of dependencies</a>
               <ul class="sub-menu">
-                <li><a href="javascript:jerkarMoveTo('Activate a Plugin',4);">5.2.1.Activate a Plugin</a></li>
-                <li><a href="javascript:jerkarMoveTo('Configure a Plugin',4);">5.2.2.Configure a Plugin</a></li>
-                <li><a href="javascript:jerkarMoveTo('Execute a Plugin Method',4);">5.2.3.Execute a Plugin Method</a></li>
-              </ul>
-            </li>
-            <li><a href="javascript:jerkarMoveTo('Plugins Location',3);">5.3.Plugins Location</a></li>
-          </ul>
-        </li>
-        <li class="liexpandable"><a href="javascript:jerkarMoveTo('Dependency Management',2);">6.Dependency Management</a>
-          <ul class="sub-menu">
-            <li><a href="javascript:jerkarMoveTo('What is a dependency ?',3);">6.1.What is a dependency ?</a></li>
-            <li><a href="javascript:jerkarMoveTo('What is a scope ?',3);">6.2.What is a scope ?</a></li>
-            <li class="liexpandable"><a href="javascript:jerkarMoveTo('Define a set of dependencies',3);">6.3.Define a set of dependencies</a>
-              <ul class="sub-menu">
-                <li><a href="javascript:jerkarMoveTo('Define scopes',4);">6.3.1.Define scopes</a></li>
-                <li class="liexpandable"><a href="javascript:jerkarMoveTo('Defining different type of dependencies',4);">6.3.2.Defining different type of depen...</a>
+                <li><a href="javascript:jerkarMoveTo('Define scopes',4);">5.3.1.Define scopes</a></li>
+                <li class="liexpandable"><a href="javascript:jerkarMoveTo('Defining different type of dependencies',4);">5.3.2.Defining different type of depen...</a>
                   <ul class="sub-menu">
                     <li><a href="javascript:jerkarMoveTo('Dependencies on local files',5);">Dependencies on local files</a></li>
                     <li><a href="javascript:jerkarMoveTo('Dependencies on files produced by computation',5);">Dependencies on files produced...</a></li>
@@ -165,14 +152,32 @@
                 </li>
               </ul>
             </li>
-            <li class="liexpandable"><a href="javascript:jerkarMoveTo('Bind Dependencies to Scopes',3);">6.4.Bind Dependencies to Scopes</a>
+            <li class="liexpandable"><a href="javascript:jerkarMoveTo('Bind Dependencies to Scopes',3);">5.4.Bind Dependencies to Scopes</a>
               <ul class="sub-menu">
-                <li><a href="javascript:jerkarMoveTo('Simple scopes',4);">6.4.1.Simple scopes</a></li>
-                <li><a href="javascript:jerkarMoveTo('Scope Mapping',4);">6.4.2.Scope Mapping</a></li>
-                <li><a href="javascript:jerkarMoveTo('Default Scope Mapping',4);">6.4.3.Default Scope Mapping</a></li>
-                <li><a href="javascript:jerkarMoveTo('Excluding Module from the Dependency Tree',4);">6.4.4.Excluding Module from the Depend...</a></li>
+                <li><a href="javascript:jerkarMoveTo('Simple scopes',4);">5.4.1.Simple scopes</a></li>
+                <li><a href="javascript:jerkarMoveTo('Scope Mapping',4);">5.4.2.Scope Mapping</a></li>
+                <li><a href="javascript:jerkarMoveTo('Default Scope Mapping',4);">5.4.3.Default Scope Mapping</a></li>
+                <li><a href="javascript:jerkarMoveTo('Excluding Module from the Dependency Tree',4);">5.4.4.Excluding Module from the Depend...</a></li>
               </ul>
             </li>
+          </ul>
+        </li>
+        <li class="liexpandable"><a href="javascript:jerkarMoveTo('Publication on binary repositories',2);">6.Publication on binary repositories</a>
+          <ul class="sub-menu">
+            <li><a href="javascript:jerkarMoveTo('Publish to a Maven repository',3);">6.1.Publish to a Maven repository</a></li>
+          </ul>
+        </li>
+        <li class="liexpandable"><a href="javascript:jerkarMoveTo('Plugins',2);">7.Plugins</a>
+          <ul class="sub-menu">
+            <li><a href="javascript:jerkarMoveTo('Declare Plugin in Build Class',3);">7.1.Declare Plugin in Build Class</a></li>
+            <li class="liexpandable"><a href="javascript:jerkarMoveTo('Mention Plugins in the Command Line',3);">7.2.Mention Plugins in the Command Lin...</a>
+              <ul class="sub-menu">
+                <li><a href="javascript:jerkarMoveTo('Activate a Plugin',4);">7.2.1.Activate a Plugin</a></li>
+                <li><a href="javascript:jerkarMoveTo('Configure a Plugin',4);">7.2.2.Configure a Plugin</a></li>
+                <li><a href="javascript:jerkarMoveTo('Execute a Plugin Method',4);">7.2.3.Execute a Plugin Method</a></li>
+              </ul>
+            </li>
+            <li><a href="javascript:jerkarMoveTo('Plugins Location',3);">7.3.Plugins Location</a></li>
           </ul>
         </li>
     </ul>
@@ -310,66 +315,8 @@ private boolean forkTests = false;
 	@JkProject(&quot;../org.jerkar.plugins-jacoco&quot;)
 	PluginsJacocoBuild pluginsJacoco;
 	
-</code></pre><h3>Invoke Slave Methods from Master Build Code</h3><p>To invoke methods on all slaves you can use the <code>JkSlaveBuilds#invokeOnAll()</code> method from the instance returned by <code>JkBuild#slaves()</code>.</p><p>To invoke methods on a single slave, you can just invoke the method on the build instance as <code>pluginsJacoco.clean()</code>.</p><h3>Invoke Slave Builds from Command Line.</h3><p>When mentioning a method on the command line, it only applies to the master build. </p><p>If you want this method to be executed on the slave build as well, you must append a <code>*</code> at the end of the method name as <code>jerkar doSomething*</code>.</p><p>If a slave build do not have such a method, the build does not fail but warns it.</p><h3>Configure Slave Builds from command line.</h3><p>When mentioning an option on the command line, only the master build try to inject its corresponding field with the option value.</p><p>If you want to inject option field on the slave build as well, just append a <code>*</code> at the end of the option declaration as <code>jerkar aField=myValue*</code>.</p><p>If a build don't have such field, the injection simply does not happen and the build does not fail.</p><p>Note that <code>JkOptions</code> class is shared among master and slave builds so slave builds can have access to master options by using its static methods.</p><h2>Plugins</h2>
-<hr/><p>Jerkar provides a plugable architecture. To be precise, build templates provided with Jerkar (<code>org.jerkar.tool.JkBuild</code>, <code>org.jerkar.tool.builtins.javabuild.JkJavaBuildPlugin</code>) are plugable.<br/>They provide methods designed for extension point. Methods designed for extension point alter their behavior according template plugins activated in the enclosing template.</p><p>Example for <code>JkJavaBuild</code> template : </p>
-<pre><code>/**
- * Returns location of production source code (containing edited + generated sources).
- */
-public JkFileTreeSet sources() {
-    return JkJavaBuildPlugin.applySourceDirs(this.plugins.getActives(),
-        editedSources().and(generatedSourceDir()));
-}
-</code></pre><p>By default this method simply returns the files mentioned by the <code>#editedSources()</code> and <code>#generatedSourceDir()</code>. If plugins<br/>are activated, the result may be altered as the <code>JkJavaBuildPlugin</code> class specifies :</p>
-<pre><code>static JkFileTreeSet applySourceDirs(Iterable&lt;? extends JkBuildPlugin&gt; plugins, JkFileTreeSet original) {
-    JkFileTreeSet result = original;
-        for (final JkBuildPlugin plugin : plugins) {
-            result = ((JkJavaBuildPlugin) plugin).alterSourceDirs(result);
-        }
-    return result;
-}
-	
-/**
- * Override this method if the plugin need to alter the source directory to use for compiling.
- * 
- * @see JkJavaBuild#sources()
- */
-protected JkFileTreeSet alterSourceDirs(JkFileTreeSet original) {
-    return original;
-}
-</code></pre><p>For instance, the Eclipse plugin for <code>JkJavaBuild</code> redefines this method to enforce the source directories defined in the <em>.classpath</em> file. </p><p>To bind plugin to a template : you can either declare it inside the build class or mention it in the command line...</p><h3>Declare Plugin in Build Class</h3><p>The best place to declare plugin is within <code>#init()</code> method. Indeed, when this method is invoked, fields and project base directory have been already set to proper value.<br/>At this point you can choose either to activate it (mean that the the plugin is always taken in account) or just configure it (in this case the plugin is taken in account only if specified in command line).</p><p>To activate a plugin, just invoke <code>JkBuildPlugins#activate()</code> method passing the instantiated plugin as :</p>
-<pre><code>@Override
-protected void init() {
-    JkBuildPluginSonar sonarPlugin = new JkBuildPluginSonar()
-        .prop(JkSonar.HOST_URL, sonarEnv.url)
-        .prop(JkSonar.BRANCH, &quot;myBranch&quot;);
-    JkBuildPluginJacoco pluginJacoco = new JkBuildPluginJacoco();
-    this.plugins.activate(sonarPlugin);
-}
-</code></pre><p>Here, the SonarQube plugin is active at each build. A SonarQube analysis is run when the <code>#verify()</code> method is invoked on the <code>JkBuild</code> instance.</p><p>But, if you need to configure the plugin without activating it, you must use <code>JkBuildPlugins#configure()</code> method instead :</p>
-<pre><code>@Override
-protected void init() {
-    JkBuildPluginSonar sonarPlugin = new JkBuildPluginSonar()
-        .prop(JkSonar.HOST_URL, sonarEnv.url)
-        .prop(JkSonar.BRANCH, &quot;myBranch&quot;);
-    JkBuildPluginJacoco pluginJacoco = new JkBuildPluginJacoco();
-    this.plugins.configure(sonarPlugin);
-}
-</code></pre><p>SonarQube plugin is not activated unless you specify <code>#sonar</code> in the command line (see below).</p><h3>Mention Plugins in the Command Line</h3><p>You can both configure plugin, activate plugin and invoke plugin methods from the command line without declaring anything in the build definition files.</p><p>For such, you need to get the plugin name. By construction the plugin name is plugin class short name minus <em>JkBuildPlugin</em> with lower case at the first letter.<br/>Indeed, plugin classes are required to be called <code>JkBuildPluginXxxx</code> and so <code>xxxx</code> is the plugin name for <code>JkBuildPluginXxxx</code> plugin class.<br/>If 2 plugins has the same name in your classpath then you have to name it with the fully qualified class name of the plugin class (<code>xx.xxxx.xx.JkBuildPluginXxxx</code> for instance).</p><h4>Activate a Plugin</h4><p>To activate a plugin, you have to mention its name followed by a <code>#</code> in the command line. For example if you want to launch unit tests with Jacoco plugin activated, you may execute the following command line : <code>jerkar doUnitTest jacoco#</code>.</p><p>If a project has slave projects, then you can activate the plugin for both main and slave projects by mentioning a <code>*</code> after the plugin declaration as <code>jerkar doUnitTest jacoco#*</code>.</p><h4>Configure a Plugin</h4><p>Configuring a plugin consists in setting its instance fields via the option mechanism. So for setting a plugin field, just mention <code>-pluginName#fieldName=value</code> in the command line.</p><p>This setting will apply to both master and slave build plugin instances.</p><h4>Execute a Plugin Method</h4><p>Plugin provide extension point methods to alter template methods but can also provide their own methods.<br/>To invoke a plugin method, just mention <code>pluginName#methodName</code> in the command line. Any public zero argument method is valid.</p><p>If a project has slave projects, then you can invoke the plugin method for both main and slave projects by mentioning a <code>*</code> after the method invokation as <code>jerkar myPlugin#doSomething*</code>.</p><h3>Plugins Location</h3><p>To be activated or configured a plugin has to be in the Jerkar classpath. Plugins are assumed to be packaged as jar file. There is 3 ways to add a plugin in the classpath :</p>
-<ul>
-  <li>Add the jar file in <em>[JERKAR HOME]/libs/ext</em>. The plugin will be available for all builds within this Jerkar installation but some builds may be not portable to other Jerkar installation.</li>
-  <li>Add the jar file in the <em>[PROJECT DIR]/build/libs/build</em> directory. The build is portable as the plugin jar will be provided with the build definition. If the build has dependencies, they should be provided as well.</li>
-  <li>Publish the plugin in a Maven/Ivy repository and mention it in the <code>@JkImport</code> annotation. The build is portable as long as the plugin is available in the download repository.</li>
-</ul>
-<pre><code>@JkImport(`{&quot;my.comp:jerkar-plugin-myPlugin:1.1&quot;})
-public class MyBuild extends JkJavaBuild {`
-...
-</code></pre><p>For now, Jerkar ships with several plugins out-of-the-box :</p>
-<ul>
-  <li>Eclipse : Leverage and generate Eclipse metadata files (included in <em>org.jerkar.core.jar</em>).</li>
-  <li>Sonar : Excecutor for SonarQube code analyser (included in <em>org.jerkar.core-fat.jar</em>).</li>
-  <li>Jacoco : Test coverage tool (included in <em>org.jerkar.core-fat.jar</em>).</li>
-</ul><p>You can have a description of plugins available in your classpath by executing <code>jerkar helpPlugins</code>.</p><h2>Dependency Management</h2>
-<hr/><h3>What is a dependency ?</h3><p>In this context, we call a <strong>dependency</strong> an indication that can be resolved to a file (or a set of file) needed to accomplish certain part of the build.<br/>So for example if a project <em>Foo</em> has a <strong>dependency</strong> <em>bar</em>, this means that <em>Foo</em> may need the files indicated by <em>bar</em> for building.<br/>In Jerkar code, the dependency concept is embodied by the abstract <code>JkDependency</code> class.</p><p>Jerkar distinguishes 3 types of <strong>dependency</strong> :</p>
+</code></pre><h3>Invoke Slave Methods from Master Build Code</h3><p>To invoke methods on all slaves you can use the <code>JkSlaveBuilds#invokeOnAll()</code> method from the instance returned by <code>JkBuild#slaves()</code>.</p><p>To invoke methods on a single slave, you can just invoke the method on the build instance as <code>pluginsJacoco.clean()</code>.</p><h3>Invoke Slave Builds from Command Line.</h3><p>When mentioning a method on the command line, it only applies to the master build. </p><p>If you want this method to be executed on the slave build as well, you must append a <code>*</code> at the end of the method name as <code>jerkar doSomething*</code>.</p><p>If a slave build do not have such a method, the build does not fail but warns it.</p><h3>Configure Slave Builds from command line.</h3><p>When mentioning an option on the command line, only the master build try to inject its corresponding field with the option value.</p><p>If you want to inject option field on the slave build as well, just append a <code>*</code> at the end of the option declaration as <code>jerkar aField=myValue*</code>.</p><p>If a build don't have such field, the injection simply does not happen and the build does not fail.</p><p>Note that <code>JkOptions</code> class is shared among master and slave builds so slave builds can have access to master options by using its static methods.</p><h2>Dependency Management</h2>
+<hr/><h3>What is a dependency ?</h3><p>In build context, a <strong>dependency</strong> is an indication that can be resolved to a file (or a set of file) needed to accomplish certain part of the build.<br/>So for example if a project <em>Foo</em> has a <strong>dependency</strong> <em>bar</em>, this means that <em>Foo</em> may need the files indicated by <em>bar</em> for building.<br/>In Jerkar code, the dependency concept is embodied by the abstract <code>JkDependency</code> class.</p><p>Jerkar distinguishes 3 types of <strong>dependency</strong> :</p>
 <ul>
   <li><strong>Arbitrary files</strong> located on the file system (Embodied by <code>JkFileSystemDependency</code> class). These files are assumed to be present on the file system when the build is running.</li>
   <li><strong>Files produced by a computation</strong> (Embodied by <code>JkComputedDependency</code> class). These files may be present on file system or not. If they are not present, the computation is run in order to produce the missing files. Generally the computation stands for the build of an external project.</li>
@@ -377,7 +324,7 @@ public class MyBuild extends JkJavaBuild {`
 </ul>
 <p class="alert alert-success">
 For the last, Jerkar is using <b>Ivy 2.4.0</b> under the hood. The library is embedded in the Jerkar jar and is executed in a dedicated classloader. So all happens as if there where no dependency on Ivy.
-</p><h3>What is a scope ?</h3><p>Projects may need dependencies to accomplish certain tasks and needed dependencies may vary according the executed tasks.<br/>For example, to <strong>compile</strong> you may need <em>guava</em> library only but to <strong>test</strong> you'll need <em>junit</em> library as well.<br/>To label dependencies according their usage, Jerkar uses the notion of <strong>scope</strong> (embodied by <code>JkScope</code> class). This notion is similar to the Maven scope.</p><p>Scopes can <strong>inherit</strong> from each other. This means that if a scope <em>Foo</em> inherits from scope <em>Bar</em> then a dependencies declared with scope <em>Bar</em> will be also considered as declared with scope <em>Foo</em>.<br/>For instance, in <code>JkJavaBuild</code>, scope <code>TEST</code> inherits from <code>RUNTIME</code> that inherits from <code>COMPILE</code> so every dependencies declared with scope <code>COMPILE</code> are considered to be declared with scope <code>RUNTIME</code> and <code>TEST</code> as well. </p><p>By default, scopes are <strong>transitive</strong>. This has only a meaning for <strong>reference to module</strong>.<br/>If we have 3 modules having the following dependency scheme : <code>A</code> -&gt; <code>B</code> -&gt; <code>C</code> and the <code>A</code>-&gt; <code>B</code> dependency is declared with a <strong>non transitive scope</strong>, then <code>A</code> won't depend from <code>C</code>. </p><p>Projects consuming artifacts coming from Ivy repository can also use <code>JkScopeMapping</code> which is more powerful. This notion maps strictly to the <a href="http://ant.apache.org/ivy/history/2.2.0/ivyfile/configurations.html">Ivy configuration</a> concept.</p><h3>Define a set of dependencies</h3><p>To define a set dependencies (typically the dependencies of the project to build), you basically define a list of <strong>scoped dependency</strong> (embodied by <code>JkScopedDependency</code>). A <strong>scoped dependency</strong> is a <strong>dependency</strong> associated with one or several <strong>scopes</strong>.</p><p>Practically, you define some scopes then you bind dependencies to these scopes.</p><p>The set of dependency concept is embodied by <code>JkDependencies</code> class. This class provides builder for easier instantiation. </p>
+</p><h3>What is a scope ?</h3><p>Projects may need dependencies to accomplish certain tasks and needed dependencies may vary according the executed tasks.<br/>For example, to <strong>compile</strong> you may need <em>guava</em> library only but to <strong>test</strong> you'll need <em>junit</em> library as well.<br/>To label dependencies according their usage, Jerkar uses the notion of <strong>scope</strong> (embodied by <code>JkScope</code> class). This notion is similar to the Maven scope.</p><p>Scopes can <strong>inherit</strong> from each other. This means that if a scope <em>Foo</em> inherits from scope <em>Bar</em> then a dependencies declared with scope <em>Bar</em> will be also considered as declared with scope <em>Foo</em>.<br/>For instance, in <code>JkJavaBuild</code>, scope <code>TEST</code> inherits from <code>RUNTIME</code> that inherits from <code>COMPILE</code> so every dependencies declared with scope <code>COMPILE</code> are considered to be declared with scope <code>RUNTIME</code> and <code>TEST</code> as well. </p><p>By default, scopes are <strong>transitive</strong>. This has only a meaning for <strong>reference to module</strong>.<br/>If we have 3 modules having the following dependency scheme : <code>A</code> -&gt; <code>B</code> -&gt; <code>C</code> and the <code>A</code>-&gt; <code>B</code> dependency is declared with a <strong>non transitive scope</strong>, then <code>A</code> won't depend from <code>C</code>. </p><p>Projects consuming artifacts coming from Ivy repository can also use <code>JkScopeMapping</code> which is more powerful. This notion maps strictly to the <a href="http://ant.apache.org/ivy/history/2.2.0/ivyfile/configurations.html">Ivy configuration</a> concept.</p><h3>Define a set of dependencies</h3><p>To define a set dependencies (typically the dependencies of the project to build), you basically define a list of <strong>scoped dependency</strong> (embodied by <code>JkScopedDependency</code>). A <strong>scoped dependency</strong> is a <strong>dependency</strong> associated with zero, one or several <strong>scopes</strong>.</p><p>Practically, you define some scopes then you bind dependencies to these scopes.</p><p>The set of dependency concept is embodied by <code>JkDependencies</code> class. This class provides builder for easier instantiation. </p>
 <pre><code class="Java">return JkDependencies.builder()
     .on(GUAVA, &quot;18.0&quot;).scope(COMPILE)  
     .on(JERSEY_SERVER, &quot;1.19&quot;).scope(COMPILE)
@@ -395,7 +342,7 @@ For the last, Jerkar is using <b>Ivy 2.4.0</b> under the hood. The library is em
 .build();
 ...
 deps = deps.withDefaultScope(COMPILE);
-</code></pre><p>If you don't specify scope on a module and you don't set default scope, then at resolution time the dependency will be considerer as binded to every scope. </p>
+</code></pre><p>Here, both <code>GUAVA</code> and <code>JERSEY_SERVER</code> will be declared with <code>COMPILE</code> scope. </p><p>If you don't specify scope on a module and you don't set default scope, then at resolution time the dependency will be considerer as binded to every scope. </p>
 <p class="alert alert-success">
 <b>Note :</b> Instances of <code>JkDependencies</code> can be added to each other. Look at the <a href="http://jerkar.github.io/javadoc/latest/org/jerkar/api/depmanagement/JkDependencies.html">JkDepencies class API</a> for further details.
 </p><h4>Define scopes</h4><p>In the examples above, we use the predefined scopes <code>COMPILE</code> or <code>TEST</code>. These scopes are standard scopes defined on the <a href="https://github.com/jerkar/jerkar/blob/master/org.jerkar.core/src/main/java/org/jerkar/tool/builtins/javabuild/JkJavaBuild.java">JkJavaBuild class</a>.<br/>So if your build definition class inherit from <code>JkJavaBuild</code> template you won't need to create it. </p><p>If you need to create your own <em>scope</em>, a good practice is to declare it as java constant (<code>static final</code>) as it will be reusable anywhere all over your build definition.</p><p>As an example, these are the scopes declared in <code>JkJavaBuild</code> :</p>
@@ -410,13 +357,11 @@ public static final JkScope RUNTIME = JkScope.of(&quot;runtime&quot;).extending(
 
 public static final JkScope TEST = JkScope.of(&quot;test&quot;).extending(RUNTIME, PROVIDED)
 	.descr(&quot;Dependencies necessary to compile and run tests.&quot;); 
-</code></pre><h4>Defining different type of dependencies</h4><p>This section describes different types of dependencies Jerkar can handle.</p><h5>Dependencies on local files</h5><p>You just have to mention the path of one or several files. If one of the files does not exist at resolution time (when the dependency is actually retrieved), build fails.</p>
-<pre><code>    final File depFile1 = new File(&quot;/my/file1.jar&quot;);
-	
-    final File depFile2 = new File(&quot;/my/file2.zip&quot;);
-
-    @Override
+</code></pre><h4>Defining different type of dependencies</h4><p>This section describes how to declare different types of dependencies.</p><h5>Dependencies on local files</h5><p>You just have to mention the path of one or several files. If one of the files does not exist at resolution time (when the dependency is actually retrieved), build fails.</p>
+<pre><code>    @Override
     protected JkDependencies dependencies() {
+        final File depFile1 = new File(&quot;/my/file1.jar&quot;);  // file with absolute path
+    	final File depFile2 = file(&quot;zips/file2.zip&quot;);  // file related to project root dir
         return JkDependencies.builder()
             .on(depFile1, depFile2, file(&quot;libs/my.jar&quot;)).build();
     }
@@ -525,7 +470,75 @@ protected JkDependencies dependencies() {
 </code></pre><p>So the above module dependencies are translated to Ivy equivalent :</p>
 <pre><code>...
 &lt;dependency org=&quot;org.foo&quot; name=&quot;barcomp&quot; rev=&quot;1.19&quot; conf=&quot;compile-&gt;runtime,bar; foo-&gt;fish,master(*); provided-&gt;fish,master(*)&quot;/&gt;
-</code></pre><h4>Default Scope Mapping</h4><p>The way transitive dependencies are actually resolved depends on the <code>JkDependencyResolver</code> used for resolution.<br/>Indeed you can set <em>default scope</em> and <em>default scope mapping</em> on the resolver, through <code>JkResolutionParameter</code>. This two settings ends at being translated to respectively <em>Ivy configuration</em> and <em>Ivy configuration mapping</em>.<br/><a href="http://ant.apache.org/ivy/history/2.2.0/ivyfile/configurations.html">This page</a> explains how <em>Ivy configurations</em> works.</p><h4>Excluding Module from the Dependency Tree</h4><p>When resolving dependency transitively you may grab unwanted dependencies. To filter them out you can exclude them from the tree using appropriate methods.</p><p></div> <!--end of wrapper div --> </p>
+</code></pre><h4>Default Scope Mapping</h4><p>The way transitive dependencies are actually resolved depends on the <code>JkDependencyResolver</code> used for resolution.<br/>Indeed you can set <em>default scope mapping</em> on the resolver, through <code>JkResolutionParameter</code>. This setting ends at being translated to respectively <em>Ivy configuration mapping</em>.<br/><a href="http://ant.apache.org/ivy/history/2.2.0/ivyfile/configurations.html">This page</a> explains how <em>Ivy configurations</em> works.</p><h4>Excluding Module from the Dependency Tree</h4><p>When resolving dependency transitively you may grab unwanted dependencies. To filter them out you can exclude them from the tree using appropriate methods.</p>
+<pre><code>final JkDependencies deps = JkDependencies.builder()
+    .on(&quot;org.springframework:spring-context:4.2.1.RELEASE&quot;)
+    .on(&quot;org.hibernate:hibernate-core:4.3.7.Final&quot;).excludeLocally(&quot;dom4j&quot;,&quot;dom4j&quot;)
+    .excludeGlobally(&quot;antlr&quot;, &quot;antlr&quot;)
+    .excludeGlobally(&quot;org.jboss.logging&quot;, &quot;*&quot;).build();
+</code></pre><p><code>#excludeLocally</code> apply only to the module previously declared. So here, <em>dom4j</em> excludes will apply only for <em>hibernate-core</em> dependency. This means that if <em>dom4j</em> is a transitive dependency of <em>hibernate-core</em> then transitive resolution will stop at <em>dom4j</em>. If <em>spring-context</em> as a dependency on <em>dom4j</em> (direct or transitive) then the result will include <em>dom4j</em> along its dependencies as it has not been excluded from <em>spring-context</em> dependency. </p><p><code>#excludeGlobally</code> acts on the global result. If any of the declared dependencies have a dependency on <em>antlr</em> then this lib (and its dependencies) won't be part of the result.</p>
+<p class="alert alert-success">
+<b>Note :</b> You can use wild-card or regular expressions for both group and artifact name. In this case all matching dependencies will be excluded.
+</p><h2>Publication on binary repositories</h2>
+<hr/><p>Jerkar is able to publish on both Maven and Ivy repository. This includes repositories as <a href="http://www.sonatype.org/nexus/">Sonatype Nexus</a> or <a href="http://www.jfrog.com/artifactory/">Jfrog Artifactory</a>.</p><p>Maven and Ivy have different publication model, so Jerkar propose different API according you want to publish on a Maven or Ivy repository. </p><h3>Publish to a Maven repository</h3><p>TODO...</p><h2>Plugins</h2>
+<hr/><p>Jerkar provides a plugable architecture. To be precise, build templates provided with Jerkar (<code>org.jerkar.tool.JkBuild</code>, <code>org.jerkar.tool.builtins.javabuild.JkJavaBuildPlugin</code>) are plugable.<br/>They provide methods designed for extension point. Methods designed for extension point alter their behavior according template plugins activated in the enclosing template.</p><p>Example for <code>JkJavaBuild</code> template : </p>
+<pre><code>/**
+ * Returns location of production source code (containing edited + generated sources).
+ */
+public JkFileTreeSet sources() {
+    return JkJavaBuildPlugin.applySourceDirs(this.plugins.getActives(),
+        editedSources().and(generatedSourceDir()));
+}
+</code></pre><p>By default this method simply returns the files mentioned by the <code>#editedSources()</code> and <code>#generatedSourceDir()</code>. If plugins<br/>are activated, the result may be altered as the <code>JkJavaBuildPlugin</code> class specifies :</p>
+<pre><code>static JkFileTreeSet applySourceDirs(Iterable&lt;? extends JkBuildPlugin&gt; plugins, JkFileTreeSet original) {
+    JkFileTreeSet result = original;
+        for (final JkBuildPlugin plugin : plugins) {
+            result = ((JkJavaBuildPlugin) plugin).alterSourceDirs(result);
+        }
+    return result;
+}
+	
+/**
+ * Override this method if the plugin need to alter the source directory to use for compiling.
+ * 
+ * @see JkJavaBuild#sources()
+ */
+protected JkFileTreeSet alterSourceDirs(JkFileTreeSet original) {
+    return original;
+}
+</code></pre><p>For instance, the Eclipse plugin for <code>JkJavaBuild</code> redefines this method to enforce the source directories defined in the <em>.classpath</em> file. </p><p>To bind plugin to a template : you can either declare it inside the build class or mention it in the command line...</p><h3>Declare Plugin in Build Class</h3><p>The best place to declare plugin is within <code>#init()</code> method. Indeed, when this method is invoked, fields and project base directory have been already set to proper value.<br/>At this point you can choose either to activate it (mean that the the plugin is always taken in account) or just configure it (in this case the plugin is taken in account only if specified in command line).</p><p>To activate a plugin, just invoke <code>JkBuildPlugins#activate()</code> method passing the instantiated plugin as :</p>
+<pre><code>@Override
+protected void init() {
+    JkBuildPluginSonar sonarPlugin = new JkBuildPluginSonar()
+        .prop(JkSonar.HOST_URL, sonarEnv.url)
+        .prop(JkSonar.BRANCH, &quot;myBranch&quot;);
+    JkBuildPluginJacoco pluginJacoco = new JkBuildPluginJacoco();
+    this.plugins.activate(sonarPlugin);
+}
+</code></pre><p>Here, the SonarQube plugin is active at each build. A SonarQube analysis is run when the <code>#verify()</code> method is invoked on the <code>JkBuild</code> instance.</p><p>But, if you need to configure the plugin without activating it, you must use <code>JkBuildPlugins#configure()</code> method instead :</p>
+<pre><code>@Override
+protected void init() {
+    JkBuildPluginSonar sonarPlugin = new JkBuildPluginSonar()
+        .prop(JkSonar.HOST_URL, sonarEnv.url)
+        .prop(JkSonar.BRANCH, &quot;myBranch&quot;);
+    JkBuildPluginJacoco pluginJacoco = new JkBuildPluginJacoco();
+    this.plugins.configure(sonarPlugin);
+}
+</code></pre><p>SonarQube plugin is not activated unless you specify <code>#sonar</code> in the command line (see below).</p><h3>Mention Plugins in the Command Line</h3><p>You can both configure plugin, activate plugin and invoke plugin methods from the command line without declaring anything in the build definition files.</p><p>For such, you need to get the plugin name. By construction the plugin name is plugin class short name minus <em>JkBuildPlugin</em> with lower case at the first letter.<br/>Indeed, plugin classes are required to be called <code>JkBuildPluginXxxx</code> and so <code>xxxx</code> is the plugin name for <code>JkBuildPluginXxxx</code> plugin class.<br/>If 2 plugins has the same name in your classpath then you have to name it with the fully qualified class name of the plugin class (<code>xx.xxxx.xx.JkBuildPluginXxxx</code> for instance).</p><h4>Activate a Plugin</h4><p>To activate a plugin, you have to mention its name followed by a <code>#</code> in the command line. For example if you want to launch unit tests with Jacoco plugin activated, you may execute the following command line : <code>jerkar doUnitTest jacoco#</code>.</p><p>If a project has slave projects, then you can activate the plugin for both main and slave projects by mentioning a <code>*</code> after the plugin declaration as <code>jerkar doUnitTest jacoco#*</code>.</p><h4>Configure a Plugin</h4><p>Configuring a plugin consists in setting its instance fields via the option mechanism. So for setting a plugin field, just mention <code>-pluginName#fieldName=value</code> in the command line.</p><p>This setting will apply to both master and slave build plugin instances.</p><h4>Execute a Plugin Method</h4><p>Plugin provide extension point methods to alter template methods but can also provide their own methods.<br/>To invoke a plugin method, just mention <code>pluginName#methodName</code> in the command line. Any public zero argument method is valid.</p><p>If a project has slave projects, then you can invoke the plugin method for both main and slave projects by mentioning a <code>*</code> after the method invokation as <code>jerkar myPlugin#doSomething*</code>.</p><h3>Plugins Location</h3><p>To be activated or configured a plugin has to be in the Jerkar classpath. Plugins are assumed to be packaged as jar file. There is 3 ways to add a plugin in the classpath :</p>
+<ul>
+  <li>Add the jar file in <em>[JERKAR HOME]/libs/ext</em>. The plugin will be available for all builds within this Jerkar installation but some builds may be not portable to other Jerkar installation.</li>
+  <li>Add the jar file in the <em>[PROJECT DIR]/build/libs/build</em> directory. The build is portable as the plugin jar will be provided with the build definition. If the build has dependencies, they should be provided as well.</li>
+  <li>Publish the plugin in a Maven/Ivy repository and mention it in the <code>@JkImport</code> annotation. The build is portable as long as the plugin is available in the download repository.</li>
+</ul>
+<pre><code>@JkImport(`{&quot;my.comp:jerkar-plugin-myPlugin:1.1&quot;})
+public class MyBuild extends JkJavaBuild {`
+...
+</code></pre><p>For now, Jerkar ships with several plugins out-of-the-box :</p>
+<ul>
+  <li>Eclipse : Leverage and generate Eclipse metadata files (included in <em>org.jerkar.core.jar</em>).</li>
+  <li>Sonar : Excecutor for SonarQube code analyser (included in <em>org.jerkar.core-fat.jar</em>).</li>
+  <li>Jacoco : Test coverage tool (included in <em>org.jerkar.core-fat.jar</em>).</li>
+</ul><p>You can have a description of plugins available in your classpath by executing <code>jerkar helpPlugins</code>.</p><p></div> <!--end of wrapper div --> </p>
 	</p>
 
 	<hr />
