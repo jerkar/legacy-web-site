@@ -480,7 +480,7 @@ protected JkDependencies dependencies() {
 <p class="alert alert-success">
 <b>Note :</b> You can use wild-card or regular expressions for both group and artifact name. In this case all matching dependencies will be excluded.
 </p><h2>Publication on binary repositories</h2>
-<hr/><p>Jerkar is able to publish on both Maven and Ivy repository. This includes repositories as <a href="http://www.sonatype.org/nexus/">Sonatype Nexus</a> or <a href="http://www.jfrog.com/artifactory/">Jfrog Artifactory</a>.</p><p>Maven and Ivy have different publication model, so Jerkar propose different API according you want to publish on a Maven or Ivy repository. </p><h3>Publish to a Maven repository</h3><p>TODO...</p><h2>Plugins</h2>
+<hr/><p>Jerkar is able to publish on both Maven and Ivy repository. This includes repositories as <a href="http://www.sonatype.org/nexus/">Sonatype Nexus</a> or <a href="http://www.jfrog.com/artifactory/">Jfrog Artifactory</a>.</p><p>Maven and Ivy have different publication model, so Jerkar proposes specific APIs according you want to publish on a Maven or Ivy repository. </p><h3>Publish to a Maven repository</h3><p>TODO...</p><h2>Plugins</h2>
 <hr/><p>Jerkar provides a plugable architecture. To be precise, build templates provided with Jerkar (<code>org.jerkar.tool.JkBuild</code>, <code>org.jerkar.tool.builtins.javabuild.JkJavaBuildPlugin</code>) are plugable.<br/>They provide methods designed for extension point. Methods designed for extension point alter their behavior according template plugins activated in the enclosing template.</p><p>Example for <code>JkJavaBuild</code> template : </p>
 <pre><code>/**
  * Returns location of production source code (containing edited + generated sources).
