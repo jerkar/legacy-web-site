@@ -1,12 +1,20 @@
 package jerkar.github.io;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.util.List;
+import java.util.zip.ZipFile;
+import java.util.zip.ZipInputStream;
 
 import org.jerkar.api.file.JkFileTree;
+import org.jerkar.api.file.JkZipFile;
 import org.jerkar.api.java.JkJavaProcess;
+import org.jerkar.api.java.JkManifest;
 import org.jerkar.api.system.JkLog;
 import org.jerkar.api.utils.JkUtilsFile;
+import org.jerkar.api.utils.JkUtilsIO;
+import org.jerkar.api.utils.JkUtilsIterable;
 import org.jerkar.api.utils.JkUtilsString;
 import org.jerkar.api.utils.JkUtilsTime;
 import org.jerkar.tool.JkBuild;
@@ -87,11 +95,24 @@ public class SiteBuild extends JkBuild {
 	
 	
 	public void importSiteDoc() {
-		contentSource.copyTo(new File(this.jbakeSrcPath, "content"));
+		File dest = new File(this.jbakeSrcPath, "content");
+		contentSource.copyReplacingTokens(dest, JkUtilsIterable.mapOf("jerkarVersion", currentJerkarVersion()));
 	}
 	
 	public void copyCurrentDist() {
 		JkUtilsFile.copyFileToDir(jerkarDistZip, siteDistDir, JkLog.infoStream());
+		
+		// Retrieve the current version
+		
+	}
+	
+	private String currentJerkarVersion() {
+		JkZipFile zipFile = JkZipFile.of(jerkarDistZip);
+		InputStream jarStream = zipFile.inputStream("org.jerkar.core.jar");
+		ZipInputStream manifestStream = JkUtilsIO.readZipEntry(jarStream, "META-INF/MANIFEST.MF");
+		JkManifest manifest = JkManifest.of(manifestStream);
+		JkUtilsIO.closeQuietly(manifestStream, jarStream, zipFile);
+		return manifest.mainAttribute("version");		
 	}
 	
 	public void copyCurrentJavadoc() {
