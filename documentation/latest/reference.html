@@ -105,6 +105,13 @@
                 <li><a href="javascript:jerkarMoveTo('Build Class Instantiation',4);">2.2.2.Build Class Instantiation</a></li>
               </ul>
             </li>
+            <li class="liexpandable"><a href="javascript:jerkarMoveTo('Setting paths',3);">2.3.Setting paths</a>
+              <ul class="sub-menu">
+                <li><a href="javascript:jerkarMoveTo('Specify Jerkar user home',4);">2.3.1.Specify Jerkar user home</a></li>
+                <li><a href="javascript:jerkarMoveTo('Specify the local repository cache',4);">2.3.2.Specify the local repository cac...</a></li>
+                <li><a href="javascript:jerkarMoveTo('See the effective paths',4);">2.3.3.See the effective paths</a></li>
+              </ul>
+            </li>
           </ul>
         </li>
         <li class="liexpandable"><a href="javascript:jerkarMoveTo('Build Configuration',2);">3.Build Configuration</a>
@@ -261,7 +268,22 @@ public class HttpClientTaskBuild extends JkJavaBuild {`
 		File distDir = this.ouputDir(&quot;dist&quot;);
 		JkFileTree dist = JkFileTree.of(distDir).importDirContent(core.distribFolder);
 		...
-</code></pre><h4>Build Class Instantiation</h4><p>Once the build definition files compiled. Jerkar instantiate the build class.<br/>The build class is specified by the <code>buildClass</code> option if present. If not, it is the first class implementing <code>org.jerkar.tool.JkBuild</code>.<br/>If no class implementing <code>org.jerkar.tool.JkBuild</code> is found then the <code>org.jerkar.tool.builtins.javabuild.JkJavaBuild</code> is instantiated.</p><p>The class scanning processes classes in alphabetic order then subpackage in deep first. This mean that class <code>MyBuid</code> will be scanned prior <code>apackage.ABuild</code>, and <code>aa.bb.MyClass</code> will be scanned prior <code>ab.OtherClass</code>.</p><p>The <code>buildClass</code> option can mention a simple name class (class name omitting its package). If no class matches the specified <code>buildClass</code> then an exception is thrown.</p><p>The <code>org.jerkar.tool.JkBuild</code> constructor instantiate fields annotated with <code>@JkProject</code>. If a project build appears many time in the annotated project tree, a single instance is created then shared.</p><h2>Build Configuration</h2>
+</code></pre><h4>Build Class Instantiation</h4><p>Once the build definition files compiled. Jerkar instantiate the build class.<br/>The build class is specified by the <code>buildClass</code> option if present. If not, it is the first class implementing <code>org.jerkar.tool.JkBuild</code>.<br/>If no class implementing <code>org.jerkar.tool.JkBuild</code> is found then the <code>org.jerkar.tool.builtins.javabuild.JkJavaBuild</code> is instantiated.</p><p>The class scanning processes classes in alphabetic order then subpackage in deep first. This mean that class <code>MyBuid</code> will be scanned prior <code>apackage.ABuild</code>, and <code>aa.bb.MyClass</code> will be scanned prior <code>ab.OtherClass</code>.</p><p>The <code>buildClass</code> option can mention a simple name class (class name omitting its package). If no class matches the specified <code>buildClass</code> then an exception is thrown.</p><p>The <code>org.jerkar.tool.JkBuild</code> constructor instantiate fields annotated with <code>@JkProject</code>. If a project build appears many time in the annotated project tree, a single instance is created then shared.</p><h3>Setting paths</h3><h4>Specify Jerkar user home</h4><p>Jerkar uses user directory to store user-specific configuration and cache files, in this document we refer to this directory using [Jerkar User Home].<br/>By default the this directory is located at <em>[User Home]/.jerkar</em> (_[User Home]_ being the path given by <code>System.getProperty(&quot;user.home&quot;);</code>.<br/>You can override this setting by defining the <code>JERKAR_USER_HOME</code> environment variable.<br/>You can programatically get this location in your build definition using <code>JkLocator.jerkarUserHome()</code>. </p><h4>Specify the local repository cache</h4><p>Jerkar uses <a href="http://ant.apache.org/ivy/">Apache Ivy</a> under the hood to handle module dependencies. Ivy downloads and stores locally artifacts consumed by projects.<br/>By default the location is <em>[JERKAR USER HOME]/repo-cache</em> but you can redefine it by defining the <code>JERKAR_REPO</code> environment variable.<br/>You can programatically get this location in your build definition using <code>JkLocator.jerkarRepositoryCache()</code>.</p><h4>See the effective paths</h4><p>The Jerkar logs displays the effective path at the very start of the process :</p>
+<pre><code> _______           _                 
+(_______)         | |                
+     _ _____  ____| |  _ _____  ____ 
+ _  | | ___ |/ ___) |_/ |____ |/ ___)
+| |_| | ____| |   |  _ (/ ___ | |    
+ \___/|_____)_|   |_| \_)_____|_|
+                                     The 100% Java build tool.
+
+Java Home : C:\UserTemp\I19451\software\jdk1.6.0_24\jre
+Java Version : 1.6.0_24, Sun Microsystems Inc.
+Jerkar Home : C:\software\jerkar
+Jerkar User Home : C:\users\djeang\.jerkar
+Jerkar Repository Cache : C:\users\djeang\.jerkar\repo-cache
+...
+</code></pre><h2>Build Configuration</h2>
 <hr/><p>Jerkar build are configurable. Build definition classes can retrieve values defined at runtime by reading :</p>
 <ul>
   <li>an environment variable</li>
