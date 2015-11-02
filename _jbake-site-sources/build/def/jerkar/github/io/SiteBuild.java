@@ -1,10 +1,8 @@
 package jerkar.github.io;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.util.List;
-import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
 
 import org.jerkar.api.file.JkFileTree;
