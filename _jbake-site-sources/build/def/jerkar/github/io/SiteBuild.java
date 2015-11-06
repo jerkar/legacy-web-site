@@ -137,7 +137,8 @@ public class SiteBuild extends JkBuild {
 	}
 	
 	public static void main(String[] args) {
-		new SiteBuild().clean();
+		SiteBuild siteBuild = new SiteBuild();
+		siteBuild.full();
 	}
 	
 	private void addMenu() {
@@ -147,7 +148,5 @@ public class SiteBuild extends JkBuild {
 			JkUtilsFile.writeString(file, ImplicitMenu.endDivHtml("end of wrapper div"), true);
 		}
 	}
-	
-	
 
 }

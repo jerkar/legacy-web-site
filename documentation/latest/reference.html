@@ -153,6 +153,8 @@
                       <ul class="sub-menu">
                         <li><a href="javascript:jerkarMoveTo('Dependencies on Dynamic Versions',6);">Dependencies on Dynamic Vers...</a></li>
                         <li><a href="javascript:jerkarMoveTo('Specifying Maven Classifier and extension of the artifact',6);">Specifying Maven Classifier ...</a></li>
+                        <li><a href="javascript:jerkarMoveTo('Choose the binary repository where to download your dependencies',6);">Choose the binary repository...</a></li>
+                        <li><a href="javascript:jerkarMoveTo('What happen behind the hood ?',6);">What happen behind the hood ...</a></li>
                       </ul>
                     </li>
                   </ul>
@@ -171,7 +173,18 @@
         </li>
         <li class="liexpandable"><a href="javascript:jerkarMoveTo('Publication on binary repositories',2);">6.Publication on binary repositories</a>
           <ul class="sub-menu">
-            <li><a href="javascript:jerkarMoveTo('Publish to a Maven repository',3);">6.1.Publish to a Maven repository</a></li>
+            <li class="liexpandable"><a href="javascript:jerkarMoveTo('Publish to a Maven repository',3);">6.1.Publish to a Maven repository</a>
+              <ul class="sub-menu">
+                <li><a href="javascript:jerkarMoveTo('Using raw API',4);">6.1.1.Using raw API</a></li>
+                <li class="liexpandable"><a href="javascript:jerkarMoveTo('Using JkJavaBuild template',4);">6.1.2.Using JkJavaBuild template</a>
+                  <ul class="sub-menu">
+                    <li><a href="javascript:jerkarMoveTo('Using defaults',5);">Using defaults</a></li>
+                    <li><a href="javascript:jerkarMoveTo('Using explicit settings',5);">Using explicit settings</a></li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+            <li><a href="javascript:jerkarMoveTo('Publish to a Ivy repository',3);">6.2.Publish to a Ivy repository</a></li>
           </ul>
         </li>
         <li class="liexpandable"><a href="javascript:jerkarMoveTo('Plugins',2);">7.Plugins</a>
@@ -346,7 +359,7 @@ private boolean forkTests = false;
 </ul>
 <p class="alert alert-success">
 For the last, Jerkar is using <b>Ivy 2.4.0</b> under the hood. The library is embedded in the Jerkar jar and is executed in a dedicated classloader. So all happens as if there where no dependency on Ivy.
-</p><h3>What is a scope ?</h3><p>Projects may need dependencies to accomplish certain tasks and needed dependencies may vary according the executed tasks.<br/>For example, to <strong>compile</strong> you may need <em>guava</em> library only but to <strong>test</strong> you'll need <em>junit</em> library as well.<br/>To label dependencies according their usage, Jerkar uses the notion of <strong>scope</strong> (embodied by <code>JkScope</code> class). This notion is similar to the Maven scope.</p><p>Scopes can <strong>inherit</strong> from each other. This means that if a scope <em>Foo</em> inherits from scope <em>Bar</em> then a dependencies declared with scope <em>Bar</em> will be also considered as declared with scope <em>Foo</em>.<br/>For instance, in <code>JkJavaBuild</code>, scope <code>TEST</code> inherits from <code>RUNTIME</code> that inherits from <code>COMPILE</code> so every dependencies declared with scope <code>COMPILE</code> are considered to be declared with scope <code>RUNTIME</code> and <code>TEST</code> as well. </p><p>By default, scopes are <strong>transitive</strong>. This has only a meaning for <strong>reference to module</strong>.<br/>If we have 3 modules having the following dependency scheme : <code>A</code> -&gt; <code>B</code> -&gt; <code>C</code> and the <code>A</code>-&gt; <code>B</code> dependency is declared with a <strong>non transitive scope</strong>, then <code>A</code> won't depend from <code>C</code>. </p><p>Projects consuming artifacts coming from Ivy repository can also use <code>JkScopeMapping</code> which is more powerful. This notion maps strictly to the <a href="http://ant.apache.org/ivy/history/2.2.0/ivyfile/configurations.html">Ivy configuration</a> concept.</p><h3>Define a set of dependencies</h3><p>To define a set dependencies (typically the dependencies of the project to build), you basically define a list of <strong>scoped dependency</strong> (embodied by <code>JkScopedDependency</code>). A <strong>scoped dependency</strong> is a <strong>dependency</strong> associated with zero, one or several <strong>scopes</strong>.</p><p>Practically, you define some scopes then you bind dependencies to these scopes.</p><p>The set of dependency concept is embodied by <code>JkDependencies</code> class. This class provides builder for easier instantiation. </p>
+</p><h3>What is a scope ?</h3><p>Projects may need dependencies to accomplish certain tasks and needed dependencies may vary according the executed tasks.<br/>For example, to <strong>compile</strong> you may need <em>guava</em> library only but to <strong>test</strong> you'll need <em>junit</em> library as well.<br/>To label dependencies according their usage, Jerkar uses the notion of <strong>scope</strong> (embodied by <code>JkScope</code> class). This notion is similar to the Maven scope.</p><p>A scope can <strong>inherit</strong> from one or several scopes. This means that if a scope <em>Foo</em> inherits from scope <em>Bar</em> then a dependencies declared with scope <em>Bar</em> will be also considered as declared with scope <em>Foo</em>.<br/>For instance, in <code>JkJavaBuild</code>, scope <code>TEST</code> inherits from <code>RUNTIME</code> that inherits from <code>COMPILE</code> so every dependencies declared with scope <code>COMPILE</code> are considered to be declared with scope <code>RUNTIME</code> and <code>TEST</code> as well. </p><p>By default, scopes are <strong>transitive</strong>. This has only a meaning for <strong>reference to module</strong>.<br/>If we have 3 modules having the following dependency scheme : <code>A</code> -&gt; <code>B</code> -&gt; <code>C</code> and the <code>A</code>-&gt; <code>B</code> dependency is declared with a <strong>non transitive scope</strong>, then <code>A</code> won't depend from <code>C</code>. </p><p>Projects consuming artifacts coming from Ivy repository can also use <code>JkScopeMapping</code> which is more powerful. This notion maps strictly to the <a href="http://ant.apache.org/ivy/history/2.2.0/ivyfile/configurations.html">Ivy configuration</a> concept.</p><h3>Define a set of dependencies</h3><p>To define a set dependencies (typically the dependencies of the project to build), you basically define a list of <strong>scoped dependency</strong> (embodied by <code>JkScopedDependency</code>). A <strong>scoped dependency</strong> is a <strong>dependency</strong> associated with zero, one or several <strong>scopes</strong>.</p><p>Practically, you define some scopes then you bind dependencies to these scopes.</p><p>The set of dependency concept is embodied by <code>JkDependencies</code> class. This class provides builder for easier instantiation. </p>
 <pre><code class="Java">return JkDependencies.builder()
     .on(GUAVA, &quot;18.0&quot;).scope(COMPILE)  
     .on(JERSEY_SERVER, &quot;1.19&quot;).scope(COMPILE)
@@ -445,7 +458,7 @@ protected JkDependencies dependencies() {
 	.build();
 }
 ...   
-</code></pre><p>As Jerkar relies on Ivy under the hood, you can use any expression mentioned (here) [http://ant.apache.org/ivy/history/latest-milestone/ivyfile/dependency.html].</p><h6>Specifying Maven Classifier and extension of the artifact</h6><p>If the module repository is a Maven one, you can specify the classifier of the artifact you want to retrieve :</p>
+</code></pre><p>As Jerkar relies on Ivy under the hood, you can use any expression mentioned (here) [http://ant.apache.org/ivy/history/latest-milestone/ivyfile/dependency.html].</p><h6>Specifying Maven Classifier and extension of the artifact</h6><p>Maven or Ivy module dependencies need to be downloaded from a binary repository. This could be a managed repository (as _Nexus8 or <em>Artifactory</em>), simple file system repo or<br/>a combination of any.</p>
 <pre><code>...	
 @Override 
 protected JkDependencies dependencies() {
@@ -464,7 +477,18 @@ protected JkDependencies dependencies() {
 	.build();
 }
 ...   
-</code></pre><h3>Bind Dependencies to Scopes</h3><p>The whole project dependency description lie in a single instance of <code>JkDependencies</code>. This class offers convenient factory methods and builder to define the dependencies.</p><h4>Simple scopes</h4><p>You can bind any kind of dependency to on one or several scopes as :</p>
+</code></pre><h6>Choose the binary repository where to download your dependencies</h6><p>If use <code>JkBuildDependencySupport</code> template, or one of its subclass as <code>JkBuildJava</code>, the default is to use the repository mentioned in your JkOptions :<br/>- <code>repo.download.url</code> : the url of the download repository, default is Maven central :<a href="http://repo1.maven.org/maven2`">http://repo1.maven.org/maven2`</a>.<br/>- <code>repo.download.username</code> : the username credential to access to the repository (optional). Default is null cause Maven central does not require authentication.<br/>- <code>repo.download.password</code> : the password credential to access to the repository (optional). Default is null cause Maven central does not require authentication. </p><p>If the repository is an Ivy one, you should prefix the url with <code>ivy:</code> as <em>ivy:/my/shared/drive/repo</em></p>
+<pre><code>repo.download.url=ivy:http://my/ivy/repo
+repo.download.username=myIvyUsername
+repo.download.password=myIvyPassword
+</code></pre><p>You can also define it programmatically for richer and more flexible options:</p>
+<pre><code>protected JkPublishRepos publishRepositories() {
+    return JkPublishRepos.of(
+        JkRepo.maven(&quot;http://my.snapshot.repo&quot;).asPublishSnapshotRepo())
+            .and( 
+        JkRepo.maven(&quot;http://my.release.repo&quot;).asPublishReleaseRepo());
+}
+</code></pre><h6>What happen behind the hood ?</h6><p>Jerkar uses <a href="http://ant.apache.org/ivy/">Apache Ivy</a> under the hood to resolve/fetch module dependencies.<br/>Ivy is invisible to the user except in some log output.<br/>The dependencies are downloaded in local cache located at <em>[JERKAR USER DIR]/cache/repo</em>.<br/>You can override this setting by defining the <code>JERKAR_REPO</code> environment variable.</p><h3>Bind Dependencies to Scopes</h3><p>The whole project dependency description lie in a single instance of <code>JkDependencies</code>. This class offers convenient factory methods and builder to define the dependencies.</p><h4>Simple scopes</h4><p>You can bind any kind of dependency to on one or several scopes as :</p>
 <pre><code>private static final JkScope FOO = JkScope.of(&quot;foo&quot;); 
 
 private static final JkScope BAR = JkScope.of(&quot;bar&quot;); 
@@ -502,8 +526,118 @@ protected JkDependencies dependencies() {
 <p class="alert alert-success">
 <b>Note :</b> You can use wild-card or regular expressions for both group and artifact name. In this case all matching dependencies will be excluded.
 </p><h2>Publication on binary repositories</h2>
-<hr/><p>Jerkar is able to publish on both Maven and Ivy repository. This includes repositories as <a href="http://www.sonatype.org/nexus/">Sonatype Nexus</a> or <a href="http://www.jfrog.com/artifactory/">Jfrog Artifactory</a>.</p><p>Maven and Ivy have different publication model, so Jerkar proposes specific APIs according you want to publish on a Maven or Ivy repository. </p><h3>Publish to a Maven repository</h3><p>TODO...</p><h2>Plugins</h2>
-<hr/><p>Jerkar provides a plugable architecture. To be precise, build templates provided with Jerkar (<code>org.jerkar.tool.JkBuild</code>, <code>org.jerkar.tool.builtins.javabuild.JkJavaBuildPlugin</code>) are plugable.<br/>They provide methods designed for extension point. Methods designed for extension point alter their behavior according template plugins activated in the enclosing template.</p><p>Example for <code>JkJavaBuild</code> template : </p>
+<hr/><p>Jerkar is able to publish on both Maven and Ivy repository. This includes repositories as <a href="http://www.sonatype.org/nexus/">Sonatype Nexus</a> or <a href="http://www.jfrog.com/artifactory/">Jfrog Artifactory</a>.</p><p>Maven and Ivy have different publication model, so Jerkar proposes specific APIs according you want to publish on a Maven or Ivy repository. </p><h3>Publish to a Maven repository</h3><p>Jerkar proposes a complete API to pubish on Maven repository. POM files will be generated by Jerkar according<br/>elements provided by users.</p><h4>Using raw API</h4><p>You can set minimal information in order to deploy a file on a Maven repository as below :</p>
+<pre><code>File fileToPublish = new File(&quot;build/output/myFile.jar&quot;);
+JkPublishRepo repo = JkRepo.maven(&quot;http://my.mvn.repo/publisher&quot;).asPublishRepo()
+JkVersionedModule versionedModule = JkVersionedModule.of(&quot;myGroup:myName&quot;, &quot;0.2.1&quot;);
+JkPublisher.of(repo).publishMaven(versionedModule, JkMavenPublication.of(fileToPublish), JkDependencies.on());
+</code></pre><p>You can also set additional information in order to :</p>
+<ul>
+  <li>Publish more than one artifact.</li>
+  <li>Produce &amp; publish checksum files for each published artifact.</li>
+  <li>Mention if you wish or not to use unique snapshot (<a href="http://stackoverflow.com/questions/1243574/how-to-stop-maven-artifactory-from-keeping-snapshots-with-timestamps">What is it ?</a>).</li>
+  <li>Feed generated pom with data necessary to publish on <a href="https://maven.apache.org/guides/mini/guide-central-repository-upload.html">central repository</a>.</li>
+  <li>Sign published artifact with PGP</li>
+</ul>
+<p class="alert alert-success">
+Not that for signing with PGP, you don't need to have PGP installed on Jerkar machine. Jerkar uses <a href="https://www.bouncycastle.org/">Bouncy Castle</a> internally to sign artifacts.
+</p>
+<pre><code>// You can sign your artifatcs with PGP
+JkPgp pgp = JkPgp.ofSecretRing(new File(&quot;/usr/myName/pgp/privateRing&quot;), &quot;myPgpPhrase&quot;);
+
+JkPublishRepo repo = JkRepo.maven(publishRepo)
+JkPublishRepo repo = JkRepo.maven(publishRepo)
+    .withCredential(&quot;myRepoUserName&quot;, &quot;myRepoPassword&quot;).asPublishRepo()
+    .withUniqueSnapshot(false)
+    .withSigner(pgp)
+    .andSha1Md5Checksums(); // You can checksum each of published artifacts
+			
+JkVersionedModule versionedModule = JkVersionedModule.of(&quot;myGroup:myName&quot;, &quot;0.2.1&quot;);
+		
+// Optinal : if you need to add metadata in the generated pom
+JkMavenPublicationInfo info = JkMavenPublicationInfo
+    .of(&quot;my project&quot;, &quot;my description&quot;, &quot;http://myproject.github&quot;)
+    .withScm(&quot;http://scm/url/connection&quot;)
+    .andApache2License()
+    .andGitHubDeveloper(&quot;myName&quot;, &quot;myName@provider.com&quot;);				
+		
+// Optional : if you want publish sources
+File srcZip = ouputDir(&quot;src.zip&quot;);
+JkZipper.of(this.src).to(srcZip);
+		
+JkMavenPublication publication = JkMavenPublication.of(jarFile).with(info).and(srcZip, &quot;sources&quot;);
+JkPublisher.of(repo).publishMaven(versionedModule, publication, JkDependencies.on());
+</code></pre><h4>Using JkJavaBuild template</h4><p>When using this template, the effort you must produce to publish artifacts is minimal or zero if you don't need special feature.<br/>The prerequisite is to setup <em>options.properties</em> according to your infrastructure.</p><h5>Using defaults</h5><p>If you don't specify anything the publication will occurs locally at : <em>[JERKAR USER HOME]/maven-publish-dir</em></p><p>If you specify only credential as</p>
+<pre><code>repo.publish.username=myUsername
+repo.publish.password=myPassword
+</code></pre><p>Jerkar will use OSSRH public repository : <a href="https://oss.sonatype.org/content/repositories/snapshots">https://oss.sonatype.org/content/repositories/snapshots</a> for snapshots<br/>and <a href="https://oss.sonatype.org/content/repositories/releases">https://oss.sonatype.org/content/repositories/releases</a> for releases.<br/>For more precision about default see <a href="https://github.com/jerkar/jerkar/blob/master/org.jerkar.core/src/main/java/org/jerkar/tool/JkBuildDependencySupport.java"><code>JkDependencySupport#publishRepositories</code></a> method.</p><h5>Using explicit settings</h5><p>You can set explicit settings at [JERKAR USER DIR]/options.properties level, so every build will leverage from these settings</p>
+<pre><code>repo.publish.url=https://my.nexus/snaphots
+repo.publish.username=myNexusSnapshotUserName
+repo.publish.password=myNexusSnapshotPassword
+repo.release.url=https://my.nexus/releases
+repo.release.username=myNexusReleaseUserName
+repo.release.password=myNexusReleasePassword
+</code></pre><p>In this case the snapshot artifacts (those with version's ending with '-SNAPSHOT') will be published on <a href="https://my.nexus/snaphots">https://my.nexus/snaphots</a> repository while the other will be published in <a href="https://my.nexus/releases">https://my.nexus/releases</a>.</p><p>If you mention only </p>
+<pre><code>repo.publish.url=https://my.nexus/all
+repo.publish.username=myNexusSnapshotUserName
+repo.publish.password=myNexusSnapshotPassword
+</code></pre><p>then everything will be published to <a href="https://my.nexus/all">https://my.nexus/all</a>.</p><p>You can also override `publishRepositories``in your build script so you can write your own specific logic to setup and select publish repositories. </p>
+<pre><code>@Override  
+protected JkPublishRepos publishRepositories() {
+    return JkPublishRepos.ossrh(JkOptions.get(&quot;ossrh.username&quot;),
+	    JkOptions.get(&quot;ossrh.password&quot;), pgp());
+}
+</code></pre><h3>Publish to a Ivy repository</h3><p>Publishing to an Ivy repository is similar to publishing to a Maven one, except :</p>
+<ul>
+  <li>The publishing creates a <em>ivy.xml</em> file instead of a <em>pom.xml</em> file.</li>
+  <li>The publisher needs to declare at least one Ivy repository. If not the case, nothing will be published.</li>
+  <li>You must feed the publish method with <code>JkIvyPublication</code> instead of <code>JkMavenPublication</code>.</li>
+</ul><p>This give an example of build file publishing on ivy with specific scope mapping.</p>
+<pre><code>public class IvyPublishBuild extends JkJavaBuild {
+	
+    {
+        this.pack.tests = true;
+        this.pack.javadoc = true;
+    }
+	
+    @Override
+    public JkModuleId moduleId() {
+        return JkModuleId.of(&quot;org.jerkar&quot;, &quot;script-samples-ivy&quot;);
+    }
+
+    @Override
+    public JkDependencies dependencies() {
+        return JkDependencies.builder()
+            .on(GUAVA, &quot;18.0&quot;)	
+            .on(JERSEY_SERVER, &quot;1.19&quot;).mapScope(RUNTIME, TEST).to(COMPILE)
+            .on(&quot;com.orientechnologies:orientdb-client:2.0.8&quot;)
+            .on(JUNIT, &quot;4.11&quot;).scope(TEST)
+            .on(MOCKITO_ALL, &quot;1.9.5&quot;).scope(TEST)
+            .build();
+    }
+	
+    @Override
+    protected JkRepos downloadRepositories() {
+        return JkRepo.ivy(this.repo.publish.url).and(JkRepo.mavenCentral());
+    }
+	
+    @Override 
+    protected JkPublishRepos publishRepositories() {
+        return JkRepo.ivy(this.repo.publish.url).asPublishRepos();
+    }
+	
+    @Override
+    protected JkIvyPublication ivyPublication() {
+        return JkIvyPublication.of(packer().jarFile(), COMPILE)
+            .and(packer().jarTestFile(), TEST)
+            .and(packer().javadocFile(), JAVADOC)
+            .and(packer().jarSourceFile(), &quot;src&quot;, SOURCES)
+            .and(packer().jarTestSourceFile(), &quot;src&quot;, SOURCES, TEST);	
+    }
+
+}
+</code></pre><h2>Plugins</h2>
+<hr/><p>Jerkar provides a plugable architecture. To be precise, build templates provided with Jerkar (<code>org.jerkar.tool.JkBuild</code>, <code>org.jerkar.tool.builtins.javabuild.JkJavaBuild</code>) are plugable.<br/>They provide methods designed for extension point. Methods designed for extension point alter their behavior according template plugins activated in the enclosing template.</p><p>Example for <code>JkJavaBuild</code> template : </p>
 <pre><code>/**
  * Returns location of production source code (containing edited + generated sources).
  */

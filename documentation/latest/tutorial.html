@@ -97,7 +97,7 @@
         </li>
         <li class="liexpandable"><a href="javascript:jerkarMoveTo('Play with Samples projects',2);">5.Play with Samples projects</a>
           <ul class="sub-menu">
-            <li class="liexpandable"><a href="javascript:jerkarMoveTo('Playing with the `AClassicalBuild`',3);">5.1.Playing with the `AClassicalBuild`</a>
+            <li class="liexpandable"><a href="javascript:jerkarMoveTo('Playing with `AClassicalBuild`',3);">5.1.Playing with `AClassicalBuild`</a>
               <ul class="sub-menu">
                 <li><a href="javascript:jerkarMoveTo('Getting some help',4);">5.1.1.Getting some help</a></li>
                 <li class="liexpandable"><a href="javascript:jerkarMoveTo('Compile, test and package the application.',4);">5.1.2.Compile, test and package the ap...</a>
@@ -201,7 +201,7 @@ If your project is <a href="../../tour.html#100conventional">100% conventional</
   <li><p>Eclipse users : execute <code>jerkar eclipse#generateFiles</code> at the root of both projects<br/> -&gt; This generates Eclipse .classpath file.<br/> If you refresh your workspace, these two projects should build in Eclipse without error marks.<br/> The projects contains Eclipse launchers, so you might found launcher that execute the above command line in <em>External tools</em> entries.</p></li>
   <li><p>To launch a Jerkar using on a particular build class, mention the class name as <code>jerkar -buildClass=MyBuildClassName clean compile ...</code>. Note that you don't have to specified the full qualified class name, the simple name is enough. </p></li>
   <li><p>Edit code and modify/run some build class to play with Jerkar. </p></li>
-</ol><h3>Playing with the <code>AClassicalBuild</code></h3><p>By default, when no <code>-buildClass=Xxxx</code> is specified, Jerkar takes the first one in alphabetical order. Let's take this class for the following steps.</p><h4>Getting some help</h4><p>You can have an exhaustive list of invokable method and possible options for a build by executing <code>jerkar help</code> at the root of the project. This leads in such output :</p>
+</ol><h3>Playing with <code>AClassicalBuild</code></h3><p>By default, when no <code>-buildClass=Xxxx</code> is specified, Jerkar takes the first one in alphabetical order. Let's take this class for the following steps.</p><h4>Getting some help</h4><p>You can have an exhaustive list of invokable method and possible options for a build by executing <code>jerkar help</code> at the root of the project. This leads in such output :</p>
 <pre><code>...
 
 Help on build class org.jerkar.samples.AClassicBuild
@@ -497,9 +497,9 @@ pack.checksums=md5
 <pre><code>public class AClassicBuild extends JkJavaBuild {
 
     {
-      this.pack.tests=true;
-      this.pack.fatJar=true;
-      this.pack.checksums=&quot;md5&quot;
+      pack.tests=true;
+      pack.fatJar=true;
+      pack.checksums=&quot;md5&quot;
     }
     ...
 </code></pre><p>or</p>
@@ -507,12 +507,21 @@ pack.checksums=md5
 
     @Override
     protected void init() {
-        this.pack.tests=true;
-        this.pack.fatJar=true;
-        this.pack.checksums=&quot;md5&quot;
+        pack.tests=true;
+        pack.fatJar=true;
+        pack.checksums=&quot;md5&quot;
     }
     ...
-</code></pre><h4>Unactivating tests</h4><p>If you want to skip tests, mention <em>tests.skip</em> option such as <code>jerkar -tests.skip</code>.</p><h4>Forking tests</h4><p>If you want the test run in forked mode, mention <em>tests.fork</em> as <code>jerkar -tests.fork</code> or <code>jerkar -tests.fork -tests.jvmOptions=-Xms16M -Xmx512</code>.</p><h4>Generating verbose test report</h4><p>Jerkar generates standard Junit test reports. You can make report more verbose by mentioning <code>tests.report=FULL</code>. Reports are generated in <em>build/output/test-reports/junit</em> folder.</p><h4>Producing a test coverage report</h4><p>You just have to activate the Jacoco plugin as <code>jerkar jacoco#</code>. Reports are generated in <em>build/output/test-reports/jacoco/jacoco.exec</em> file.</p><h3>Triggering SonarQube analysis</h3><p>You just have to activate the Jacoco plugin as <code>jerkar doVerify sonar#</code>. By default it triggers on local SonarQube server.<br/>The sonar properties are already set according the build information (source location, classpath, test location, encoding, ...) but can set <a href="http://docs.sonarqube.org/display/SONAR/Analysis+Parameters">any parameter</a> by defining it as option.</p><p>For example, you can add the following to your [Jerkar User Home]/options.properties</p>
+</code></pre><p>or</p>
+<pre><code>public class AClassicBuild extends JkJavaBuild {
+
+    public AClassicBuild() {
+        pack.tests=true;
+        pack.fatJar=true;
+        pack.checksums=&quot;md5&quot;
+    }
+    ...
+</code></pre><h4>Unactivating tests</h4><p>If you want to skip tests, mention <em>tests.skip</em> option such as <code>jerkar -tests.skip</code>.</p><h4>Forking tests</h4><p>If you want the test run in forked mode, mention <em>tests.fork</em> as <code>jerkar -tests.fork</code> or <code>jerkar -tests.fork -tests.jvmOptions=-Xms16M -Xmx512</code>.</p><h4>Generating verbose test report</h4><p>Jerkar generates standard Junit test reports. You can make report more verbose by mentioning <code>tests.report=FULL</code>. Reports are generated in <em>build/output/test-reports/junit</em> folder.</p><h4>Producing a test coverage report</h4><p>You just have to activate the Jacoco plugin as <code>jerkar jacoco#</code>. Reports are generated in <em>build/output/test-reports/jacoco/jacoco.exec</em> file.</p><h3>Triggering SonarQube analysis</h3><p>You just have to activate the Jacoco plugin as <code>jerkar doVerify sonar#</code>. By default analysis is triggered on local SonarQube server (<a href="http://localhost:9000)">http://localhost:9000)</a>.<br/>You can also execute <code>jerkar doVerify sonar# jacoco#</code>to trigger an analysis that include unit test coverage.<br/>The sonar properties are already set according build information (source location, classpath, test location, encoding, ...) but you can set <a href="http://docs.sonarqube.org/display/SONAR/Analysis+Parameters">any parameter</a> by defining it as option.</p><p>For example, you can add the following to your [Jerkar User Home]/options.properties</p>
 <pre><code>sonar.host.url=http://mySonarServer:8080
 sonar.login=myLogin
 sonar.password=myPassword
