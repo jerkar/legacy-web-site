@@ -110,11 +110,12 @@
                 <li><a href="javascript:jerkarMoveTo('Forking tests',4);">5.1.4.Forking tests</a></li>
                 <li><a href="javascript:jerkarMoveTo('Generating verbose test report',4);">5.1.5.Generating verbose test report</a></li>
                 <li><a href="javascript:jerkarMoveTo('Producing a test coverage report',4);">5.1.6.Producing a test coverage report</a></li>
+                <li><a href="javascript:jerkarMoveTo('Triggering SonarQube analysis',4);">5.1.7.Triggering SonarQube analysis</a></li>
               </ul>
             </li>
-            <li><a href="javascript:jerkarMoveTo('Triggering SonarQube analysis',3);">5.2.Triggering SonarQube analysis</a></li>
           </ul>
         </li>
+        <li><a href="javascript:jerkarMoveTo('Playing with _MavenStyleBuild_ and the others',2);">6.Playing with _MavenStyleBuild_ and t...</a></li>
     </ul>
 </div>
 <script>
@@ -521,7 +522,7 @@ pack.checksums=md5
         pack.checksums=&quot;md5&quot;
     }
     ...
-</code></pre><h4>Unactivating tests</h4><p>If you want to skip tests, mention <em>tests.skip</em> option such as <code>jerkar -tests.skip</code>.</p><h4>Forking tests</h4><p>If you want the test run in forked mode, mention <em>tests.fork</em> as <code>jerkar -tests.fork</code> or <code>jerkar -tests.fork -tests.jvmOptions=-Xms16M -Xmx512</code>.</p><h4>Generating verbose test report</h4><p>Jerkar generates standard Junit test reports. You can make report more verbose by mentioning <code>tests.report=FULL</code>. Reports are generated in <em>build/output/test-reports/junit</em> folder.</p><h4>Producing a test coverage report</h4><p>You just have to activate the Jacoco plugin as <code>jerkar jacoco#</code>. Reports are generated in <em>build/output/test-reports/jacoco/jacoco.exec</em> file.</p><h3>Triggering SonarQube analysis</h3><p>You just have to activate the Jacoco plugin as <code>jerkar doVerify sonar#</code>. By default analysis is triggered on local SonarQube server (<a href="http://localhost:9000)">http://localhost:9000)</a>.<br/>You can also execute <code>jerkar doVerify sonar# jacoco#</code>to trigger an analysis that include unit test coverage.<br/>The sonar properties are already set according build information (source location, classpath, test location, encoding, ...) but you can set <a href="http://docs.sonarqube.org/display/SONAR/Analysis+Parameters">any parameter</a> by defining it as option.</p><p>For example, you can add the following to your [Jerkar User Home]/options.properties</p>
+</code></pre><h4>Unactivating tests</h4><p>If you want to skip tests, mention <em>tests.skip</em> option such as <code>jerkar -tests.skip</code>.</p><h4>Forking tests</h4><p>If you want the test run in forked mode, mention <em>tests.fork</em> as <code>jerkar -tests.fork</code> or <code>jerkar -tests.fork -tests.jvmOptions=-Xms16M -Xmx512</code>.</p><h4>Generating verbose test report</h4><p>Jerkar generates standard Junit test reports. You can make report more verbose by mentioning <code>tests.report=FULL</code>. Reports are generated in <em>build/output/test-reports/junit</em> folder.</p><h4>Producing a test coverage report</h4><p>You just have to activate the Jacoco plugin as <code>jerkar jacoco#</code>. Reports are generated in <em>build/output/test-reports/jacoco/jacoco.exec</em> file.</p><h4>Triggering SonarQube analysis</h4><p>You just have to activate the Jacoco plugin as <code>jerkar doVerify sonar#</code>. By default analysis is triggered on local SonarQube server (<a href="http://localhost:9000)">http://localhost:9000)</a>.<br/>You can also execute <code>jerkar doVerify sonar# jacoco#</code>to trigger an analysis that include unit test coverage.<br/>The sonar properties are already set according build information (source location, classpath, test location, encoding, ...) but you can set <a href="http://docs.sonarqube.org/display/SONAR/Analysis+Parameters">any parameter</a> by defining it as option.</p><p>For example, you can add the following to your [Jerkar User Home]/options.properties</p>
 <pre><code>sonar.host.url=http://mySonarServer:8080
 sonar.login=myLogin
 sonar.password=myPassword
@@ -538,7 +539,7 @@ sonar.skipDesign=true
 		this.plugins.activate(sonarPlugin, jacocoPlugin);
 	}
 ...
-</code></pre><p>With this definition, you only have to execute <code>jerkar doVerify</code> to trigger a SonarQube analysis including test coverage.</p><p><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/> </p><p></div> <!--end of wrapper div --> </p>
+</code></pre><p>With this definition, you only have to execute <code>jerkar doVerify</code> to trigger a SonarQube analysis including test coverage.</p><h2>Playing with <em>MavenStyleBuild</em> and the others</h2><p>A given project can have many Jerkar build definition.<br/>Ifyou want to play with this build definition the same way you did for <em>AClassicalBuild</em>, just mention <code>-buildClass=MavenStyleBuild</code> in the command line.</p><p><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/> </p><p></div> <!--end of wrapper div --> </p>
 	</p>
 
 	<hr />
