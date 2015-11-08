@@ -23,7 +23,7 @@
         		<strong>solidity</strong> for building <strong>Java projects</strong> or <strong>complex organization wide systems</strong>.</p>
         <a class="btn btn-large btn-success" href="tell-me-more.html">Tell me more</a>
         <a class="btn btn-large btn-success" href="tour.html">Have a tour</a>
-        <a class="btn btn-large btn-success" href="documentation/latest/tutorial.html">Tutorial</a>
+        <a class="btn btn-large btn-success" href="documentation/latest/getting_started.html">Getting Started</a>
         <a class="btn btn-large btn-success" href="download.html">Download</a>
         <p></p>
         <div class="alert alert-info">
