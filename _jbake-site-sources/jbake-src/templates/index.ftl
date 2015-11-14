@@ -11,7 +11,7 @@
 	 			<img src="img/logo.png"/>
 	 		</div>
 	 		<div class="col-md-9">
-        		<h1>Jerkar</h1>
+        		<h1>JerKar</h1>
         		<h3 class="center">Build your projects easier, stronger, faster.</h3> 
         	</div>
         </div>

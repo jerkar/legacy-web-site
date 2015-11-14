@@ -96,14 +96,15 @@
             </li>
             <li class="liexpandable"><a href="javascript:jerkarMoveTo('Jerkar Execution',3);">2.2.Jerkar Execution</a>
               <ul class="sub-menu">
-                <li class="liexpandable"><a href="javascript:jerkarMoveTo('Build class Compilation',4);">2.2.1.Build class Compilation</a>
+                <li><a href="javascript:jerkarMoveTo('Command Line',4);">2.2.1.Command Line</a></li>
+                <li class="liexpandable"><a href="javascript:jerkarMoveTo('Build class Compilation',4);">2.2.2.Build class Compilation</a>
                   <ul class="sub-menu">
                     <li><a href="javascript:jerkarMoveTo('Libraries Located on Maven/Ivy Repository ',5);">Libraries Located on Maven/Ivy...</a></li>
                     <li><a href="javascript:jerkarMoveTo('Libraries on File System',5);">Libraries on File System</a></li>
-                    <li><a href="javascript:jerkarMoveTo('Build Definitions of Other Project',5);">Build Definitions of Other Pro...</a></li>
+                    <li><a href="javascript:jerkarMoveTo('Build Definitions of other project',5);">Build Definitions of other pro...</a></li>
                   </ul>
                 </li>
-                <li><a href="javascript:jerkarMoveTo('Build Class Instantiation',4);">2.2.2.Build Class Instantiation</a></li>
+                <li><a href="javascript:jerkarMoveTo('Build Class Instantiation',4);">2.2.3.Build Class Instantiation</a></li>
               </ul>
             </li>
             <li class="liexpandable"><a href="javascript:jerkarMoveTo('Setting paths',3);">2.3.Setting paths</a>
@@ -246,7 +247,12 @@ function jerkarMoveTo(title, level) {
   <li>Call the <code>init()</code> method on the build instance. This is the place to set location related variable and to configure plugins (see <strong>Plugins</strong>).</li>
   <li>Instantiate and configure plugins specified in command line arguments (see <strong>Mention Plugins in the Command Line</strong>).</li>
   <li>Invoke methods specified in command line arguments : methods are executed in the order they appear on the command line.</li>
-</ol><h4>Build class Compilation</h4><p>Jerkar compiles build class files prior to execute it. Build class files are expected to be in <em>[PROJECT DIR]/build/def</em>. If this directory does not exist or does not contains java sources, the compilation is skipped.<br/>Compilation outputs class files in <em>[PROJECT DIR]/build/output/def-bin</em> directory and uses classpath containing :</p>
+</ol><h4>Command Line</h4><p>Jerkar parse the command line and process each arguments according its pattern :</p>
+<ul>
+  <li><p>Argument starts with <code>@</code> : This is an module import clause, the following will be used for adding a module to build class compile &amp; run classpath. For example if the command line contains <code>@com.google.guava:guava:18.0</code>, the build class will be compiled with Guava in its classpath and Guava will be also present in the classpath when the build class will be executed.</p></li>
+  <li><p>Argument starts with <code>-</code> : This is an option declaration. The following is expectedto be formated as <em>optionName=optionValue</em>. For example, `-repo.build.url=http://my.repo.milestone/' will inject 'http://my.repo.milestone/' in the 'repo.build.url' Jerkar option.</p></li>
+  <li><p>in the other cases, argument is considered as a method name to invoke on the build class instance.</p></li>
+</ul><h4>Build class Compilation</h4><p>Jerkar compiles build class files prior to execute it. Build class files are expected to be in <em>[PROJECT DIR]/build/def</em>. If this directory does not exist or does not contains java sources, the compilation is skipped.<br/>Compilation outputs class files in <em>[PROJECT DIR]/build/output/def-bin</em> directory and uses classpath containing :</p>
 <ul>
   <li>Java libraries located in <em>[PROJECT DIR]/build/libs/build</em>.</li>
   <li>Java libraries located in <em>[JERKAR HOME]/libs/ext</em> (not in embedded mode).</li>
@@ -259,11 +265,11 @@ function jerkarMoveTo(title, level) {
 <pre><code>@JkImport(`{&quot;commons-httpclient:commons-httpclient:3.1&quot;, &quot;com.google.guava:guava:18.0&quot;})
 public class HttpClientTaskBuild extends JkJavaBuild {`
 ...
-</code></pre><p>Url of the maven/ivy repository is given by <code>downloadRepoUrl</code> Jerkar option (or it uses Maven Central if this option is not specified).<br/>If this repository needs credentials, you need to supply it through Jerkar options <code>dowloadRepoUsername</code> and <code>downloadRepoPassword</code>.</p><p>If the download repository is an Ivy repo, you have to prefix url with <code>ivy:</code> so for example you'll get <code>ivy:http://my.ivy/repo</code>.</p><h5>Libraries on File System</h5><p>To add library from file system you need to annotate the build definition with <code>@JkImport</code>. This annotation takes an array of String as argument so you can specify several dependencies.<br/>The mentioned dependencies are not resolved transitively.<br/>The expected value is a Ant include pattern applied to the project root directory.</p>
-<pre><code>@JkImport(`{&quot;commons-httpclient:commons-httpclient:3.1&quot;, &quot;build/libs/compile/*.jar&quot;})
+</code></pre><p>Url of the maven/ivy repositories is given by <code>repo.build.url</code> Jerkar option. If this option is not set, then it takes the url given by <code>repo.download.url</code> option. If the last is nor present as well, it falls back in Maven Central.<br/>If this repository needs credentials, you need to supply it through Jerkar options <code>repo.build.username</code> and <code>repo.build.password</code>.</p><p>Note that you can define several <code>repo.build.url</code> by separating then with coma (as <code>repo.build.url=http://my.repo1, http://my.repo2.snapshot</code>).</p><p>As for other repo, If the download repository is an Ivy repo, you have to prefix url with <code>ivy:</code> so for example you'll get <code>repo.build.url=ivy:file://my.ivy/repo</code>.</p><h5>Libraries on File System</h5><p>To add library from file system you need to annotate the build definition with <code>@JkImport</code>. This annotation takes an array of String as argument so you can specify several dependencies.<br/>The mentioned dependencies are not resolved transitively.<br/>The expected value is a Ant include pattern applied to the project root directory.</p>
+<pre><code>@JkImport({&quot;commons-httpclient:commons-httpclient:3.1&quot;, &quot;build/libs/compile/*.jar&quot;})
 public class HttpClientTaskBuild extends JkJavaBuild {`
 ...
-</code></pre><p>This will include <em>commons-httpclient</em> and its dependencies in the classpath along all jar file located in <em>[PROJECT DIR]/build/libs/compile</em>.</p><h5>Build Definitions of Other Project</h5><p>Your build definitions can depends on build definitions of other projects. It is typically the case for multi-project builds.<br/>This capability allows to share build elements in a static typed way as the build definitions files can consume classes coming from build definitions of other projects.</p><p><code>@JkProject</code> is an annotation that applies on fields instance of <code>org.jerkar.tool.JkBuild</code> or its subclasses. This annotation contains the relative path of the consumed project.<br/>If the project build definition sources contain some <code>@JkProject</code> annotations, build class of the consumed project are pre-processed and compiled recursively.<br/>Classes and classpath of the consumed project are added to the build definition classpath of the consumer project.</p>
+</code></pre><p>This will include <em>commons-httpclient</em> and its dependencies in the classpath along all jar file located in <em>[PROJECT DIR]/build/libs/compile</em>.</p><h5>Build Definitions of other project</h5><p>Your build definitions can depends on build definitions of other projects. It is typically the case for multi-project builds.<br/>This capability allows to share build elements in a static typed way as the build definitions files can consume classes coming from build definitions of other projects.</p><p><code>@JkProject</code> is an annotation that applies on fields instance of <code>org.jerkar.tool.JkBuild</code> or its subclasses. This annotation contains the relative path of the consumed project.<br/>If the project build definition sources contain some <code>@JkProject</code> annotations, build class of the consumed project are pre-processed and compiled recursively.<br/>Classes and classpath of the consumed project are added to the build definition classpath of the consumer project.</p>
 <pre><code>public class DistribAllBuild extends JkBuildDependencySupport {
 	
 	@JkProject(&quot;../org.jerkar.plugins-sonar&quot;)
@@ -402,7 +408,7 @@ public static final JkScope TEST = JkScope.of(&quot;test&quot;).extending(RUNTIM
             .on(depFile1, depFile2, file(&quot;libs/my.jar&quot;)).build();
     }
 		
-</code></pre><h5>Dependencies on files produced by computation</h5><p>It is typically used for <strong>multi projects builds</strong> or <strong>multi module</strong> projects.</p><p>The principle is that if the specified files are not found, then the computation is run in order to generate the missing files.<br/>If some files still missing after the computation has run, the build fails.</p><p>This mechanism is quite simple yet powerful as it addresses following use cases :</p>
+</code></pre><h5>Dependencies on files produced by computation</h5><p>It is typically used for <strong>multi projects builds</strong> projects.</p><p>The principle is that if the specified files are not found, then the computation is run in order to generate the missing files.<br/>If some files still missing after the computation has run, the build fails.</p><p>This mechanism is quite simple yet powerful as it addresses following use cases :</p>
 <ul>
   <li>Dependencies on files produced by other Jerkar project.</li>
   <li>Dependencies on files produced by external project built with any type of technology (Ant, Grunt, Maven, Gradle, SBT, Android SDK, Make, ...).</li>
@@ -459,7 +465,7 @@ protected JkDependencies dependencies() {
 	.build();
 }
 ...   
-</code></pre><p>As Jerkar relies on Ivy under the hood, you can use any expression mentioned (here) [http://ant.apache.org/ivy/history/latest-milestone/ivyfile/dependency.html].</p><h6>Specifying Maven Classifier and extension of the artifact</h6><p>Maven or Ivy module dependencies need to be downloaded from a binary repository. This could be a managed repository (as _Nexus8 or <em>Artifactory</em>), simple file system repo or<br/>a combination of any.</p>
+</code></pre><p>As Jerkar relies on Ivy under the hood, you can use any expression mentioned (here) [http://ant.apache.org/ivy/history/latest-milestone/ivyfile/dependency.html].</p><h6>Specifying Maven Classifier and extension of the artifact</h6><p>Maven or Ivy module dependencies need to be downloaded from a binary repository. This could be a managed repository (as <em>Nexus</em> or <em>Artifactory</em>), simple file system repo or a combination of any.</p>
 <pre><code>...	
 @Override 
 protected JkDependencies dependencies() {

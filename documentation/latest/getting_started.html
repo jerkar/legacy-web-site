@@ -96,28 +96,29 @@
             <li><a href="javascript:jerkarMoveTo('Launch in your IDE',3);">4.2.Launch in your IDE</a></li>
           </ul>
         </li>
-        <li class="liexpandable"><a href="javascript:jerkarMoveTo('Play with 'samples' project',2);">5.Play with 'samples' project</a>
+        <li><a href="javascript:jerkarMoveTo('Migrate a Maven projet to jerkar.',2);">5.Migrate a Maven projet to jerkar.</a></li>
+        <li class="liexpandable"><a href="javascript:jerkarMoveTo('Play with 'samples' project',2);">6.Play with 'samples' project</a>
           <ul class="sub-menu">
-            <li class="liexpandable"><a href="javascript:jerkarMoveTo('Playing with `AClassicalBuild`',3);">5.1.Playing with `AClassicalBuild`</a>
+            <li class="liexpandable"><a href="javascript:jerkarMoveTo('Playing with `AClassicalBuild`',3);">6.1.Playing with `AClassicalBuild`</a>
               <ul class="sub-menu">
-                <li><a href="javascript:jerkarMoveTo('Getting some help',4);">5.1.1.Getting some help</a></li>
-                <li class="liexpandable"><a href="javascript:jerkarMoveTo('Compile, test and package the application.',4);">5.1.2.Compile, test and package the ap...</a>
+                <li><a href="javascript:jerkarMoveTo('Getting some help',4);">6.1.1.Getting some help</a></li>
+                <li class="liexpandable"><a href="javascript:jerkarMoveTo('Compile, test and package the application.',4);">6.1.2.Compile, test and package the ap...</a>
                   <ul class="sub-menu">
                     <li><a href="javascript:jerkarMoveTo('Passing options with property files',5);">Passing options with property ...</a></li>
                     <li><a href="javascript:jerkarMoveTo('Harcoding options',5);">Harcoding options</a></li>
                   </ul>
                 </li>
-                <li><a href="javascript:jerkarMoveTo('Unactivating tests',4);">5.1.3.Unactivating tests</a></li>
-                <li><a href="javascript:jerkarMoveTo('Forking tests',4);">5.1.4.Forking tests</a></li>
-                <li><a href="javascript:jerkarMoveTo('Generating verbose test report',4);">5.1.5.Generating verbose test report</a></li>
-                <li><a href="javascript:jerkarMoveTo('Producing a test coverage report',4);">5.1.6.Producing a test coverage report</a></li>
-                <li><a href="javascript:jerkarMoveTo('Triggering SonarQube analysis',4);">5.1.7.Triggering SonarQube analysis</a></li>
+                <li><a href="javascript:jerkarMoveTo('Unactivating tests',4);">6.1.3.Unactivating tests</a></li>
+                <li><a href="javascript:jerkarMoveTo('Forking tests',4);">6.1.4.Forking tests</a></li>
+                <li><a href="javascript:jerkarMoveTo('Generating verbose test report',4);">6.1.5.Generating verbose test report</a></li>
+                <li><a href="javascript:jerkarMoveTo('Producing a test coverage report',4);">6.1.6.Producing a test coverage report</a></li>
+                <li><a href="javascript:jerkarMoveTo('Triggering SonarQube analysis',4);">6.1.7.Triggering SonarQube analysis</a></li>
               </ul>
             </li>
-            <li><a href="javascript:jerkarMoveTo('Playing with the others build classes',3);">5.2.Playing with the others build clas...</a></li>
+            <li><a href="javascript:jerkarMoveTo('Playing with the others build classes',3);">6.2.Playing with the others build clas...</a></li>
           </ul>
         </li>
-        <li><a href="javascript:jerkarMoveTo('Play with 'samples-dependee' projectt',2);">6.Play with 'samples-dependee' project...</a></li>
+        <li><a href="javascript:jerkarMoveTo('Play with 'samples-dependee' projectt',2);">7.Play with 'samples-dependee' project...</a></li>
     </ul>
 </div>
 <script>
@@ -195,7 +196,22 @@ If your project is <a href="../../tour.html#100conventional">100% conventional</
 </ol>
 <p class="alert alert-success">
 	<strong>Eclipse users : </strong> You can execute <code>jerkar eclipse#generateFiles</code> to generate both <small>.project</small> and <small>.classpath</small> files from the build definition.
-</p><p>As Jerkar builds itself, you can have a look at <a href="https://github.com/jerkar/jerkar/tree/master/org.jerkar.core">how Jerkar project is structured</a>.</p><h2>Build your project</h2><p>You can build your project by using the command line or by launching it through your IDE. Using IDE provides the ability to debug your build in a friendly way, as you would debug regular classes.</p><h3>Launch in command line</h3><p>Open a terminal, set the current directory to the root of your project and execute <code>jerkar</code>.<br/>This will execute ´doDefault´ method of the default build class of your project. If your project has no build class it will execute <code>JkJavaBuild#doDefault()</code> provided with Jerkar library.</p><h3>Launch in your IDE</h3><p>Just launch the <code>org.jerkar.tool.Main</code> class in your IDE with the root of your project as working directory.<br/>You can also write a <code>main</code> method in build class and execute it. </p><h2>Play with 'samples' project</h2>
+</p><p>As Jerkar builds itself, you can have a look at <a href="https://github.com/jerkar/jerkar/tree/master/org.jerkar.core">how Jerkar project is structured</a>.</p><h2>Build your project</h2><p>You can build your project by using the command line or by launching it through your IDE. Using IDE provides the ability to debug your build in a friendly way, as you would debug regular classes.</p><h3>Launch in command line</h3><p>Open a terminal, set the current directory to the root of your project and execute <code>jerkar</code>.<br/>This will execute ´doDefault´ method of the default build class of your project. If your project has no build class it will execute <code>JkJavaBuild#doDefault()</code> provided with Jerkar library.</p><h3>Launch in your IDE</h3><p>Just launch the <code>org.jerkar.tool.Main</code> class in your IDE with the root of your project as working directory.<br/>You can also write a <code>main</code> method in build class and execute it. </p>
+<pre><code>public static void main(String[] args) {
+		
+	 // This main method will run the &#39;doDefault&#39; method of &#39;MyBuild&#39; class. 		
+    JkInit.instanceOf(MyBuild.class, args).doDefault(); 
+}
+
+</code></pre><h2>Migrate a Maven projet to jerkar.</h2><p>Prerequisites are :</p>
+<ul>
+  <li>Maven is installed on the machine running Jerkar.</li>
+  <li>The project build wiyh maven (at least, <code>mvn help:effective-pom</code> should success).</li>
+</ul><p>Steps :</p>
+<ol>
+  <li>Execute <code>jerkar scaffold</code> at the root folder of the project you want to migrate (Let's call it [PROJECT DIR]). It generates a build class at <em>[PROJECT DIR]/buid/def/Build.java</em></li>
+  <li>If you are an eclipse user, execute <code>jerkar eclipse#generateFiles</code>. It generates <em>.project</em> and <em>.classpath</em> so the project is now usable in Eclipse.</li>
+</ol><h2>Play with 'samples' project</h2>
 <p class="alert alert-warning">
 	<strong>Prerequisite:</strong> You need to have Git installed on your IDE to download sample projects.
 </p><p>To provide an easy hand on experience, you can play with <strong>org.jerkar.samples</strong> project hosted in <a href="https://github.com/jerkar/jerkar.git">Jerkar Git Repository</a>.</p><p>This project contain a very minimalist java application (ala HelloWorld) and several build classes to build the project. All these classes are located under <em>build/def</em> directory. These build classes are independent from each other, each one illustrates one way of doing thing in Jerkar. Some of these build classes declare dependencies that are not even needed for the project but for illustration purpose only.</p><p>To play with <em>samples</em> project, you should :</p>
@@ -541,7 +557,7 @@ sonar.skipDesign=true
 		this.plugins.activate(sonarPlugin, jacocoPlugin);
 	}
 ...
-</code></pre><p>With this definition, you only have to execute <code>jerkar doVerify</code> to trigger a SonarQube analysis including test coverage.</p><h3>Playing with the others build classes</h3><p>If you want to play with other build definition available in the <em>samples</em> project the same way you did for <em>AClassicalBuild</em>, just mention <code>-buildClass=Xxxxx</code> in the command line where <code>Xxxxx</code> stands for the short or complete name of the build class. So for example, <code>jerkar -buildClass=AntStyleBuild</code> is perfectly valid. </p><h2>Play with 'samples-dependee' projectt</h2><p>This project illustrates how to handle multi-project builds. You can get it at <a href="https://github.com/jerkar/jerkar.git">Jerkar Git Repository</a>..<br/>This project depends on <strong>org.jerkar.samples</strong> project see previously..</p><p>This project contain two build classes :</p>
+</code></pre><p>With this definition, you only have to execute <code>jerkar doVerify</code> to trigger a SonarQube analysis including test coverage.</p><h3>Playing with the others build classes</h3><p>If you want to play with other build classes available in the <em>samples</em> project the same way you did for <em>AClassicalBuild</em>, just mention <code>-buildClass=Xxxxx</code> in the command line where <code>Xxxxx</code> stands for the short or complete name of the build class. So for example, <code>jerkar -buildClass=AntStyleBuild</code> is perfectly valid as <code>jerkar -buildClass=org.jerkar.samples.AntStyleBuild</code>. </p><h2>Play with 'samples-dependee' projectt</h2><p>This project illustrates how to handle multi-project builds. You can get it at <a href="https://github.com/jerkar/jerkar.git">Jerkar Git Repository</a>..<br/>This project depends on <strong>org.jerkar.samples</strong> project see previously..</p><p>This project contain two build classes :</p>
 <ul>
   <li><a href="https://github.com/jerkar/jerkar/blob/master/org.jerkar.samples-dependee/build/def/NormalJarBuild.java"><code>NormalJarBuild</code></a></li>
   <li><a href="https://github.com/jerkar/jerkar/blob/master/org.jerkar.samples-dependee/build/def/FatJarBuild.java"><code>FatJarBuild</code></a></li>

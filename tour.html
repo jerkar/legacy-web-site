@@ -206,7 +206,7 @@ function jerkarMoveTo(title, level) {
     }
 	
     public static void main(String[] args) {
-        new AntStyleBuild().doDefault();
+        JkInit.ofInstance(AntStyleBuild.class, args).doDefault();
     }
 
 }
@@ -297,6 +297,7 @@ public class DistribAllBuild extends JkBuild {
   <li><code>jerkar pack</code> : creates jars from the compiled sources and processed resources (creates test, sources and fat jar as well).</li>
   <li><code>jerkar verify</code> : launch code quality tools on the sources : by default this does not do anyhing unless you activate some quality control plugin (see below).</li>
   <li><code>jerkar publish</code> : publish the produced artifact in the remote repository.</li>
+  <li><code>jerkar scaffold</code> : create a Jerkar project struture from scratch, including the build class. If root folder has already a <em>pom.xml</em> file then Jerkar will reuse pom.xml information to generate build class accordingly.</li>
 </ul><p>Beside convenient methods are available to launch a 'life-cycle' sequence :</p>
 <ul>
   <li><code>jerkar doCompile</code> = <code>jerkar clean compile</code>.</li>

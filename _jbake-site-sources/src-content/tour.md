@@ -82,7 +82,7 @@ public class AntStyleBuild extends JkBuild {
     }
 	
     public static void main(String[] args) {
-        new AntStyleBuild().doDefault();
+        JkInit.ofInstance(AntStyleBuild.class, args).doDefault();
     }
 
 }
@@ -223,6 +223,7 @@ Yep, with Jerkar, if you don't have written any build file or just have a build 
 - `jerkar pack` : creates jars from the compiled sources and processed resources (creates test, sources and fat jar as well).
 - `jerkar verify` : launch code quality tools on the sources  : by default this does not do anyhing unless you activate some quality control plugin (see below).
 - `jerkar publish` : publish the produced artifact in the remote repository.
+- `jerkar scaffold` : create a Jerkar project struture from scratch, including the build class. If root folder has already a _pom.xml_ file then Jerkar will reuse pom.xml information to generate build class accordingly.
 
 Beside convenient methods are available to launch a 'life-cycle' sequence :
 
