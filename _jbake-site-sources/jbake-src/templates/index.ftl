@@ -1,8 +1,9 @@
 <#include "header.ftl">
 	
 	<#include "menu.ftl">
-	
+	<!--
 	<img class="center-block" src="img/underconstruction.gif"/>
+	-->
 
 	 <!-- Marketing content -->
 	 <div class="jumbotron">
