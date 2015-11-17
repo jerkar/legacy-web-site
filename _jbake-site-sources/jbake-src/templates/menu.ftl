@@ -21,7 +21,7 @@
               <ul class="dropdown-menu">
                 <li><a href="<#if (content.rootpath)??>${content.rootpath}<#else></#if>documentation/latest/getting_started.html">Getting Started</a></li>
                 <li><a href="<#if (content.rootpath)??>${content.rootpath}<#else></#if>documentation/latest/reference.html">Reference Guide</a></li>
-                <li><a href="<#if (content.rootpath)??>${content.rootpath}<#else></#if>documentation/latestfaq.html">Frequently Asked Questions</a></li>
+                <li><a href="<#if (content.rootpath)??>${content.rootpath}<#else></#if>documentation/latest/faq.html">Frequently Asked Questions</a></li>
                 <li><a href="<#if (content.rootpath)??>${content.rootpath}<#else></#if>javadoc/latest/index.html">Javadoc</a></li>
               </ul>
             </li>
