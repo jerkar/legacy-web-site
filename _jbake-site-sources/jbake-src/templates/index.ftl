@@ -20,7 +20,7 @@
         
         <p class="lead">Write your build definitions in <strong>pure Java</strong> (instead of XML or script language) 
         		and leverage directly the power, robustness and simplicity of the language.<p/>
-        <p class="lead">This leads in unrivaled <strong>ease</strong>, <strong>flexibility</strong> and 
+        <p class="lead">This leads in unrivaled <strong>ease</strong>, <strong>flexibility</strong>, <strong>lightness</strong> and 
         		<strong>solidity</strong> for building <strong>Java projects</strong> or <strong>complex organization wide systems</strong>.</p>
         <a class="btn btn-large btn-success" href="tell-me-more.html">Tell me more</a>
         <a class="btn btn-large btn-success" href="tour.html">Have a tour</a>
