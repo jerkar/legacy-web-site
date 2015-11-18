@@ -3,6 +3,7 @@ package jerkar.github.io;
 import java.io.File;
 import java.io.InputStream;
 import java.util.List;
+import java.util.jar.Attributes.Name;
 import java.util.zip.ZipInputStream;
 
 import org.jerkar.api.file.JkFileTree;
@@ -110,7 +111,7 @@ class SiteBuild extends JkBuild {
 	ZipInputStream manifestStream = JkUtilsIO.readZipEntry(jarStream, "META-INF/MANIFEST.MF");
 	JkManifest manifest = JkManifest.of(manifestStream);
 	JkUtilsIO.closeQuietly(manifestStream, jarStream, zipFile);
-	return manifest.mainAttribute("version");
+	return manifest.mainAttribute(Name.IMPLEMENTATION_VERSION);
     }
 
     public void copyCurrentJavadoc() {
