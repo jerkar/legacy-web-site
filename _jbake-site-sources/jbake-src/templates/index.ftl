@@ -27,7 +27,7 @@
         <a class="btn btn-large btn-success" href="download.html">Download</a>
         <p></p>
         <div class="alert alert-info">
-			<strong>Latest News: </strong> Release 0.3.0 <a href="https://github.com/jerkar/jerkar/releases">is out !</a>
+			<strong>Latest News: </strong> Release 0.3.0 <a href="https://github.com/jerkar/jerkar/releases">is out !</a>. Eclipse plugin is <a href="https://github.com/jerkar/eclipsePlugin4Jerkar">on the way.</a> 
 		</div>
       </div>
       

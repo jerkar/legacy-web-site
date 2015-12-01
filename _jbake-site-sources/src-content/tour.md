@@ -239,7 +239,7 @@ Whitout omitting the shorthands :
 
 These tasks can be parametrized :
 
-- `jerkar -fatJar=true -forkTests=true` = `jerkar doPack` + forking the unit tests and produce a fat jar
+- `jerkar -pack.fatJar=true -tests.fork=true` = `jerkar doPack` + forking the unit tests and produce a fat jar
 
 The last will result in the following artifact creation :
 ![Created artifacts](img/output.png)

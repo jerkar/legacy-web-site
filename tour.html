@@ -309,7 +309,7 @@ public class DistribAllBuild extends JkBuild {
   <li><code>jerkar</code> = <code>jerkar doDefault</code> = <code>jerkar doPack</code></li>
 </ul><p>These tasks can be parametrized :</p>
 <ul>
-  <li><code>jerkar -fatJar=true -forkTests=true</code> = <code>jerkar doPack</code> + forking the unit tests and produce a fat jar</li>
+  <li><code>jerkar -pack.fatJar=true -tests.fork=true</code> = <code>jerkar doPack</code> + forking the unit tests and produce a fat jar</li>
 </ul><p>The last will result in the following artifact creation :<br/><img src="img/output.png" alt="Created artifacts""/></p><h3>Plugin Tasks</h3><p>Template classes (<code>JkBuild</code> and <code>JkJavaBuild</code>) enable pluggability by featuring methods with extension points.<br/>A plugin is just a class extending <code>JkBuildPlugin</code> or <code>JkJavaBuildPlugin</code> and overriding default hook methods. Plugins can also provide their own methods.</p>
 <ul>
   <li>To activate a plugin on the command line, just mention the name of the plugin followed by a <code>#</code>.</li>
