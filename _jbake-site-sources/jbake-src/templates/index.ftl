@@ -27,7 +27,7 @@
         <a class="btn btn-large btn-success" href="download.html">Download</a>
         <p></p>
         <div class="alert alert-info">
-			<strong>Latest News: </strong> First official release <a href="https://github.com/jerkar/jerkar/releases/tag/0.2.7">available !</a>
+			<strong>Latest News: </strong> Release 0.3.0 <a href="https://github.com/jerkar/jerkar/releases">is out !</a>
 		</div>
       </div>
       
