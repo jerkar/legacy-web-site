@@ -9,9 +9,8 @@
             <span class="icon-bar"></span>
           </button>
           <a class="navbar-brand">
-          	<img style="max-width:32px;margin-top: -7px;" src="<#if (content.rootpath)??>${content.rootpath}<#else></#if>img/logo.png">
+          	<img style="max-width:80px;margin-top: -10px;" src="<#if (content.rootpath)??>${content.rootpath}<#else></#if>img/logo/PNG-04.png">
           </a>
-          <a class="navbar-brand">Jerkar</a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">

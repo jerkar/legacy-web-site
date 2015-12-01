@@ -55,9 +55,8 @@
             <span class="icon-bar"></span>
           </button>
           <a class="navbar-brand">
-          	<img style="max-width:32px;margin-top: -7px;" src="../../img/logo.png">
+          	<img style="max-width:80px;margin-top: -10px;" src="../../img/logo/PNG-04.png">
           </a>
-          <a class="navbar-brand">Jerkar</a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -250,7 +249,7 @@ function jerkarMoveTo(title, level) {
 </ol><h4>Command Line</h4><p>Jerkar parse the command line and process each arguments according its pattern :</p>
 <ul>
   <li><p>Argument starts with <code>@</code> : This is an module import clause, the following will be used for adding a module to build class compile &amp; run classpath. For example if the command line contains <code>@com.google.guava:guava:18.0</code>, the build class will be compiled with Guava in its classpath and Guava will be also present in the classpath when the build class will be executed.</p></li>
-  <li><p>Argument starts with <code>-</code> : This is an option declaration. The following is expectedto be formated as <em>optionName=optionValue</em>. For example, `-repo.build.url=http://my.repo.milestone/' will inject 'http://my.repo.milestone/' in the 'repo.build.url' Jerkar option.</p></li>
+  <li><p>Argument starts with <code>-</code> : This is an option declaration. The following is expected to be formated as <em>optionName=optionValue</em>. For example, `-repo.build.url=http://my.repo.milestone/' will inject 'http://my.repo.milestone/' in the 'repo.build.url' Jerkar option.</p></li>
   <li><p>in the other cases, argument is considered as a method name to invoke on the build class instance.</p></li>
 </ul><h4>Build class Compilation</h4><p>Jerkar compiles build class files prior to execute it. Build class files are expected to be in <em>[PROJECT DIR]/build/def</em>. If this directory does not exist or does not contains java sources, the compilation is skipped.<br/>Compilation outputs class files in <em>[PROJECT DIR]/build/output/def-bin</em> directory and uses classpath containing :</p>
 <ul>

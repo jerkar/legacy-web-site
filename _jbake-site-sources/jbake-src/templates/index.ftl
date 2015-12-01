@@ -8,12 +8,11 @@
 	 <!-- Marketing content -->
 	 <div class="jumbotron">
 	 	<div class="container">
-	 		<div class="col-md-3">
-	 			<img src="img/logo.png"/>
+	 		<div class="col-md-5">
+	 			<img src="img/logo/PNG-03.png"/>
 	 		</div>
-	 		<div class="col-md-9">
-        		<h1>JerKar</h1>
-        		<h3 class="center">Build your projects easier, stronger, faster.</h3> 
+	 		<div class="col-md-7">
+        		<img src="img/logo/PNG-04.png"/>
         	</div>
         </div>
         <br/>
