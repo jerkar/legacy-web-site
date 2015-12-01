@@ -16,6 +16,7 @@ import org.jerkar.api.utils.JkUtilsIO;
 import org.jerkar.api.utils.JkUtilsIterable;
 import org.jerkar.api.utils.JkUtilsString;
 import org.jerkar.api.utils.JkUtilsTime;
+import org.jerkar.api.utils.JkUtilsZip;
 import org.jerkar.tool.JkBuild;
 import org.jerkar.tool.JkDoc;
 import org.jerkar.tool.JkInit;
@@ -117,7 +118,7 @@ class SiteBuild extends JkBuild {
 	private String currentJerkarVersion() {
 		JkZipFile zipFile = JkZipFile.of(jerkarDistZip);
 		InputStream jarStream = zipFile.inputStream("org.jerkar.core.jar");
-		ZipInputStream manifestStream = JkUtilsIO.readZipEntry(jarStream,
+		ZipInputStream manifestStream = JkUtilsZip.readZipEntry(jarStream,
 				"META-INF/MANIFEST.MF");
 		JkManifest manifest = JkManifest.of(manifestStream);
 		JkUtilsIO.closeQuietly(manifestStream, jarStream, zipFile);
