@@ -18,6 +18,7 @@
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">Documentation<b class="caret"></b></a>
               <ul class="dropdown-menu">
+               <li><a href="<#if (content.rootpath)??>${content.rootpath}<#else></#if>tour.html">Tour</a></li>
                 <li><a href="<#if (content.rootpath)??>${content.rootpath}<#else></#if>documentation/latest/getting_started.html">Getting Started</a></li>
                 <li><a href="<#if (content.rootpath)??>${content.rootpath}<#else></#if>documentation/latest/reference.html">Reference Guide</a></li>
                 <li><a href="<#if (content.rootpath)??>${content.rootpath}<#else></#if>documentation/latest/faq.html">Frequently Asked Questions</a></li>

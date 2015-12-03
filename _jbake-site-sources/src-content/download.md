@@ -12,3 +12,7 @@ status=published
 
 * The published versions are available on [the Github release page.](https://github.com/jerkar/jerkar/releases)
 
+
+## Eclipse plugin
+
+* The update site is located at : http://project.jerkar.org/eclipsePlugin4Jerkar/site/site.xml
