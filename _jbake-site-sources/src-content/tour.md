@@ -16,15 +16,42 @@ Concretely your Java project is structured as :
 
 ![Project layout](img/principle.png)
 
-## Build Styles
+And `ThisIsTheBuildDefiniotion` code may look like this :
 
-With Jerkar you can write task based build definitions (ala _Ant_), templated ones (ala _Maven_) or rely on conventions only (no build script needed). The following section illustrates different approaches to use Jerkar. 
+```Java
+public class ThisIsTheBuildDefiniotion extends JkBuild {
+
+    @JkDoc("Run tests in forked process if true")
+    boolean forkTests;
+
+    File src = file("src");
+    File buildDir = file("build/output");
+	
+    public void compile() {
+        JkJavaCompiler.ofOutput(classDir).withClasspath(classpath).andSourceDir(src).compile();
+        JkFileTree.of(src).exclude("**/*.java").copyTo(classDir);
+    }
+    
+    public static void main(String[] args) {
+        JkInit.ofInstance(AntStyleBuild.class, args).doDefault();
+    }
+    
+    ...
+
+}
+```
+
+From this starting point you can discover a lot from Jerkar. The following section illustrates different options for writing or not build classes. 
+
+## Build Class styles
+
+With Jerkar you can write task based build classes (ala _Ant_), templated ones (ala _Maven_) or rely on conventions only (no build class needed).  
 
 <p class="alert alert-success">
 	Using <a href="documentation/latest/tutorial.html">the tutorial section 5</a>, you can easily set-up sample projects that illustrate the snippet displayed below.   
 </p>
 
-### Task Based Builds (ala Ant)
+### Task Based Build Classes (ala Ant)
 If you like to have __complete control__ over your builds, you may prefer the _Ant_ build style. 
 The price is that you have to __write explicitly__ what your build is doing. 
 
@@ -95,7 +122,7 @@ From this build definition, we can execute Jerkar the following way :
 - Execute a command line in a shell (or on a build server)  as `jerkar doDefault` or `jerkar cleanBuild -forkTests=true`.
 
 <br/>
-### Templated Builds (ala Maven)
+### Templated Build Classes (ala Maven)
 For Java projects you may directly extend `JkJavaBuild` template class which implements common methods for you. 
 All you need is to implement what is specific.
 
@@ -129,7 +156,7 @@ public class MavenStyleBuild extends JkJavaBuild {
 This example is for demo purpose. Some settings can be omitted by respecting naming conventions...
 <br/>
 
-### Templated Builds with Conventions
+### Templated Build Classes with Conventions
 
 If you follow conventions (as project folder named as _groupName.projectName_ and version stored in a _version.txt_ file), the above script turns to :
 
@@ -149,19 +176,19 @@ public class BuildSampleClassic extends JkJavaBuild {
 ```
 
 <a name="100conventional">&nbsp;</a>
-### Fully Conventional Style
+### Build relying fully on conventions
 
 If your project uses local file dependencies only (jar dependencies located as below), you don't even need to write a build definitions.
 Note that local file dependencies have to be located in sub-folder corresponding to its scope (build, compile, runtime,...).
 
 ![Project layout full convention](img/full-convention-project.png)
 
-### Eclipse Style
+### Build relying on Eclipse metadata
 
 If Eclipse is your IDE, you can just reuse information from the _.classpath_ file by using the Eclipse plugin.
 Project name, source folders and dependencies can be deducted from this file. Just activate the Eclipse plugin (see below).
 
-### Custom Builds with Third Parties
+### Build Classes dependending on third party libraries.
 
 Your build class can depend itself from managed dependencies 
 
@@ -176,6 +203,7 @@ public class SeleniumTaskBuild extends JkJavaBuild {
     }
 }
 ```
+
 ### Multi-project Builds
 In a multi project context, build instances, from different projects, can use each other.
 You just have to declare the "slave" build instance as field and annotate it with the `@JkProject` mentioning the "slave" project relative path.
@@ -208,11 +236,9 @@ public class DistribAllBuild extends JkBuild {
 <strong>Note that you can reuse external build elements in a statically typed way !!! </strong>
 </div>
 
-## Out-of-the-box Features
+## Features offered by build classes
 
-This section answers to the following question : <blockquote>What Jerkar can do for me if I haven't written build file or have just a build file declaring dependencies only ?</blockquote>
-
-Yep, with Jerkar, if you don't have written any build file or just have a build file containing dependency definition, you can yet perform pretty sophisticated tasks. 
+If your build class extends `JkJavaBuild` or you have no build class at all (build relying fully on conventions), then you have invoke the following tasks :
 
 ### Basic Tasks
     

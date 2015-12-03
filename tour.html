@@ -83,18 +83,18 @@
 	<div id="sidebar-menu" class="col-md-3 hidden-xs hidden-sm">
     <ul class="main-menu nav nav-stacked affix">
         <li><a href="javascript:jerkarMoveTo('Principles',2);">1.Principles</a></li>
-        <li class="liexpandable"><a href="javascript:jerkarMoveTo('Build Styles',2);">2.Build Styles</a>
+        <li class="liexpandable"><a href="javascript:jerkarMoveTo('Build Class styles',2);">2.Build Class styles</a>
           <ul class="sub-menu">
-            <li><a href="javascript:jerkarMoveTo('Task Based Builds (ala Ant)',3);">2.1.Task Based Builds (ala Ant)</a></li>
-            <li><a href="javascript:jerkarMoveTo('Templated Builds (ala Maven)',3);">2.2.Templated Builds (ala Maven)</a></li>
-            <li><a href="javascript:jerkarMoveTo('Templated Builds with Conventions',3);">2.3.Templated Builds with Conventions</a></li>
-            <li><a href="javascript:jerkarMoveTo('Fully Conventional Style',3);">2.4.Fully Conventional Style</a></li>
-            <li><a href="javascript:jerkarMoveTo('Eclipse Style',3);">2.5.Eclipse Style</a></li>
-            <li><a href="javascript:jerkarMoveTo('Custom Builds with Third Parties',3);">2.6.Custom Builds with Third Parties</a></li>
+            <li><a href="javascript:jerkarMoveTo('Task Based Build Classes (ala Ant)',3);">2.1.Task Based Build Classes (ala Ant)</a></li>
+            <li><a href="javascript:jerkarMoveTo('Templated Build Classes (ala Maven)',3);">2.2.Templated Build Classes (ala Maven...</a></li>
+            <li><a href="javascript:jerkarMoveTo('Templated Build Classes with Conventions',3);">2.3.Templated Build Classes with Conve...</a></li>
+            <li><a href="javascript:jerkarMoveTo('Build relying fully on conventions',3);">2.4.Build relying fully on conventions</a></li>
+            <li><a href="javascript:jerkarMoveTo('Build relying on Eclipse metadata',3);">2.5.Build relying on Eclipse metadata</a></li>
+            <li><a href="javascript:jerkarMoveTo('Build Classes dependending on third party libraries.',3);">2.6.Build Classes dependending on thir...</a></li>
             <li><a href="javascript:jerkarMoveTo('Multi-project Builds',3);">2.7.Multi-project Builds</a></li>
           </ul>
         </li>
-        <li class="liexpandable"><a href="javascript:jerkarMoveTo('Out-of-the-box Features',2);">3.Out-of-the-box Features</a>
+        <li class="liexpandable"><a href="javascript:jerkarMoveTo('Features offered by build classes',2);">3.Features offered by build classes</a>
           <ul class="sub-menu">
             <li><a href="javascript:jerkarMoveTo('Basic Tasks',3);">3.1.Basic Tasks</a></li>
             <li class="liexpandable"><a href="javascript:jerkarMoveTo('Plugin Tasks',3);">3.2.Plugin Tasks</a>
@@ -151,10 +151,31 @@ function jerkarMoveTo(title, level) {
   <li>Compiles every java sources found under the <em>[PROJECT DIR]/build/def</em> folder.</li>
   <li>Instantiates the first compiled class found implementing <code>org.jerkar.tool.JkBuild</code>. If none the <code>org.jerkar.tool.builtins.templates.javabuild.JkJavaBuild</code> class is instantiated.</li>
   <li>Invokes specified methods on the created instance. If no method is specified then the <code>doDefault</code> method is invoked.</li>
-</ul><p>You can also set instance fields from the command line by typing <code>jerkar myMethod -myField=foo</code>.</p><p>Concretely your Java project is structured as :</p><p><img src="img/principle.png" alt="Project layout""/></p><h2>Build Styles</h2><p>With Jerkar you can write task based build definitions (ala <em>Ant</em>), templated ones (ala <em>Maven</em>) or rely on conventions only (no build script needed). The following section illustrates different approaches to use Jerkar. </p>
+</ul><p>You can also set instance fields from the command line by typing <code>jerkar myMethod -myField=foo</code>.</p><p>Concretely your Java project is structured as :</p><p><img src="img/principle.png" alt="Project layout""/></p><p>And <code>ThisIsTheBuildDefiniotion</code> code may look like this :</p>
+<pre><code class="Java">public class ThisIsTheBuildDefiniotion extends JkBuild {
+
+    @JkDoc(&quot;Run tests in forked process if true&quot;)
+    boolean forkTests;
+
+    File src = file(&quot;src&quot;);
+    File buildDir = file(&quot;build/output&quot;);
+	
+    public void compile() {
+        JkJavaCompiler.ofOutput(classDir).withClasspath(classpath).andSourceDir(src).compile();
+        JkFileTree.of(src).exclude(&quot;**/*.java&quot;).copyTo(classDir);
+    }
+    
+    public static void main(String[] args) {
+        JkInit.ofInstance(AntStyleBuild.class, args).doDefault();
+    }
+    
+    ...
+
+}
+</code></pre><p>From this starting point you can discover a lot from Jerkar. The following section illustrates different options for writing or not build classes. </p><h2>Build Class styles</h2><p>With Jerkar you can write task based build classes (ala <em>Ant</em>), templated ones (ala <em>Maven</em>) or rely on conventions only (no build class needed). </p>
 <p class="alert alert-success">
 	Using <a href="documentation/latest/tutorial.html">the tutorial section 5</a>, you can easily set-up sample projects that illustrate the snippet displayed below.   
-</p><h3>Task Based Builds (ala Ant)</h3><p>If you like to have <strong>complete control</strong> over your builds, you may prefer the <em>Ant</em> build style.<br/>The price is that you have to <strong>write explicitly</strong> what your build is doing. </p><p>This example mimics the <a href="http://ant.apache.org/manual/tutorial-HelloWorldWithAnt.html">tutorial ANT build script</a> </p>
+</p><h3>Task Based Build Classes (ala Ant)</h3><p>If you like to have <strong>complete control</strong> over your builds, you may prefer the <em>Ant</em> build style.<br/>The price is that you have to <strong>write explicitly</strong> what your build is doing. </p><p>This example mimics the <a href="http://ant.apache.org/manual/tutorial-HelloWorldWithAnt.html">tutorial ANT build script</a> </p>
 <pre><code class="Java">public class AntStyleBuild extends JkBuild {
 
     @JkDoc(&quot;Run tests in forked process if true&quot;)
@@ -215,7 +236,7 @@ function jerkarMoveTo(title, level) {
   <li>Launch/debug the <code>AntStyleBuild main</code> within your IDE.</li>
   <li>Launch/debug the <code>org.jerkar.tool.JkMain main</code> method within your IDE. In this mode you can pass arguments as you would do with command line.</li>
   <li>Execute a command line in a shell (or on a build server) as <code>jerkar doDefault</code> or <code>jerkar cleanBuild -forkTests=true</code>.</li>
-</ul><p><br/></p><h3>Templated Builds (ala Maven)</h3><p>For Java projects you may directly extend <code>JkJavaBuild</code> template class which implements common methods for you.<br/>All you need is to implement what is specific.</p>
+</ul><p><br/></p><h3>Templated Build Classes (ala Maven)</h3><p>For Java projects you may directly extend <code>JkJavaBuild</code> template class which implements common methods for you.<br/>All you need is to implement what is specific.</p>
 <pre><code>public class MavenStyleBuild extends JkJavaBuild {
 	
     @Override  // optional
@@ -240,7 +261,7 @@ function jerkarMoveTo(title, level) {
     }
 
 }
-</code></pre><p>This example is for demo purpose. Some settings can be omitted by respecting naming conventions...<br/><br/></p><h3>Templated Builds with Conventions</h3><p>If you follow conventions (as project folder named as <em>groupName.projectName</em> and version stored in a <em>version.txt</em> file), the above script turns to :</p>
+</code></pre><p>This example is for demo purpose. Some settings can be omitted by respecting naming conventions...<br/><br/></p><h3>Templated Build Classes with Conventions</h3><p>If you follow conventions (as project folder named as <em>groupName.projectName</em> and version stored in a <em>version.txt</em> file), the above script turns to :</p>
 <pre><code>public class BuildSampleClassic extends JkJavaBuild {
 	
     @Override  // Optional :  needless if you use only local dependencies
@@ -253,7 +274,7 @@ function jerkarMoveTo(title, level) {
             .on(MOCKITO_ALL, &quot;1.9.5&quot;).scope(TEST).build();
 	}	
 }
-</code></pre><p><a name="100conventional">&nbsp;</a></p><h3>Fully Conventional Style</h3><p>If your project uses local file dependencies only (jar dependencies located as below), you don't even need to write a build definitions.<br/>Note that local file dependencies have to be located in sub-folder corresponding to its scope (build, compile, runtime,...).</p><p><img src="img/full-convention-project.png" alt="Project layout full convention""/></p><h3>Eclipse Style</h3><p>If Eclipse is your IDE, you can just reuse information from the <em>.classpath</em> file by using the Eclipse plugin.<br/>Project name, source folders and dependencies can be deducted from this file. Just activate the Eclipse plugin (see below).</p><h3>Custom Builds with Third Parties</h3><p>Your build class can depend itself from managed dependencies </p>
+</code></pre><p><a name="100conventional">&nbsp;</a></p><h3>Build relying fully on conventions</h3><p>If your project uses local file dependencies only (jar dependencies located as below), you don't even need to write a build definitions.<br/>Note that local file dependencies have to be located in sub-folder corresponding to its scope (build, compile, runtime,...).</p><p><img src="img/full-convention-project.png" alt="Project layout full convention""/></p><h3>Build relying on Eclipse metadata</h3><p>If Eclipse is your IDE, you can just reuse information from the <em>.classpath</em> file by using the Eclipse plugin.<br/>Project name, source folders and dependencies can be deducted from this file. Just activate the Eclipse plugin (see below).</p><h3>Build Classes dependending on third party libraries.</h3><p>Your build class can depend itself from managed dependencies </p>
 <pre><code>@JkImport(&quot;org.seleniumhq.selenium:selenium-java:2.45.0&quot;)
 public class SeleniumTaskBuild extends JkJavaBuild {
 	
@@ -288,7 +309,7 @@ public class DistribAllBuild extends JkBuild {
 </code></pre>
 <div class="alert alert-info" role="alert">
 <strong>Note that you can reuse external build elements in a statically typed way !!! </strong>
-</div><h2>Out-of-the-box Features</h2><p>This section answers to the following question : <blockquote>What Jerkar can do for me if I haven't written build file or have just a build file declaring dependencies only ?</blockquote></p><p>Yep, with Jerkar, if you don't have written any build file or just have a build file containing dependency definition, you can yet perform pretty sophisticated tasks. </p><h3>Basic Tasks</h3>
+</div><h2>Features offered by build classes</h2><p>If your build class extends <code>JkJavaBuild</code> or you have no build class at all (build relying fully on conventions), then you have invoke the following tasks :</p><h3>Basic Tasks</h3>
 <ul>
   <li><code>jerkar help</code> : outputs on console available methods and options for Jerkar in the current project.</li>
   <li><code>jerkar clean</code> : clean the output directory that is <em>[project dir]/build/output</em>.</li>
