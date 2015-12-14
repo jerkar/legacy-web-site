@@ -19,7 +19,7 @@ Concretely your Java project is structured as :
 And `ThisIsTheBuildDefiniotion` code may look like this :
 
 ```Java
-public class ThisIsTheBuildDefiniotion extends JkBuild {
+class ThisIsTheBuildDefiniotion extends JkBuild {
 
     @JkDoc("Run tests in forked process if true")
     boolean forkTests;
@@ -30,10 +30,6 @@ public class ThisIsTheBuildDefiniotion extends JkBuild {
     public void compile() {
         JkJavaCompiler.ofOutput(classDir).withClasspath(classpath).andSourceDir(src).compile();
         JkFileTree.of(src).exclude("**/*.java").copyTo(classDir);
-    }
-    
-    public static void main(String[] args) {
-        JkInit.ofInstance(AntStyleBuild.class, args).doDefault();
     }
     
     ...
