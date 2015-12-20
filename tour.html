@@ -152,7 +152,7 @@ function jerkarMoveTo(title, level) {
   <li>Instantiates the first compiled class found implementing <code>org.jerkar.tool.JkBuild</code>. If none the <code>org.jerkar.tool.builtins.templates.javabuild.JkJavaBuild</code> class is instantiated.</li>
   <li>Invokes specified methods on the created instance. If no method is specified then the <code>doDefault</code> method is invoked.</li>
 </ul><p>You can also set instance fields from the command line by typing <code>jerkar myMethod -myField=foo</code>.</p><p>Concretely your Java project is structured as :</p><p><img src="img/principle.png" alt="Project layout""/></p><p>And <code>ThisIsTheBuildDefiniotion</code> code may look like this :</p>
-<pre><code class="Java">public class ThisIsTheBuildDefiniotion extends JkBuild {
+<pre><code class="Java">class ThisIsTheBuildDefiniotion extends JkBuild {
 
     @JkDoc(&quot;Run tests in forked process if true&quot;)
     boolean forkTests;
@@ -163,10 +163,6 @@ function jerkarMoveTo(title, level) {
     public void compile() {
         JkJavaCompiler.ofOutput(classDir).withClasspath(classpath).andSourceDir(src).compile();
         JkFileTree.of(src).exclude(&quot;**/*.java&quot;).copyTo(classDir);
-    }
-    
-    public static void main(String[] args) {
-        JkInit.ofInstance(AntStyleBuild.class, args).doDefault();
     }
     
     ...
