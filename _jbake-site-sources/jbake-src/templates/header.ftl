@@ -2,11 +2,11 @@
 <html lang="en">
   <head>
     <meta charset="utf-8"/>
-    <title><#if (content.title)??><#escape x as x?xml>${content.title}</#escape><#else>Jerkar</#if></title>
+    <title><#if (content.title)??><#escape x as x?xml>${content.title}</#escape><#else>Jerkar, the pure Java build tool</#if></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Java build tool">
     <meta name="author" content="Jerome Angibaud">
-    <meta name="keywords" content="build,java,tool,automation,maven,ant,gradle,buildr,sbt,make,compiler,tester,jacoco">
+    <meta name="keywords" content="build,java,tool,automation,maven,ant,gradle,buildr,sbt,make,compiler,tester,jacoco,pure java build tool,java build tool,build tool,100% java build tool">
     <meta name="generator" content="JBake">
 
     <!-- Le styles -->
