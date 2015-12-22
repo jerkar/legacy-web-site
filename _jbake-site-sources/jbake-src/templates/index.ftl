@@ -27,8 +27,10 @@
         <a class="btn btn-large btn-success" href="download.html">Download</a>
         <p></p>
         <div class="alert alert-info">
-			<strong>Latest News: </strong> Release 0.3.1 <a href="https://github.com/jerkar/jerkar/releases">is out !</a> Eclipse plugin <a href="https://github.com/jerkar/eclipsePlugin4Jerkar">available.</a> 
-			Addin for Spring boot <a href="https://github.com/jerkar/spring-boot-addin">available</a>.
+			<strong>Latest News: </strong> <br/>
+			2015-12-22 : New release 0.3.2 <a href="https://github.com/jerkar/jerkar/releases">is out !</a> <br/>
+			2015-12-22 : New Addin for Spring boot release 1.3.1.0 <a href="https://github.com/jerkar/spring-boot-addin">is out !</a>.<br/>
+			2015-12-10 : Eclipse plugin <a href="https://github.com/jerkar/eclipsePlugin4Jerkar">available.</a> 
 		</div>
       </div>
       
