@@ -4,7 +4,7 @@
     <meta charset="utf-8"/>
     <title>faq</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="A pure Java build tool">
+    <meta name="description" content="A powerfull pure Java build and automation tool">
     <meta name="author" content="Jerome Angibaud">
     <meta name="keywords" content="build,java,tool,automation,maven,ant,gradle,buildr,sbt,make,compiler,tester,jacoco,pure java build tool,java build tool,build tool,100% java build tool">
     <meta name="generator" content="JBake">
@@ -67,6 +67,7 @@
                <li><a href="../../tour.html">Tour</a></li>
                 <li><a href="../../documentation/latest/getting_started.html">Getting Started</a></li>
                 <li><a href="../../documentation/latest/reference.html">Reference Guide</a></li>
+                <li><a href="https://github.com/jerkar/jerkar-examples">Examples</a></li>
                 <li><a href="../../documentation/latest/faq.html">Frequently Asked Questions</a></li>
                 <li><a href="../../javadoc/latest/index.html">Javadoc</a></li>
               </ul>
@@ -85,6 +86,11 @@
         <li class="liexpandable"><a href="javascript:jerkarMoveTo('Exceptions thrown while Jerkar is running',2);">1.Exceptions thrown while Jerkar is ru...</a>
           <ul class="sub-menu">
             <li><a href="javascript:jerkarMoveTo('Get Provider org.apache.xerces.jaxp.SAXParserFactoryImpl not found exception. What can i do ?',3);">1.1.Get Provider org.apache.xerces.jax...</a></li>
+          </ul>
+        </li>
+        <li class="liexpandable"><a href="javascript:jerkarMoveTo('Compilation',2);">2.Compilation</a>
+          <ul class="sub-menu">
+            <li><a href="javascript:jerkarMoveTo('How can I choose the JDK used to compile ?',3);">2.1.How can I choose the JDK used to c...</a></li>
           </ul>
         </li>
     </ul>
@@ -110,7 +116,7 @@ function jerkarMoveTo(title, level) {
 <ul>
   <li>Using a more recent JDK (7 or higher).</li>
   <li>Adding the xerces lib to your JDK endorsed lib folder</li>
-</ul><p></div> <!--end of wrapper div --> </p>
+</ul><h2>Compilation</h2><h3>How can I choose the JDK used to compile ?</h3><p>Jerkar uses the JDK it is running on to compile your production or test code.<br/>If your code must be build on a another JDK version, you can specify JDK path for different version. For such, just mention it as option.</p><p>´´´<br/>jdk.6=c:/software/jdk6<br/>jdk.7=c:/software/jdk7<br/>...<br/>´´´</p><p>As such, if one of your project source code is declared to be in a specific Java version, the relevant JDK version will be used to compile it.</p><p></div> <!--end of wrapper div --> </p>
 	</p>
 
 	<hr />
