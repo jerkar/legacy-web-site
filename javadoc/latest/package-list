@@ -10,5 +10,6 @@ org.jerkar.plugins.jacoco
 org.jerkar.plugins.sonar
 org.jerkar.tool
 org.jerkar.tool.builtins.eclipse
+org.jerkar.tool.builtins.idea
 org.jerkar.tool.builtins.javabuild
 org.jerkar.tool.builtins.javabuild.jee
