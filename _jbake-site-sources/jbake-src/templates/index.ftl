@@ -28,10 +28,10 @@
         <p></p>
         <div class="alert alert-info">
 			<strong>Latest News: </strong> <br/>
+			2016-02-17 : IntelliJ Idea plugin <a href="https://github.com/jerkar/ideaPlugin4Jerkar"> is under development</a>. <br/> 
 			2015-12-22 : New release 0.3.2 <a href="https://github.com/jerkar/jerkar/releases"> is out !</a> <br/>
 			2015-12-22 : New Addin for Spring boot release 1.3.1.0 <a href="https://github.com/jerkar/spring-boot-addin"> is out !</a>.<br/>
-			2015-12-10 : Eclipse plugin <a href="https://github.com/jerkar/eclipsePlugin4Jerkar"> is available</a>.<br/> 
-			2016-02-17 : IntelliJ Idea plugin <a href="https://github.com/jerkar/ideaPlugin4Jerkar"> is under development .</a> 
+			2015-12-10 : Eclipse plugin <a href="https://github.com/jerkar/eclipsePlugin4Jerkar"> is available</a>.
 		</div>
       </div>
       
