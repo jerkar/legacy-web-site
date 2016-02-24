@@ -4,9 +4,6 @@ type=page
 status=published
 ~~~~~~
 
-# Tell me more
-----
-
 ## What is Jerkar ?
 Jerkar is both an **automation tool** and a **Java framework** for building projects. It falls in the same category as <i>Ant/Ivy</i>, <i>Maven</i> or <i>Gradle</i>.
 In other words, it's a rich featured **pure Java** build tool.
