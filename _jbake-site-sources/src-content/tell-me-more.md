@@ -10,21 +10,18 @@ status=published
 
 The special feature of Jerkar is that build definitions are **pure Java classes** instead of XML files or scripts written in dynamic languages.
 
-## Motivations
+## Motivation
 
-As a **Java developer** you may have already been frustrated of not being able to write your build scripts with your favorite language and, moreover, with the same language as the project to build.
-Indeed, **Groovy** developers can use **Gradle**, **Javascript** developers use tools based on **Javascript/JSON**, **Scala** developers use **SBT** and so on.
-But concerning **Java**, the most popular language in the world, ... **nothing** ! 
+As a **Java developer** you may have already been frustrated of not being able to write your build scripts with your favorite language and, moreover, with the **same language as the project to build**.
+Indeed most of mainstream languages have first class build tool where definitions are expressed using the language itself : **Gradle** for **Groovy**, **Javascript/Json** based tools for **Javascript**, **SBT** for **Scala**,  **PyBuilder** for **Python**, **Rake** for **Ruby**,...
+But concerning **Java**, there's no complete build tool based on the language itself. So for building their projects, **Java people** are prayed to : 
 
-For building their projects, **Java people** are prayed to :
-
-* use an XML soup or a foreign language for defining their builds
-* abandon IDE code completion, refactoring, compilation checks and well known Java mechanism for reusing elements
+* use an XML soup or a foreign language for defining builds
+* abandon IDE code completion, refactoring, debugger, compilation checks and well known Java mechanism for reusing elements
 * learn new languages and concepts to add simple logic in their builds or extend the tool
-* install/use cumbersome plugins into their IDE to ease extra concepts and languages,
-* abandon their familiar IDE debugger
+* install/use cumbersome plugins into their IDE to ease extra concepts and languages
  
-Jerkar purposes to solve this gap by providing a full-featured build tool allowing Java developers to build their projects by just writing a regular Java class as they are so accustomed to do. 
+**Jerkar** purposes to solve this gap by providing a **full-featured build tool** allowing Java developers to build their projects by just writing **regular Java classes** as they are so familiar with. 
 
 ### The benefits
 
@@ -40,7 +37,7 @@ A said, with Jerkar, build definitions are **plain old java classes**. This bare
 * **refactoring** build definition is easy and safe (thanks to statically typed nature of Java) 
 * build definitions leverage the regular Java mechanisms (Inheritance, composition, jar module dependency) to **re-use build elements** or share settings
 
-## What Jerkar is composed of ?
+## Into the box
 
 Jerkar is both an **automation tool** and a **build framework**. 
 
@@ -65,9 +62,17 @@ As a **build framework** it provides :
 
 
 These two parts are seamlessly integrated to form a unique product that make **incredibly easy** to build Java projects.<br/>
-Of course Jerkar can be used for any automation purpose , as an example, [Jerkar is used](https://github.com/jerkar/jerkar.github.io/blob/master/_jbake-site-sources/build/def/jerkar/github/io/SiteBuild.java) to generate this site.
 
-Jerkar can be also embedded in your product, as any jar library, to leverage directly the fluent API for manipulating files, launch external tools or other.
+## Usage
+
+Beside **building Java projects**, Jerkar can be used for **any automation purpose**, for example, [Jerkar is used](https://github.com/jerkar/jerkar.gib.io/blob/master/_jbake-site-sources/build/def/jerkar/github/io/SiteBuild.java) to generate this site.
+
+For building **multi-techno** projects, Jerkar suggests the following approach : 
+
+* Each **sub-project** builds using its **own 'native' tool** (e.g. *nodejs/Webpack* for web-client, *Jerkar* for java server and *Haskell Cabal* for *Haskell* module)
+* **Jerkar** performs the **master build** by **delegating sub-builds** and binding all together to pack the whole distribution. 
+
+Jerkar can be also **embedded** in your product, as any jar library, to leverage directly the fluent API for manipulating files, launch external tools or other. It is available on [Maven Central](http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22org.jerkar%22%20AND%20a%3A%22core%22).
 
 
 ## What about Java cons ?

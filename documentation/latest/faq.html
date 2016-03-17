@@ -80,42 +80,12 @@
     </div>
     <div class="container">
 	<p>
-	<div id="sidebar-menu" class="col-md-3 hidden-xs hidden-sm">
-    <ul class="main-menu nav nav-stacked affix">
-        <li class="liexpandable"><a href="javascript:jerkarMoveTo('Exceptions thrown while Jerkar is running',2);">1.Exceptions thrown while Jerkar is ru...</a>
-          <ul class="sub-menu">
-            <li><a href="javascript:jerkarMoveTo('Get Provider org.apache.xerces.jaxp.SAXParserFactoryImpl not found exception. What can i do ?',3);">1.1.Get Provider org.apache.xerces.jax...</a></li>
-          </ul>
-        </li>
-        <li class="liexpandable"><a href="javascript:jerkarMoveTo('Compilation',2);">2.Compilation</a>
-          <ul class="sub-menu">
-            <li><a href="javascript:jerkarMoveTo('How can I choose the JDK used to compile ?',3);">2.1.How can I choose the JDK used to c...</a></li>
-          </ul>
-        </li>
-    </ul>
-</div>
-<script>
-function jerkarMoveTo(title, level) {
-    var elemType = 'h'+level;
-    var elems = $(elemType);
-    var elem;
-    for (var i = 0; i < elems.length; i++) {
-    	var candidate = elems[i];
-    	if (candidate.outerText ===  title) {
-    		elem = candidate;
-    		break;
-    	}
-    }
-    $('html, body').animate({
-        scrollTop: $(elem).offset().top -50
-    }, 200);
-}
-</script><p><div id="static-content" class="col-md-9"></p><h1>Frequented Asked Questions</h1>
+	<h1>Frequented Asked Questions</h1>
 <hr/><h2>Exceptions thrown while Jerkar is running</h2><h3>Get Provider org.apache.xerces.jaxp.SAXParserFactoryImpl not found exception. What can i do ?</h3><p>You probably run a Jerkar on a JDK 6 and use some @JkImport on libraries playing with the XMLParsingServiceFactory.<br/>You can fix either by :</p>
 <ul>
   <li>Using a more recent JDK (7 or higher).</li>
   <li>Adding the xerces lib to your JDK endorsed lib folder</li>
-</ul><h2>Compilation</h2><h3>How can I choose the JDK used to compile ?</h3><p>Jerkar uses the JDK it is running on to compile your production or test code.<br/>If your code must be build on a another JDK version, you can specify JDK path for different version. For such, just mention it as option.</p><p>´´´<br/>jdk.6=c:/software/jdk6<br/>jdk.7=c:/software/jdk7<br/>...<br/>´´´</p><p>As such, if one of your project source code is declared to be in a specific Java version, the relevant JDK version will be used to compile it.</p><p></div> <!--end of wrapper div --> </p>
+</ul><h2>Compilation</h2><h3>How can I choose the JDK used to compile ?</h3><p>Jerkar uses the JDK it is running on to compile your production or test code.<br/>If your code must be build on a another JDK version, you can specify JDK path for different version. For such, just mention it as option.</p><p>´´´<br/>jdk.6=c:/software/jdk6<br/>jdk.7=c:/software/jdk7<br/>...<br/>´´´</p><p>As such, if one of your project source code is declared to be in a specific Java version, the relevant JDK version will be used to compile it.</p>
 	</p>
 
 	<hr />
@@ -132,8 +102,7 @@ function jerkarMoveTo(title, level) {
     
    
     
-    <!-- Le javascript
-    ================================================== -->
+    <!-- javascript =========================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="../../js/jquery-1.11.1.min.js"></script>
     <script src="../../js/bootstrap.min.js"></script>

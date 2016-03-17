@@ -10,6 +10,7 @@ import org.jerkar.api.file.JkFileTree;
 import org.jerkar.api.file.JkZipFile;
 import org.jerkar.api.java.JkJavaProcess;
 import org.jerkar.api.java.JkManifest;
+import org.jerkar.api.java.junit.JkTestSuiteResult;
 import org.jerkar.api.system.JkLog;
 import org.jerkar.api.utils.JkUtilsFile;
 import org.jerkar.api.utils.JkUtilsIO;
@@ -41,8 +42,12 @@ class SiteBuild extends JkBuild {
 	File siteDistDir = siteBase.file("binaries");
 	JkFileTree siteTargetDocDir = baseDir().from("content/documentation");
 
-	List<File> menuAddedFiles = jbakeSrcContent.include("**/*.md")
-			.exclude("about.md", "download.md", "tell-me-more.md").files(false);
+	JkFileTree filesWithoutJbakeHeader = jbakeSrcContent.include("**/*.md")
+			.exclude("about.md", "download.md", "tell-me-more.md");
+	
+	JkFileTree filesToAddSideMenu = filesWithoutJbakeHeader.exclude("documentation/latest/faq.md");
+	
+	
 
 	@Override
 	public void clean() {
@@ -95,9 +100,8 @@ class SiteBuild extends JkBuild {
 	}
 
 	public void addJbakeHeaders() {
-		for (File file : menuAddedFiles) {
-			boolean addSideMenu = !file.getName().equals("faq.md");
-			String content = jbakeHeader(file, addSideMenu);
+		for (File file : filesWithoutJbakeHeader) {
+			String content = jbakeHeader(file);
 			JkUtilsFile.writeStringAtTop(file, content);
 		}
 	}
@@ -138,16 +142,13 @@ class SiteBuild extends JkBuild {
 				.runJarSync(jbakeDir.file("jbake-core.jar"), jbakeSrcPath, "..");
 	}
 
-	private static String jbakeHeader(File file, boolean addSideMenu) {
+	private static String jbakeHeader(File file) {
 		String title = JkUtilsString.substringBeforeLast(file.getName(), ".md");
 		title = title.replace("_", " ");
 		StringBuilder result = new StringBuilder();
 		result.append("title=").append(title).append("\n")
 				.append("date=" + JkUtilsTime.now("yyyy-MM-dd")).append("\n")
 				.append("type=page\n").append("status=published\n");
-		if (addSideMenu) {
-			result.append("addSideMenu=true\n");
-		}
 		result.append("~~~~~~\n\n");
 		return result.toString();
 	}
@@ -157,7 +158,7 @@ class SiteBuild extends JkBuild {
 	}
 
 	private void addMenu() {
-		for (File file : menuAddedFiles) {
+		for (File file : filesToAddSideMenu) {
 			String menuHtml = ImplicitMenu.ofMdFile(file, 2)
 					.divSideBarAndScriptHtml();
 			JkUtilsFile.writeStringAtTop(file, menuHtml);
