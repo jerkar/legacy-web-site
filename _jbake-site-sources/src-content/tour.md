@@ -43,10 +43,6 @@ From this starting point you can discover a lot from Jerkar. The following secti
 
 With Jerkar you can write task based build classes (ala _Ant_), templated ones (ala _Maven_) or rely on conventions only (no build class needed).  
 
-<p class="alert alert-success">
-	Using <a href="documentation/latest/tutorial.html">the tutorial section 5</a>, you can easily set-up sample projects that illustrate the snippet displayed below.   
-</p>
-
 ### Task Based Build Classes (ala Ant)
 If you like to have __complete control__ over your builds, you may prefer the _Ant_ build style. 
 The price is that you have to __write explicitly__ what your build is doing. 

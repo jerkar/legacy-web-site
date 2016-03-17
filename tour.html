@@ -168,10 +168,7 @@ function jerkarMoveTo(title, level) {
     ...
 
 }
-</code></pre><p>From this starting point you can discover a lot from Jerkar. The following section illustrates different options for writing or not build classes. </p><h2>Build Class styles</h2><p>With Jerkar you can write task based build classes (ala <em>Ant</em>), templated ones (ala <em>Maven</em>) or rely on conventions only (no build class needed). </p>
-<p class="alert alert-success">
-	Using <a href="documentation/latest/tutorial.html">the tutorial section 5</a>, you can easily set-up sample projects that illustrate the snippet displayed below.   
-</p><h3>Task Based Build Classes (ala Ant)</h3><p>If you like to have <strong>complete control</strong> over your builds, you may prefer the <em>Ant</em> build style.<br/>The price is that you have to <strong>write explicitly</strong> what your build is doing. </p><p>This example mimics the <a href="http://ant.apache.org/manual/tutorial-HelloWorldWithAnt.html">tutorial ANT build script</a> </p>
+</code></pre><p>From this starting point you can discover a lot from Jerkar. The following section illustrates different options for writing or not build classes. </p><h2>Build Class styles</h2><p>With Jerkar you can write task based build classes (ala <em>Ant</em>), templated ones (ala <em>Maven</em>) or rely on conventions only (no build class needed). </p><h3>Task Based Build Classes (ala Ant)</h3><p>If you like to have <strong>complete control</strong> over your builds, you may prefer the <em>Ant</em> build style.<br/>The price is that you have to <strong>write explicitly</strong> what your build is doing. </p><p>This example mimics the <a href="http://ant.apache.org/manual/tutorial-HelloWorldWithAnt.html">tutorial ANT build script</a> </p>
 <pre><code class="Java">public class AntStyleBuild extends JkBuild {
 
     @JkDoc(&quot;Run tests in forked process if true&quot;)
