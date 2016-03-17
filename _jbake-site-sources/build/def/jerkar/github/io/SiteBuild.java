@@ -62,7 +62,7 @@ class SiteBuild extends JkBuild {
 		clean();
 		importContent();
 		addMenu();
-		addHeaders();
+		addJbakeHeaders();
 		jbake();
 		copyCurrentDist();
 		copyCurrentJavadoc();
@@ -94,9 +94,10 @@ class SiteBuild extends JkBuild {
 		temp.delete();
 	}
 
-	public void addHeaders() {
+	public void addJbakeHeaders() {
 		for (File file : menuAddedFiles) {
-			String content = header(file);
+			boolean addSideMenu = !file.getName().equals("faq.md");
+			String content = jbakeHeader(file, addSideMenu);
 			JkUtilsFile.writeStringAtTop(file, content);
 		}
 	}
@@ -137,14 +138,17 @@ class SiteBuild extends JkBuild {
 				.runJarSync(jbakeDir.file("jbake-core.jar"), jbakeSrcPath, "..");
 	}
 
-	private static String header(File file) {
+	private static String jbakeHeader(File file, boolean addSideMenu) {
 		String title = JkUtilsString.substringBeforeLast(file.getName(), ".md");
 		title = title.replace("_", " ");
 		StringBuilder result = new StringBuilder();
 		result.append("title=").append(title).append("\n")
 				.append("date=" + JkUtilsTime.now("yyyy-MM-dd")).append("\n")
-				.append("type=page\n").append("status=published\n")
-				.append("addSideMenu=true\n").append("~~~~~~\n\n");
+				.append("type=page\n").append("status=published\n");
+		if (addSideMenu) {
+			result.append("addSideMenu=true\n");
+		}
+		result.append("~~~~~~\n\n");
 		return result.toString();
 	}
 

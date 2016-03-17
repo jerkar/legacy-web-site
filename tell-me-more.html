@@ -80,25 +80,14 @@
     </div>
     <div class="container">
 	<p>
-	<h1>Tell me more</h1>
-<hr/><h2>What is Jerkar ?</h2><p>Jerkar is both an <strong>automation tool</strong> and a <strong>Java framework</strong> for building projects. It falls in the same category as <i>Ant/Ivy</i>, <i>Maven</i> or <i>Gradle</i>.<br/>In other words, it's a rich featured <strong>pure Java</strong> build tool.</p><p>As an <strong>automation tool</strong> Jerkar provides :</p>
+	<h2>What is it ?</h2><p><strong>Jerkar</strong> is both an <strong>automation tool</strong> and a <strong>Java build framework</strong>. You can use it as a replacement of <strong><em>Gradle</em></strong>, <strong><em>Ant/Ivy</em></strong> or <strong><em>Maven</em></strong> to build your <strong>Java or multi-technology</strong> projects.</p><p>The special feature of Jerkar is that build definitions are <strong>pure Java classes</strong> instead of XML files or scripts written in dynamic languages.</p><h2>Motivations</h2><p>As a <strong>Java developer</strong> you may have already been frustrated of not being able to write your build scripts with your favorite language and, moreover, with the same language as the project to build.<br/>Indeed, <strong>Groovy</strong> developers can use <strong>Gradle</strong>, <strong>Javascript</strong> developers use tools based on <strong>Javascript/JSON</strong>, <strong>Scala</strong> developers use <strong>SBT</strong> and so on.<br/>But concerning <strong>Java</strong>, the most popular language in the world, ... <strong>nothing</strong> ! </p><p>For building their projects, <strong>Java people</strong> are prayed to :</p>
 <ul>
-  <li>the ability to treat Java sources as scripts : Java sources are <strong>compiled on-the-fly</strong> prior to be instantiated then method invoked</li>
-  <li><strong>full dependency handling</strong> to compile scripts : script dependencies can be made on Maven repositories, local jars or external projects</li>
-  <li>multi-level <strong>parameter injection</strong> (via user-local, system-wide property files or by passing argument in the command line)</li>
-  <li>a swiss-knife library generally usefull for performing automated task (file and I/O manipulation, logging, PGP signing, external tool launcher, ...)</li>
-</ul><p>As a <strong>build framework</strong> it provides :</p>
-<ul>
-  <li>compact <strong>fluent style API</strong> for performing all kind of build related stuff (file manipulation, compilation, testing, managing dependencies, read/publish to <em>Maven/Ivy</em> repo, ...)</li>
-  <li>a set of <strong>template</strong> classes for defining builds</li>
-  <li>a <strong>plugable architecture</strong></li>
-  <li>full compatibility with <strong><em>Maven</em> and <em>Ivy</em></strong> (Jerkar uses <a href="http://ant.apache.org/ivy">Ivy</a> under the hood)</li>
-  <li>powerfull <strong>multi-project</strong> support</li>
-  <li>a set of <strong>conventions</strong> that, in common cases, allows Jerkar to deduce everything from your project structure (not a single line of script/configuration required for building your project)</li>
-  <li>built-in plugins for <strong><em>Eclipse</em></strong>, <strong><em>Jacoco</em></strong> and <strong><em>SonarQube</em></strong></li>
-  <li>ability to get project build information from the <strong>IDE meta-data</strong> (Eclipse <em>.classpath</em> for example)</li>
-  <li><strong>scaffolding</strong> for creating projects from scratch</li>
-</ul><p>These two parts are seamlessly integrated to form a unique product that make <strong>incredibly easy</strong> to build Java projects.<br/><br/>Of course Jerkar can be used for any automation purpose , as an example, <a href="https://github.com/jerkar/jerkar.github.io/blob/master/_jbake-site-sources/build/def/jerkar/github/io/SiteBuild.java">Jerkar is used</a> to generate this site.</p><p>As a library, Jerkar can be embedded in your product so you can leverage directly the fluent API for manipulating files, launch external tools and so on.</p><h2>Why Jerkar ?</h2><p>Popular build tools already exist for Java but all of them require to express build definition using a different language than Java.<br/>With Jerkar, build definitions are <strong>plain old java classes</strong>. This bare metal approach leads in tremendous benefits :</p>
+  <li>use an XML soup or a foreign language for defining their builds</li>
+  <li>abandon IDE code completion, refactoring, compilation checks and well known Java mechanism for reusing elements</li>
+  <li>learn new languages and concepts to add simple logic in their builds or extend the tool</li>
+  <li>install/use cumbersome plugins into their IDE to ease extra concepts and languages,</li>
+  <li>abandon their familiar IDE debugger</li>
+</ul><p>Jerkar purposes to solve this gap by providing a full-featured build tool allowing Java developers to build their projects by just writing a regular Java class as they are so accustomed to do. </p><h3>The benefits</h3><p>A said, with Jerkar, build definitions are <strong>plain old java classes</strong>. This bare metal approach brings concrete benefits :</p>
 <ul>
   <li>for Java developers, it's <strong>trivial to add logic</strong> in build scripts</li>
   <li>when editing build definition, Java developers leverage of <strong>compilation</strong>, <strong>code-completion</strong> and <strong>debug</strong> facilities provided by their <strong>IDE</strong></li>
@@ -109,7 +98,24 @@
   <li>it's straightforward to <strong>extend</strong></li>
   <li><strong>refactoring</strong> build definition is easy and safe (thanks to statically typed nature of Java)</li>
   <li>build definitions leverage the regular Java mechanisms (Inheritance, composition, jar module dependency) to <strong>re-use build elements</strong> or share settings</li>
-</ul><h2>What about Java cons ?</h2><p>So far, the two main reasons invoked why Java not favored to write build scripts are :</p>
+</ul><h2>What Jerkar is composed of ?</h2><p>Jerkar is both an <strong>automation tool</strong> and a <strong>build framework</strong>. </p><p>As an <strong>automation tool</strong> Jerkar provides :</p>
+<ul>
+  <li>the ability to treat Java sources as scripts : Java sources are <strong>compiled on-the-fly</strong> prior to be instantiated then method invoked</li>
+  <li><strong>full dependency handling</strong> to compile scripts : script dependencies can be made on Maven repositories, local jars or external projects</li>
+  <li>multi-level <strong>parameter injection</strong> (via user-local, system-wide property files or by passing argument in the command line)</li>
+  <li>a swiss-knife library generally usefull for performing automated task (file and I/O manipulation, logging, PGP signing, external tool launcher, ...)</li>
+</ul><p>As a <strong>build framework</strong> it provides :</p>
+<ul>
+  <li>compact <strong>fluent style API</strong> for performing all kind of build related stuff (file manipulation, compilation, testing, managing dependencies, read/publish to <em>Maven/Ivy</em> repo, ...)</li>
+  <li>a set of <strong>template</strong> classes to inherit from to create build classes with minimal typing</li>
+  <li>a <strong>plugable architecture</strong></li>
+  <li>full compatibility with <strong><em>Maven</em> and <em>Ivy</em></strong> (Jerkar uses <a href="http://ant.apache.org/ivy">Ivy</a> under the hood)</li>
+  <li>powerfull <strong>multi-project</strong> support</li>
+  <li>a set of <strong>conventions</strong> that, in common cases, allows Jerkar to deduce everything from your project structure (not a single line of script/configuration required for building your project)</li>
+  <li>built-in plugins for <strong><em>Eclipse</em></strong>, <strong><em>Jacoco</em></strong> and <strong><em>SonarQube</em></strong></li>
+  <li>ability to get project build information from the <strong>IDE meta-data</strong> (Eclipse <em>.classpath</em> for example)</li>
+  <li><strong>scaffolding</strong> for creating projects from scratch</li>
+</ul><p>These two parts are seamlessly integrated to form a unique product that make <strong>incredibly easy</strong> to build Java projects.<br/><br/>Of course Jerkar can be used for any automation purpose , as an example, <a href="https://github.com/jerkar/jerkar.github.io/blob/master/_jbake-site-sources/build/def/jerkar/github/io/SiteBuild.java">Jerkar is used</a> to generate this site.</p><p>Jerkar can be also embedded in your product, as any jar library, to leverage directly the fluent API for manipulating files, launch external tools or other.</p><h2>What about Java cons ?</h2><p>So far, the two main reasons invoked why Java not favored to write build scripts are :</p>
 <ol>
   <li>build scripts written in Java would need to be compiled themselves prior to be executed</li>
   <li>Java is verbose</li>
