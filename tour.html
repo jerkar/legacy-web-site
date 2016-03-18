@@ -145,7 +145,7 @@ function jerkarMoveTo(title, level) {
         scrollTop: $(elem).offset().top -50
     }, 200);
 }
-</script><p><div id="static-content" class="col-md-9"></p><h1>Enjoy the Jerkar tour !</h1>
+</script><p><div id="static-content" class="col-md-9"></p><h1>Jerkar tour</h1>
 <hr/><p>This page gives a concrete idea on how Jerkar is working and what you can do with.</p><h2>Principles</h2><p>Jerkar is quite simpe in its principle. You write a class extending <code>org.jerkar.tool.JkBuild</code> in the <em>build/def</em> directory of your project then you can execute any public zero arg methods from the command line by executing <code>jerkar myMethod1 myOtherMethod</code> at the project root directory. To accomplish this, Jerkar :</p>
 <ul>
   <li>Compiles every java sources found under the <em>[PROJECT DIR]/build/def</em> folder.</li>

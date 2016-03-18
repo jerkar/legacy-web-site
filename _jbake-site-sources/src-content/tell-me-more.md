@@ -37,6 +37,88 @@ A said, with Jerkar, build definitions are **plain old java classes**. This bare
 * **refactoring** build definition is easy and safe (thanks to statically typed nature of Java) 
 * build definitions leverage the regular Java mechanisms (Inheritance, composition, jar module dependency) to **re-use build elements** or share settings
 
+## See it !
+
+<div class="container">
+	<div class="col-md-6">
+<pre><code>
+public class BuildSampleClassic extends JkJavaBuild {
+	
+    @Override protected JkDependencies dependencies() {
+        return JkDependencies.builder() 
+            .on(GUAVA, "18.0")  
+            .on(JERSEY_SERVER, "1.19")
+            .on("com.orientechnologies:orientdb-client:2.0.8")
+            .on(JUNIT, "4.11").scope(TEST)
+            .on(MOCKITO_ALL, "1.9.5").scope(TEST).build();
+	}	
+}
+</code></pre>
+	<legend class="small">Build class for a Java project producing a jar file. The build class extends JkJavaBuild so you need to define only what is specific. Group/Artifact name are inferred from the project folder name and version is defaulted to 'trunk-SNAPSHOT' unless injected by the caller.</legend> 
+	</div>
+	<div class="col-md-6">
+<pre><code>
+public class MavenStyleBuild extends JkJavaBuild {
+	
+    @Override public JkModuleId moduleId() {
+        return JkModuleId.of("org.jerkar", "script-samples");
+    }
+
+    @Override protected JkVersion version() {
+        return JkVersion.ofName("0.3-SNAPSHOT");
+    }
+
+    @Override protected JkDependencies dependencies() {
+        return JkDependencies.builder()
+            .on(GUAVA, "18.0") 
+            .on(JERSEY_SERVER, "1.19")
+            .on("com.orientechnologies:orientdb-client:2.0.8")
+            .on(JUNIT, "4.11").scope(TEST)
+            .on(MOCKITO_ALL, "1.9.5").scope(TEST).build();
+    }
+
+}
+</code></pre>
+	<legend class="small">Same as previous but explicitly define group/artifact name and current version.</legend> 
+	</div>
+	<div class="col-md-6">
+<pre><code>
+public class AntStyleBuild extends JkBuild {
+	
+    String name = "myProject";
+    File src = file("src");
+    File buildDir = file("build/output");
+    File classDir = new File(buildDir, "classes");
+    JkClasspath classpath = JkClasspath.of(baseDir().include("libs/*.jar"));
+    File reportDir = new File(buildDir, "junitRreport");
+	
+    @Override public void doDefault() {
+        clean();compile();test();
+    }
+	
+    public void compile() {
+        JkJavaCompiler.ofOutput(classDir).withClasspath(classpath).andSourceDir(src).compile();
+        JkFileTree.of(src).exclude("**/*.java").copyTo(classDir);
+    }
+		
+    public void test() {
+        jar();
+        JkUnit.of(classpath.and(jarFile))
+            .withClassesToTest(JkFileTree.of(classDir).include("**/*Test.class"))
+            .withReportDir(reportDir).run();
+    }
+
+}
+</code></pre>
+	<legend class="small">This build class does not extends JkJavaBuild so explicitly defines what does the build, as a ANT script.</legend> 
+	</div>
+	<div class="col-md-6">
+<pre><code>
+</code></pre>
+	<legend class="small">If the project embedded all its dependencies in a conventional location, no build class/configuration is needed at all :-)</legend> 
+	</div>
+</div>
+
 ## Into the box
 
 Jerkar is both an **automation tool** and a **build framework**. 
@@ -61,7 +143,7 @@ As a **build framework** it provides :
 * **scaffolding** for creating projects from scratch
 
 
-These two parts are seamlessly integrated to form a unique product that make **incredibly easy** to build Java projects.<br/>
+These two parts are seamlessly integrated to form a unique product. <br/>
 
 ## Usage
 

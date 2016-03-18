@@ -1,5 +1,5 @@
-# Enjoy the Jerkar tour !
---------------------------
+# Jerkar tour
+-------------
 
 This page gives a concrete idea on how Jerkar is working and what you can do with.
 
