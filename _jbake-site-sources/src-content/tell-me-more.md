@@ -13,7 +13,7 @@ The special feature of Jerkar is that build definitions are **pure Java classes*
 ## Motivation
 
 As a **Java developer** you may have already been frustrated of not being able to write your build scripts with your favorite language and, moreover, with the **same language as the project to build**.
-Indeed most of mainstream languages have first class build tool where definitions are expressed using the language itself : **Gradle** for **Groovy**, **Nodejs** based tools for **Javascript**, **SBT** for **Scala**,  **PyBuilder** for **Python**, **Rake** for **Ruby**,...
+Indeed most of mainstream languages have first class build tool where definitions are expressed using the language itself : **Gradle** for **Groovy**, **Nodejs** based tools for **Javascript**, **SBT** for **Scala**,  **PyBuilder** for **Python**, **Rake** for **Ruby**, **Leiningen** for **Clojure**, **Kobalt** for **Kotlin** ...
 But concerning **Java**, there's no complete build tool solution based on the language itself. So for building their projects, **Java people** are prayed to : 
 
 * use an XML soup or a foreign language for defining builds
