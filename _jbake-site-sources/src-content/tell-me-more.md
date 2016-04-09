@@ -13,15 +13,15 @@ The special feature of Jerkar is that build definitions are **pure Java classes*
 ## Motivation
 
 As a **Java developer** you may have already been frustrated of not being able to write your build scripts with your favorite language and, moreover, with the **same language as the project to build**.
-Indeed most of mainstream languages have first class build tool where definitions are expressed using the language itself : **Gradle** for **Groovy**, **Nodejs** based tools for **Javascript**, **SBT** for **Scala**,  **PyBuilder** for **Python**, **Rake** for **Ruby**, **Leiningen** for **Clojure**, **Kobalt** for **Kotlin** ...
-But concerning **Java**, there's no complete build tool solution based on the language itself. So for building their projects, **Java people** are prayed to : 
+Indeed most of mainstream and JVM languages have first class build tool where definitions are expressed using the language itself : **Gradle** for **Groovy**, **Nodejs** based tools for **Javascript**, **SBT** for **Scala**,  **PyBuilder** for **Python**, **Rake** for **Ruby**, **Leiningen** for **Clojure**, **Kobalt** for **Kotlin** ...
+But for **Java** ... nothing except some experimental tools. So for building their projects, **Java people** are prayed to : 
 
 * use an XML soup or a foreign language for defining builds
 * abandon IDE code completion, refactoring, debugger, compilation checks and well known Java mechanism for reusing elements
 * learn new languages and concepts to add simple logic in their builds or extend the tool
 * install/use cumbersome plugins into their IDE to ease extra concepts and languages
  
-**Jerkar** purposes to solve this gap by providing a **full-featured build tool** allowing Java developers to build their projects by just writing **regular Java classes** as they are so familiar with. 
+**Jerkar** purposes to fill the gap by providing a **full-featured build tool** allowing Java developers to build their projects by just writing **regular Java classes** as they are so familiar with. 
 
 ### The benefits
 
