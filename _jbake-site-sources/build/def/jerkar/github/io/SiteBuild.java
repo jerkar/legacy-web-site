@@ -10,7 +10,6 @@ import org.jerkar.api.file.JkFileTree;
 import org.jerkar.api.file.JkZipFile;
 import org.jerkar.api.java.JkJavaProcess;
 import org.jerkar.api.java.JkManifest;
-import org.jerkar.api.java.junit.JkTestSuiteResult;
 import org.jerkar.api.system.JkLog;
 import org.jerkar.api.utils.JkUtilsFile;
 import org.jerkar.api.utils.JkUtilsIO;
