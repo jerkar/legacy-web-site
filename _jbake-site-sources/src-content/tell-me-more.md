@@ -147,7 +147,7 @@ These two parts are seamlessly integrated to form a unique product. <br/>
 
 ## Multitechno projects
 
-Beside **building Java projects**, Jerkar can be used for **any automation purpose**, for example, [Jerkar is used](https://github.com/jerkar/jerkar.gib.io/blob/master/_jbake-site-sources/build/def/jerkar/github/io/SiteBuild.java) to generate this site.
+Beside **building Java projects**, Jerkar can be used for **any automation purpose**, for example, [Jerkar is used](https://github.com/jerkar/jerkar.github.io/blob/master/_jbake-site-sources/build/def/jerkar/github/io/SiteBuild.java) to generate this site.
 
 For building **multi-techno** projects, we suggest the following approach : 
 
@@ -156,7 +156,7 @@ For building **multi-techno** projects, we suggest the following approach :
 
 ## Library
 
-Jerkar can be also be **embedded** in your product as a simple jar library, to leverage directly the fluent API for manipulating files, launch external tools or other. It is available on [Maven Central](http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22org.jerkar%22%20AND%20a%3A%22core%22). 
+Jerkar can also be **embedded** in your product as a simple jar library, to leverage directly the fluent API for manipulating files, launch external tools or other. It is available on [Maven Central](http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22org.jerkar%22%20AND%20a%3A%22core%22). 
 
 Cherry on the cake : Jerkar has **zero dependency**.
 
