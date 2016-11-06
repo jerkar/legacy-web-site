@@ -145,16 +145,21 @@ As a **build framework** it provides :
 
 These two parts are seamlessly integrated to form a unique product. <br/>
 
-## Usage
+## Multitechno projects
 
 Beside **building Java projects**, Jerkar can be used for **any automation purpose**, for example, [Jerkar is used](https://github.com/jerkar/jerkar.gib.io/blob/master/_jbake-site-sources/build/def/jerkar/github/io/SiteBuild.java) to generate this site.
 
-For building **multi-techno** projects, Jerkar suggests the following approach : 
+For building **multi-techno** projects, we suggest the following approach : 
 
-* Each **sub-project** builds using its **own 'native' tool** (e.g. *nodejs/Webpack* for web-client, *Jerkar* for java server and *Haskell Cabal* for *Haskell* module)
-* **Jerkar** performs the **master build** by **delegating sub-builds** and binding all together to pack the whole distribution. 
+* Each **sub-project** builds using its **own 'native' tool** (e.g. *nodejs/Webpack* for web-client, *Jerkar* for java server and *Haskell Cabal* for *Haskell* modules)
+* **Jerkar** performs the **master build** by **delegating sub-builds** and binds all together to pack the whole distribution. 
 
-Jerkar can be also **embedded** in your product, as any jar library, to leverage directly the fluent API for manipulating files, launch external tools or other. It is available on [Maven Central](http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22org.jerkar%22%20AND%20a%3A%22core%22).
+## Library
+
+Jerkar can be also be **embedded** in your product as a simple jar library, to leverage directly the fluent API for manipulating files, launch external tools or other. It is available on [Maven Central](http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22org.jerkar%22%20AND%20a%3A%22core%22). 
+
+Cherry on the cake : Jerkar has **zero dependency**.
+
 
 
 ## What about Java cons ?
