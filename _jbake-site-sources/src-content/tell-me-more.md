@@ -25,7 +25,7 @@ But for **Java** ... nothing except some experimental tools. So for building the
 
 ### The benefits
 
-A said, with Jerkar, build definitions are **plain old java classes**. This bare metal approach brings concrete benefits :
+As said, with Jerkar, build definitions are **plain old java classes**. This bare metal approach brings concrete benefits :
 
 * for Java developers, it's **trivial to add logic** in build scripts
 * when editing build definition, Java developers leverage of **compilation**, **code-completion** and **debug** facilities provided by their **IDE**
