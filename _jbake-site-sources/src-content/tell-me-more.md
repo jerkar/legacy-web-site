@@ -42,7 +42,7 @@ As said, with Jerkar, build definitions are **plain old java classes**. This bar
 <div class="container">
 	<div class="col-md-6">
 <pre><code>
-public class BuildSampleClassic extends JkJavaBuild {
+class BuildSampleClassic extends JkJavaBuild {
 	
     @Override protected JkDependencies dependencies() {
         return JkDependencies.builder() 
@@ -58,7 +58,7 @@ public class BuildSampleClassic extends JkJavaBuild {
 	</div>
 	<div class="col-md-6">
 <pre><code>
-public class MavenStyleBuild extends JkJavaBuild {
+class MavenStyleBuild extends JkJavaBuild {
 	
     @Override public JkModuleId moduleId() {
         return JkModuleId.of("org.jerkar", "script-samples");
@@ -83,7 +83,7 @@ public class MavenStyleBuild extends JkJavaBuild {
 	</div>
 	<div class="col-md-6">
 <pre><code>
-public class AntStyleBuild extends JkBuild {
+class AntStyleBuild extends JkBuild {
 	
     String name = "myProject";
     File src = file("src");
