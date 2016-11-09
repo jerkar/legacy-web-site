@@ -154,14 +154,12 @@ function jerkarMoveTo(title, level) {
 </ul><p>You can also set instance fields from the command line by typing <code>jerkar myMethod -myField=foo</code>.</p><p>Concretely your Java project is structured as :</p><p><img src="img/principle.png" alt="Project layout""/></p><p>And <code>ThisIsTheBuildDefiniotion</code> code may look like this :</p>
 <pre><code class="Java">class ThisIsTheBuildDefiniotion extends JkBuild {
 
-    @JkDoc(&quot;Run tests in forked process if true&quot;)
-    boolean forkTests;
-
     File src = file(&quot;src&quot;);
     File buildDir = file(&quot;build/output&quot;);
+    JkClasspath classpath = JkClasspath.of(baseDir().include(&quot;libs/*.jar&quot;));
 	
     public void compile() {
-        JkJavaCompiler.ofOutput(classDir).withClasspath(classpath).andSourceDir(src).compile();
+        JkJavaCompiler.outputtingIn(classDir).withClasspath(classpath).andSourceDir(src).compile();
         JkFileTree.of(src).exclude(&quot;**/*.java&quot;).copyTo(classDir);
     }
     
@@ -189,7 +187,7 @@ function jerkarMoveTo(title, level) {
     }
 	
     public void compile() {
-        JkJavaCompiler.ofOutput(classDir).withClasspath(classpath).andSourceDir(src).compile();
+        JkJavaCompiler.outputtingIn(classDir).withClasspath(classpath).andSourceDir(src).compile();
         JkFileTree.of(src).exclude(&quot;**/*.java&quot;).copyTo(classDir);
     }
 	
@@ -356,7 +354,7 @@ war.zip().to(warFileDest);
 <pre><code>JkJavaProcess.of().withWorkingDir(myWorkingDir)
     .andClasspath(mtClasspath).runJarSync(myJarFile);
 </code></pre><h3>Java Build API</h3><p>Jerkar provides Fluent API for addressing build of Java projects.</p><h4>Compile Java</h4><p>The <code>JkJavaComiler</code> helps to compile Java sources.</p>
-<pre><code>JkJavaCompiler.ofOutput(classDir).withClasspath(classpath).andSourceDir(src).compile();
+<pre><code>JkJavaCompiler.outputtingIn(classDir).withClasspath(classpath).andSourceDir(src).compile();
 </code></pre><h4>Junit</h4><p>The <code>JkUnit</code> helps to run Junit tests with flexible settings.</p>
 <pre><code>JkUnit.of(classpath.and(classDir))
     .withClassesToTest(JkFileTree.of(classDir).include(&quot;**/*Test.class&quot;))

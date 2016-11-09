@@ -21,14 +21,12 @@ And `ThisIsTheBuildDefiniotion` code may look like this :
 ```Java
 class ThisIsTheBuildDefiniotion extends JkBuild {
 
-    @JkDoc("Run tests in forked process if true")
-    boolean forkTests;
-
     File src = file("src");
     File buildDir = file("build/output");
+    JkClasspath classpath = JkClasspath.of(baseDir().include("libs/*.jar"));
 	
     public void compile() {
-        JkJavaCompiler.ofOutput(classDir).withClasspath(classpath).andSourceDir(src).compile();
+        JkJavaCompiler.outputtingIn(classDir).withClasspath(classpath).andSourceDir(src).compile();
         JkFileTree.of(src).exclude("**/*.java").copyTo(classDir);
     }
     
@@ -70,7 +68,7 @@ public class AntStyleBuild extends JkBuild {
     }
 	
     public void compile() {
-        JkJavaCompiler.ofOutput(classDir).withClasspath(classpath).andSourceDir(src).compile();
+        JkJavaCompiler.outputtingIn(classDir).withClasspath(classpath).andSourceDir(src).compile();
         JkFileTree.of(src).exclude("**/*.java").copyTo(classDir);
     }
 	
@@ -366,7 +364,7 @@ Jerkar provides Fluent API for addressing build of Java projects.
 The `JkJavaComiler` helps to compile Java sources.
 
 ```
-JkJavaCompiler.ofOutput(classDir).withClasspath(classpath).andSourceDir(src).compile();
+JkJavaCompiler.outputtingIn(classDir).withClasspath(classpath).andSourceDir(src).compile();
 ```
 
 #### Junit

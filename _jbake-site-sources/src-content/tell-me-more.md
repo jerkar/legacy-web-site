@@ -97,7 +97,7 @@ public class AntStyleBuild extends JkBuild {
     }
 	
     public void compile() {
-        JkJavaCompiler.ofOutput(classDir).withClasspath(classpath).andSourceDir(src).compile();
+        JkJavaCompiler.outputtingIn(classDir).withClasspath(classpath).andSourceDir(src).compile();
         JkFileTree.of(src).exclude("**/*.java").copyTo(classDir);
     }
 		
