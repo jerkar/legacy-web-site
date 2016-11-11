@@ -34,7 +34,7 @@ Indeed most of mainstream and JVM languages have first class build tool where de
  
 **Jerkar** purposes to fill the gap by providing a **full-featured build tool** allowing Java developers to build their projects by just writing **regular Java classes** as they are so familiar with. 
 
-### The benefits
+### Benefits
 
 As said, with Jerkar, build definitions are **plain old java classes**. This bare metal approach brings concrete benefits :
 
