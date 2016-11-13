@@ -50,7 +50,7 @@ As said, with Jerkar, build definitions are **plain old java classes**. This bar
 
 ## See it !
 
-You just need to add such a class in your project in order to make it buildable by Jerkar. To build the project, just execute `jerkar` in a shell at the root of the project.
+You just need to add such a class in your project in order to make it buildable by Jerkar. To build a project, just execute `jerkar` in a shell at its root folder. 
 
 <div class="container">
 	<div class="col-md-6">
@@ -64,10 +64,15 @@ class BuildSampleClassic extends JkJavaBuild {
             .on("com.orientechnologies:orientdb-client:2.0.8")
             .on(JUNIT, "4.11").scope(TEST)
             .on(MOCKITO_ALL, "1.9.5").scope(TEST).build();
-	}	
+    }
+    
+    public static void main(String[] args) {
+        JkInit.instanceOf(BuildSampleClassic.class, args).doDefault();
+    }	
 }
 </code></pre>
-	<legend class="small">No more needed to build and publish your artifact. Group and artifact name are inferred from the project folder name and version is defaulted to 'trunk-SNAPSHOT' unless injected at invocation time.</legend> 
+	<legend class="small">No more needed to build and publish your artifact. Group and artifact name are inferred from the project folder name and version is defaulted to 'trunk-SNAPSHOT' unless injected at invocation time. <br/>
+	It's possible to launch build class directly within the IDE thanks to the main method.</legend>
 	</div>
 	<div class="col-md-6">
 <pre><code>
@@ -131,6 +136,7 @@ class AntStyleBuild extends JkBuild {
 	</div>
 </div>
 
+Plugin mechanism allows to add behavior without modifying build classes. `jerkar sonar# jacoco# doPublish` processes test coverage along SonarQube analysis prior publishing artifacts. 
 
 
 ## Multi-techno projects
