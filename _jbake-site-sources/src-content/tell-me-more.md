@@ -6,7 +6,7 @@ status=published
 
 ## What is it ?
 
-**Jerkar** is a Java build tool ala ***Gradle***, ***Ant/Ivy*** or ***Maven***. It differs from the others by requiring **pure Java code** instead of XML files or dynamic language scripts to describe builds.
+**Jerkar** is a Java build tool ala ***Gradle***, ***Ant/Ivy*** or ***Maven***. It differs from the others in that it requires **pure Java code** instead of XML files or dynamic language scripts to describe builds.
 
 ## Into the box
 
