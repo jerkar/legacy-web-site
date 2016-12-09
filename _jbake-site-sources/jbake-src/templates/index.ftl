@@ -28,6 +28,7 @@
         <div class="container nopad">
 	        <div class="alert alert-info col-md-7">
 				<strong>Latest News</strong> <br/>
+				2016-12-09 : Google Protocol Buffers plugin <a href="https://github.com/jerkar/protobuf-plugin"> is out !</a> <br/>
 				2016-10-26 : New release 0.4.6 <a href="https://github.com/jerkar/jerkar/releases"> is out !</a> <br/>
 				2016-10-14 : New release of Eclipse plugin <a href="https://github.com/jerkar/eclipsePlugin4Jerkar"> is available</a>.<br/>
 				2016-10-14 : New release 0.4.5 <a href="https://github.com/jerkar/jerkar/releases"> is out !</a> <br/>
