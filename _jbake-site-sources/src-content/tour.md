@@ -126,7 +126,7 @@ public class MavenStyleBuild extends JkJavaBuild {
 
     @Override  // optional
     protected JkVersion version() {
-        return JkVersion.ofName("0.3-SNAPSHOT");
+        return JkVersion.name("0.3-SNAPSHOT");
     }
 
     @Override
