@@ -310,12 +310,12 @@ Jerkar User Home : C:\users\djeang\.jerkar
 Jerkar Repository Cache : C:\users\djeang\.jerkar\cache\repo
 ...
 </code></pre><h2>Build Configuration</h2>
-<hr/><p>Jerkar build are configurable. Build definition classes can retrieve values defined at runtime by reading :</p>
+<hr/><p>Jerkar builds are configurable. Build definition classes can retrieve values defined at runtime by reading :</p>
 <ul>
-  <li>an environment variable</li>
-  <li>a system property</li>
-  <li>a Jerkar option</li>
-</ul><h3>Environment variables</h3><p>There is nothing specific to Jerkar. Just set the environment variable as you usually do on your OS and get the value from build using the standard Java <code>System#getenv</code> method.</p><h3>System properties</h3><p>Naturally, your build definitions can read system properties by using the standard method <code>System#getProperty</code>.</p><p>Jerkar proposes 3 ways to inject system properties :</p>
+  <li>environment variables</li>
+  <li>system properties</li>
+  <li>Jerkar options</li>
+</ul><h3>Environment variables</h3><p>There is nothing specific to Jerkar. Just set the environment variable as you usually do on your OS and get the value from build using the standard <code>System#getenv</code> method.</p><h3>System properties</h3><p>Naturally, your build definitions can read system properties by using the standard <code>System#getProperty</code> method.</p><p>Jerkar proposes 3 ways to inject system properties :</p>
 <ul>
   <li>By editing <strong><em>[Jerkar Home]/system.properties</em></strong> file.<br/> Note that if you are running Jerkar in embedded mode, the <strong><em>[Jerkar Home]/system.properties</em></strong> file will not be taken in account but <strong><em>[project dir]/build/def/build/system.properties</em></strong>.</li>
   <li>By editing <strong><em>[Jerkar User Home]/system.properties</em></strong> file.</li>
