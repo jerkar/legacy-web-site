@@ -97,7 +97,7 @@ class MavenStyleBuild extends JkJavaBuild {
 
 }
 </code></pre>
-	<legend class="small">Same as previous but explicitly define group, artifact name and current version.</legend> 
+	<legend class="small">Same as previous but explicitly define group, artifact and current version.</legend> 
 	</div>
 	<div class="col-md-6">
 <pre><code>
@@ -127,12 +127,12 @@ class AntStyleBuild extends JkBuild {
 
 }
 </code></pre>
-	<legend class="small">This build class does not extends JkJavaBuild so explicitly defines what does the build, as a ANT script.</legend> 
+	<legend class="small">This build class does not extend JkJavaBuild. As such it explicitly defines what does the build.</legend> 
 	</div>
 	<div class="col-md-6">
 <pre><code>
 </code></pre>
-	<legend class="small">If the project embedded all its dependencies in a conventional location, no build class/configuration is needed at all :-)</legend> 
+	<legend class="small">If the project embeds all its dependency jar files locally, no build class/configuration is needed at all :-)</legend>
 	</div>
 </div>
 
