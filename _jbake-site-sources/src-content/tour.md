@@ -16,10 +16,10 @@ Concretely your Java project is structured as :
 
 ![Project layout](img/principle.png)
 
-And `ThisIsTheBuildDefiniotion` code may look like this :
+And `ThisIsTheBuildDefinition` code may look like this :
 
 ```Java
-class ThisIsTheBuildDefiniotion extends JkBuild {
+class ThisIsTheBuildDefinition extends JkBuild {
 
     File src = file("src");
     File buildDir = file("build/output");
@@ -285,15 +285,14 @@ Analysis is launched on a local SonarQube server unless you specify specific Son
 
 ## Build API
 
-Jerkar framework comes with a fluent style API making a joy to perform all kind of thing generally encountered in build domain.
-Almost all classes coming from this API are <strong>immutable</strong> providing a high degree of robustness and reusability.
+Jerkar framework comes with a fluent style API making a joy to perform all kind of build related stuff.
 
-The follow will give you some ideas of what you can accomplish with this API. To have more insight, please visit [Javadoc](http://jerkar.github.io/javadoc/latest/index.html).
+The following sections will give you some ideas on what you can accomplish with this API. To have more insight, please visit [Javadoc](http://jerkar.github.io/javadoc/latest/index.html).
 
 ### File Manipulation & Selection
 
-The `JkFileTree` class allow to define a set of files having a common root folder and to performs numerous operation on.
-The following code, show how to construct a *war* file from dispersed elements.
+With `JkFileTree` you can define a set of files having a common root folder and perform common operations on.
+The following code shows how to construct a *war* file from dispersed elements.
 
 ```
 JkFileTree war = JkFileTree.of(warDir).importDirContent(webappContentDir)
@@ -311,11 +310,10 @@ All belong to `org.jerkar.api.file` package.
 ### Process Launching
 
 The `JkProcess` class provides super easy way to launch external process.
-The follow show how to launch a Maven process on the project located at __projectBaseDir__.
+The following snippet shows how to launch a Maven process on the project located at __projectBaseDir__.
 
 ```
 JkProcess.of("mvn", "clean","install","-U")
-    .andParameters(JkOptions.isVerbose(), "-X")
     .withWorkingDir(projectBaseDir)
     .failOnError(true)
     .runSync();
@@ -325,19 +323,19 @@ JkProcess.of("mvn", "clean","install","-U")
 
 #### Classpaths
 
-`JkClasspath` allows to construct class-paths and perform queries or get string representations.
-For example, the follow creates a classpath taking in account all jar under the __extraLibs__ folder, 
+`JkClasspath` allows to construct class-paths and perform queries via classpath scanning.
+The following code creates a classpath taking in account all jar under the __extraLibs__ folder,
 then returns the first one containing the `my.SearchedClass` class.
 
 ```
 File jar = JkClasspath.of(lib1, lb2, lib3).getEntryContainingClass("my.SearchedClass"); 
 ```
 
-#### Class Loarders
+#### Class Loaders
 
 `JkClassloader` allows to get or construct class-loaders then scan the class-path or invoke methods within. 
 
-For example, the follow get the current class loader and loads every class having a package starting by `com.mypack`
+This is how to get the current class loader and loads every class having a package starting by `com.mypack`
 
 ```
 JkClassLoader.current().loadClasses("com/mypack/**/*");
@@ -361,7 +359,7 @@ Jerkar provides Fluent API for addressing build of Java projects.
 
 #### Compile Java
 
-The `JkJavaComiler` helps to compile Java sources.
+The `JkJavaCompiler` helps to compile Java sources.
 
 ```
 JkJavaCompiler.outputtingIn(classDir).withClasspath(classpath).andSourceDir(src).compile();
@@ -391,7 +389,7 @@ JkUnit.of(classpath.and(classDir))
     .run();
 ```
 
-This run Junit with Jacoco Agent and produces the coverage report in the _reportDir_.
+This runs Junit with Jacoco Agent and produces the coverage report in the _reportDir_.
 
 ### Dependency Management
 

@@ -23,7 +23,6 @@ import org.jerkar.tool.JkInit;
 
 class SiteBuild extends JkBuild {
     
-    
 
     String jbakeSrcPath = "jbake-src";
     JkFileTree contentSource = baseDir().from("src-content");
