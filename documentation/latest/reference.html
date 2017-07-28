@@ -244,7 +244,7 @@ function jerkarMoveTo(title, level) {
     <li>the <em>[JERKAR_HOME]/org.jerkar.core.jar</em> file</li>
   </ul></li>
   <li><strong>Run the <code>org.jerkar.tool.Main</code> class</strong> passing the command line argument as is. So if you have typed <code>jerkar myArg1 myArg2</code> the <code>myArg1 myArg2</code> will be passed as Java command-line arguments.</li>
-</ol><h4>Embedded Mode</h4><p>Note that <strong><em>[JERKAR_HOME]/org.jerkar.core-all.jar</em></strong> comes after <strong><em>[WORKING_DIR]/build/boot/*</em></strong> in the classpath.<br/>This means that if a version of Jerkar (org.jerkar.core.jar) is in this directory, the build will be processed with this instance of Jerkar and not with the one located in in <em>[JERKAR HOME]</em>.</p><p>This is called the <strong>Embedded</strong> mode. It guarantees that your project will build regardless of Jerkar version installed on the host machine.<br/>This mode allows to build your project even if Jerkar is not installed on the host machine.</p><h5>Enable embedded mode</h5><p>To enable embedded mode :<br/> * Copy <strong><em>[JERKAR_HOME]/org.jerkar.core-all.jar</em></strong> into <strong><em>[PROJECT_DIR]/build/boot/*</em></strong> directory.<br/> * Copy <strong><em>[JERKAR_HOME]/jerkar.bat</em></strong> and <strong><em>[JERKAR_HOME]/jerkar</em></strong> at the root of <strong><em>[PROJECT_DIR]</em></strong>.</p><p>You can also achieve this by invoking <code>jerkar scaffold -scaffoldEmbed</code>.<br/>This will generate <strong><em>jerkar.bat</em></strong> and <strong><em>jerkar</em></strong> file at the root of <strong><em>[PROJECT_DIR]</em></strong> and copy <strong><em>[JERKAR_HOME]/org.jerkar.core-all.jar</em></strong> to <strong><em>[PROJECT_DIR]/build/boot</em></strong>.</p><h5>Run in embedded mode</h5><p>Once a project enables embedded mode, all Jerkar command will run in that mode, there is nothing special to do.<br/>If you don't want to make in enables by default, remove <strong><em>jerkar.bat</em></strong> and <strong><em>jerkar</em></strong> from <strong><em>[PROJECT_DIR]</em></strong>. In this case, to run in embedded mode you need to use<code>java -cp build/boot/* org.jerkar.tool.Main</code> instead of <code>jerkar</code> in the command line.</p><h3>Jerkar Execution</h3><p>The <code>org.jerkar.tool.Main#main</code> is the entry point of Jerkar. This is the method you invoke to launch or debug a Jerkar build within your IDE.</p><p>It processes as follow :</p>
+</ol><h4>Embedded Mode</h4><p>Note that <strong><em>[JERKAR_HOME]/org.jerkar.core-all.jar</em></strong> comes after <strong><em>[WORKING_DIR]/build/boot/*</em></strong> in the classpath.<br/>This means that if a version of Jerkar (org.jerkar.core.jar) is in this directory, the build will be processed with this instance of Jerkar and not with the one located in in <em>[JERKAR HOME]</em>.</p><p>This is called the <strong>Embedded</strong> mode. It guarantees that your project will build regardless of Jerkar version installed on the host machine.<br/>This mode allows to build your project even if Jerkar is not installed on the host machine.</p><h5>Enable embedded mode</h5><p>To enable embedded mode :<br/> 1. Copy <strong><em>[JERKAR_HOME]/org.jerkar.core-all.jar</em></strong> into <strong><em>[PROJECT_DIR]/build/boot/*</em></strong> directory.<br/> 2. Copy <strong><em>[JERKAR_HOME]/jerkar.bat</em></strong> and <strong><em>[JERKAR_HOME]/jerkar</em></strong> at the root of <strong><em>[PROJECT_DIR]</em></strong>.</p><p>You can also achieve this by invoking <code>jerkar scaffold -scaffoldEmbed</code>.<br/>This will generate <strong><em>jerkar.bat</em></strong> and <strong><em>jerkar</em></strong> file at the root of <strong><em>[PROJECT_DIR]</em></strong> and copy <strong><em>[JERKAR_HOME]/org.jerkar.core-all.jar</em></strong> to <strong><em>[PROJECT_DIR]/build/boot</em></strong>.</p><h5>Run in embedded mode</h5><p>Once a project enables embedded mode, all Jerkar command will run in that mode, there is nothing special to do.<br/>If you don't want to make in enables by default, remove <strong><em>jerkar.bat</em></strong> and <strong><em>jerkar</em></strong> from <strong><em>[PROJECT_DIR]</em></strong>. In this case, to run in embedded mode you need to use<code>java -cp build/boot/* org.jerkar.tool.Main</code> instead of <code>jerkar</code> in the command line.</p><h3>Jerkar Execution</h3><p>The <code>org.jerkar.tool.Main#main</code> is the entry point of Jerkar. This is the method you invoke to launch or debug a Jerkar build within your IDE.</p><p>It processes as follow :</p>
 <ol>
   <li>Parse the command line.</li>
   <li>Populate system properties and Jerkar options from configuration files and command line (see <strong>build configuration</strong>).</li>
@@ -781,14 +781,14 @@ public class MyBuild extends JkJavaBuild {`
     
     <!-- Google Analytics -->
     <script>
-  		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
-  		ga('create', 'UA-103449580-1', 'auto');
-  		ga('send', 'pageview');
-	</script>
+      ga('create', 'UA-103449580-1', 'auto');
+      ga('send', 'pageview');
+    </script>
     
   </body>
 </html>
