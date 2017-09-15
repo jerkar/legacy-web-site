@@ -28,12 +28,12 @@
         <div class="container nopad">
 	        <div class="alert alert-info col-md-7">
 				<strong>Latest News</strong> <br/>
+				2017-08-25 : New release 0.6.0 <a href="https://github.com/jerkar/jerkar/releases"> is out !</a> <br/>
 				2016-10-14 : New release 0.5.0 <a href="https://github.com/jerkar/jerkar/releases"> is out !</a> <br/>
 				2016-12-09 : Google Protocol Buffers plugin <a href="https://github.com/jerkar/protobuf-plugin"> is out !</a> <br/>
-				2016-10-26 : New release 0.4.6 <a href="https://github.com/jerkar/jerkar/releases"> is out !</a> <br/>
 				2016-10-14 : New release of Eclipse plugin <a href="https://github.com/jerkar/eclipsePlugin4Jerkar"> is available</a>.<br/>
 				2016-02-17 : IntelliJ Idea plugin <a href="https://github.com/jerkar/ideaPlugin4Jerkar"> is under development</a>. <br/> 
-				2015-12-22 : New Addin for Spring boot release 1.3.1.0 <a href="https://github.com/jerkar/spring-boot-addin"> is out !</a>.
+
 			</div>
 			<div class="alert col-md-1"></div>
 			<div class="alert alert-info col-md-4">
