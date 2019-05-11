@@ -104,7 +104,7 @@ than documentation/support most of the time.</p>
 <p><strong>What is Jerkar ?</strong></p>
 <p>Jerkar contains both a library and a tool.</p>
 <p>The library is for dealing with file sets, compilation, dependency management, testing,
-external processes, crypto signatures, ... in a word, all regular things you need to build/publish projects and especially Java projects.
+external processes, crypto signatures, ... in a glance, all regular things you need to build/publish projects and especially Java projects.
 The library can be used in any Java program and does not have any dependency.</p>
 <p>The tool is intended to execute Java source code from the console in a parameterizable way. Its architecture eases the
 reuse of build elements (logic, settings, doc, ...) across projects.</p>
@@ -154,7 +154,7 @@ use another version of these APIs without conflict : from user point of view, Je
 in production or test and the ones used for building.</p>
 <p><strong>Mutable Vs Immutable</strong></p>
 <p>As a rule of thumb <em>Jerkar</em> favors immutable objects. Nevertheless when object structure is pretty deep, immutability
-makes object cumbersome to configure, that's why more complex objects of the APIs are mutable while simpler are
+makes object cumbersome to configure, that's why objects of the API with deep structure are mutable while simpler are
 immutable.</p>
 <p><strong>Instantiation</strong></p>
 <p>All objects are instantiated using static factory methods. Every factory method names start with <code>of</code>.</p>
@@ -165,7 +165,7 @@ immutable.</p>
 <ul>
 <li>Methods starting with <code>with</code> when a property is to be replaced by another.</li>
 <li>Methods starting with <code>and</code> when a collection property is to be replaced by the same one plus an extra element.</li>
-<li>Methods starting with <code>minus</code> when a collection property is to be replaced by the same one minus a specified one.</li>
+<li>Methods starting with <code>minus</code> when a collection property is to be replaced by the same one minus a specified element.</li>
 </ul>
 <p><strong>Setters/Adders for Mutable Objects</strong></p>
 <p>To modify a mutable object, <em>Jerkar</em> provides :</p>
