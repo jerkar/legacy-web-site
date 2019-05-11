@@ -2,22 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
     <url>
         <loc>http://jerkar.orgabout.html</loc>
-        <lastmod>2019-05-04</lastmod>
+        <lastmod>2019-05-11</lastmod>
     </url>
     <url>
         <loc>http://jerkar.orgdownload.html</loc>
-        <lastmod>2019-05-04</lastmod>
-    </url>
-    <url>
-        <loc>http://jerkar.orgfaq.html</loc>
-        <lastmod>2019-05-04</lastmod>
-    </url>
-    <url>
-        <loc>http://jerkar.orggetting_started.html</loc>
-        <lastmod>2019-05-04</lastmod>
+        <lastmod>2019-05-11</lastmod>
     </url>
     <url>
         <loc>http://jerkar.orgtell-me-more.html</loc>
-        <lastmod>2019-05-04</lastmod>
+        <lastmod>2019-05-11</lastmod>
     </url>
 </urlset>
