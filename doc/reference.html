@@ -572,7 +572,7 @@ build instructions ...</p>
 <h3>2.0.1 Lexical</h3>
 <p>The following terms are used all over this section :</p>
 <p><strong>[PROJECT DIR]</strong> : Refers to the root folder of the project to build (or to run tasks on). This is where you would put pom.xml or build.xml files.</p>
-<p><strong>[JERKAR HOME]</strong> : Refers to the folder where is intalled Jerkar. You should find <em>jerkar.bat</em> and <em>jerkar</em> shell scripts eet the root of this folder.</p>
+<p><strong>[JERKAR HOME]</strong> : Refers to the folder where is installed Jerkar. You should find <em>jerkar.bat</em> and <em>jerkar</em> shell scripts eet the root of this folder.</p>
 <p><strong>[JERKAR USER HOME]</strong> : Refers to the folder where Jerkar stores caches, binary repository and global user configuration. By default it is located at [USER DIR]/.jerkar.</p>
 <p><strong>Def classes :</strong> Java source files located under <em>[PROJECT DIR]/jerkar/def</em> compiled on the flight by Jerkar.</p>
 <p><strong>Run Classes :</strong> Classes extending <code>org.jerkar.tool.JkRun</code>. Their <em>run methods</em> can be invoked and
@@ -583,7 +583,7 @@ By default, it consists in <em>Jerkar</em> core classes. it can be augmented wit
 from another project.
 Once <em>def classes</em> sources have been compiled, <em>run classpath</em> is augmented with their <em>.class</em> counterpart.</p>
 <p><strong>Run Methods :</strong> Java methods member of <em>run classes</em> and invokable from Jerkar command line.
-They must be public zero-args instance methods returning void.</p>
+They must be instance method (not static), public, zero-args and returning void. Every method verigfying these constraints is considered as a <em>run method</em>.</p>
 <p><strong>Options :</strong> This is a set of key-value used to inject parameters. Options can be mentioned
 as command line arguments, stored in specific files or hard coded in <em>run classes</em>.</p>
 <a name="InaGlance"></a>
@@ -633,7 +633,7 @@ public class MyRun extends JkRun {    // The run class
 
 }
 </code></pre>
-<p>From <strong>[Project Dir]</strong>,  you can invoke any build method defined on <code>MyRun</code> class from the command line.</p>
+<p>From <strong>[Project Dir]</strong>,  you can invoke any run method defined on <code>MyRun</code> class from the command line.</p>
 <p>For example, executing <code>jerkar myMethod1 myMethod2 -myParam1=foo</code> does the following :</p>
 <ol>
 <li>compile sources located in <em>jerkar/def</em> directory,</li>
