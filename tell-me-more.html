@@ -90,7 +90,7 @@
   <li>Swiss-knife library for performing all kind of build related stuff as file and I/O manipulation, logging, PGP signing, external tool launcher, ...</li>
   <li>Multi-level configuration to fit in enterprise environment</li>
   <li>Hierarchical logs</li>
-  <li>Ability to rely on convention only (no build script needed at all) or get build information from IDE meta-data</li>
+  <li>Ability to rely on convention only (no build script needed at all)</li>
   <li>Facility to migrate <em>Maven</em> projects</li>
   <li>Scaffolding feature for creating projects from scratch</li>
 </ul><p>Also as an <strong>automation tool</strong> Jerkar provides :</p>
@@ -107,54 +107,69 @@
   <li>scripts can directly leverage of any Java <strong>3rd party libraries</strong> without needing to wrap it in a plugin or a specific component</li>
   <li>it's straightforward to <strong>extend</strong></li>
   <li><strong>refactoring</strong> build definition is easy and safe (thanks to statically typed nature of Java)</li>
-  <li>build definitions leverage the regular Java mechanisms (Inheritance, composition, jar module dependency) to <strong>re-use build elements</strong> or share settings</li>
-</ul><h2>See it !</h2><p>You just need to add such a class in your project in order to make it buildable by Jerkar. To build a project, just execute <code>jerkar</code> in a shell at its root folder. </p>
-<pre><code class="java">class TaskBuild extends JkRun {
+  <li>build scripts leverage the regular Java mechanisms (Inheritance, composition, jar module dependency) to <strong>re-use build elements</strong> or share settings</li>
+</ul><h2>How does it look like ?</h2><p>All related Jerkar files lies within the project to build, under 'jerkar' diectory.</p>
+<pre><code>myproject
+   + jerkar             
+      + def             &lt;-----  Java code that build your project goes here (this should be identifed as a java source folder in your IDE)
+         + Build.java   
+      + output          &lt;---- Build artifacts are generated here 
+   + src                &lt;---- Sources of the project to build according build class defined below.
+   ...
+</code></pre><p><br/>The following <em>Build.java</em> mimics a Ant file defining various Jave build tasks. Every public no-args void methods is callable from the command line.<br/>Moreover, public fields value can be set from command line.<br/>For instance : <code>jerkar clean compile test -forkTest=true</code> will inject <code>true</code> value to <em>forkTest</em> field then invoke <em>clean</em>, <em>compile</em> and <em>test</em> methods. </p>
+<pre><code class="java">@JkImport(&quot;commons-httpclient:commons-httpclient:3.1&quot;)  // Import HttpClient and its deps in script classpath
+class Build extends JkRun {
 	
     @JkDoc(&quot;Run test in a forked process if true.&quot;)
-    boolean forkTest;
+    public boolean forkTest;
     
     private JkPathTree src = getBaseTree().goTo(&quot;src&quot;);
     private Path classDir = getOutputDir().resolve(&quot;classes&quot;);
     private Path jarFile = getOutputDir().resolve(&quot;capitalizer.jar&quot;);
-    private JkClasspath classpath = JkClasspath.of(getBaseTree()
-        .andMatching(&quot;libs/compile/*.jar&quot;).getFiles());
     private Path testSrc = getBaseDir().resolve(&quot;test&quot;);
     private Path testClassDir = getOutputDir().resolve(&quot;test-classes&quot;);
-    private JkClasspath testClasspath = classpath.and(getBaseTree()
-        .andMatching(&quot;libs/test/*.jar&quot;).getFiles());
     private Path reportDir = getOutputDir().resolve(&quot;junitRreport&quot;);
+    private JkClasspath classpath;
+    private JkClasspath testClasspath;
     
-    public void doDefault() {
-        clean();
-        compile();
-        junit();
-        jar();
+    Build() {  // Here, classpath is made of local jars + jars hosted in Maven Central
+        JkResolveResult deps = JkDependencyResolver.of(JkRepo.ofMavenCentral()).resolve(JkDependencySet.of()
+            .and(&quot;org.hibernate:hibernate-entitymanager:5.4.2.Final&quot;)
+            .and(&quot;com.h2database:h2:1.4.199&quot;));
+        List&lt;Path&gt; localJars = getBaseTree().andMatching(&quot;libs/compile/*.jar&quot;).getFiles();
+        classpath = JkClasspath.of(localJars).and(deps.getFiles());   
+        testClasspath = classpath.and(getBaseTree().andMatching(&quot;libs/test/*.jar&quot;).getFiles());
+    }
+    
+    public void runDefault() {
+        clean(); compile(); test(); jar();
     }
     
     public void compile() {
-        JkJavaCompiler.ofJdk().compile(JkJavaCompileSpec.of()
-            .setClasspath(classpath)
-            .addSources(src)
-            .setOutputDir(classDir));
+        JkJavaCompiler.ofJdk().compile(
+            JkJavaCompileSpec.of()
+                .setClasspath(classpath)
+                .addSources(src)
+                .setOutputDir(classDir));
         src.andMatching(false,&quot;**/*.java&quot;).copyTo(classDir);  /// copy resources
     }
     
+    @JkDoc(&quot;Create jar file on already compiled classes.&quot;)
     public void jar() {
-        JkManifest.ofEmpty().addMainClass(&quot;org.jerkar.samples.RunClass&quot;)
-            .writeToStandardLocation(classDir);
+        JkManifest.ofEmpty().addMainClass(&quot;org.jerkar.samples.RunClass&quot;).writeToStandardLocation(classDir);
         JkPathTree.of(classDir).zipTo(jarFile);
     }
     
     private void compileTest() {
-        JkJavaCompiler.ofJdk().compile(JkJavaCompileSpec.of()
-            .setClasspath(testClasspath)
-            .addSources(testSrc)
-            .setOutputDir(testClassDir));
+        JkJavaCompiler.ofJdk().compile(
+            JkJavaCompileSpec.of()
+                .setClasspath(testClasspath)
+                .addSources(testSrc)
+                .setOutputDir(testClassDir));
         src.andMatching(false,&quot;**/*.java&quot;).copyTo(testClassDir);  /// copy test resources
     }
     
-    public void junit() {
+    public void test() {
         compileTest();
         JkUnit.of()
             .withReportDir(reportDir).withReport(JunitReportDetail.FULL)
@@ -162,24 +177,33 @@
             .run(testClasspath.and(classDir), JkPathTree.of(testClassDir));
     }
     
+    @JkDoc(&quot;Performs some http client tasks&quot;)
+    public void seleniumLoadTest() throws IOException {
+        HttpClient client = new HttpClient();
+        GetMethod getMethod = new GetMethod(&quot;http://my.url&quot;);
+        client.executeMethod(getMethod);
+        // ....
+    }
+    
     public static void main(String[] args) {
-        JkInit.instanceOf(TaskBuild.class, args).doDefault();
+        JkInit.instanceOf(TaskBuild.class, args).runDefault();
     }
 
 }
-</code></pre><p>Ant like style to build a Java project. All public no-arg returning void are invokable<br/>from the command line. Executing <code>jerkar compile jar</code> compiles source code and creates a Jar file.</p>
-<pre><code class="java">class ClassicBuild extends JkRun {
+</code></pre><p><br/>The example below shows how Java plugin helps to build Java project with minimal typing. This plugin simply exposes a pre-configured <code>JkJavaProject</code> instance that you can reshape.<br/>Executing <code>jerkar java#pack java#publish</code> invokes <em>pack</em> and <em>publish</em> methods on the Java plugin. This leads in compilation, test compilation, test executions, packaging jars and publish artifacts to default Maven repositoy.</p>
+<pre><code class="java">class JavaPluginBuild extends JkRun {
 
-    JkPluginJava javaPlugin = getPlugin(JkPluginJava.class);
+    final JkPluginJava javaPlugin = getPlugin(JkPluginJava.class);
 
     @Override
     protected void setup() {
         JkJavaProject project = javaPlugin.getProject();
-        project.setVersionedModule(&quot;org.jerkar:examples-java-template&quot;, &quot;1.0&quot;);
+        project.setVersionedModule(&quot;org.jerkar:examples-java-template&quot;, &quot;1.0-SNAPSHOT&quot;);
         project.getCompileSpec().setSourceAndTargetVersion(JkJavaVersion.V8);
         project.addDependencies(JkDependencySet.of()
                 .and(&quot;com.google.guava:guava:18.0&quot;)
-                .and(&quot;junit:junit::4.12&quot;));
+                .and(&quot;junit:junit:4.12&quot;, TEST)
+        );
     }
 
     public static void main(String[] args) {
@@ -187,7 +211,7 @@
     }
 
 }
-</code></pre><p>Java plugin helps to build Java project with mi minimal typing.<br/>Executing <code>jerkar java#pack java#publish</code> invokes <code>pack</code>and <code>publish</code> methods on the java plugin.<br/><br/></p><p>Jerkar also allows to activate plugins on the fly without explicly instantiating it in ne build class :<br/><code>jerkar sonar# jacoco# java#pack</code> processes test coverage along SonarQube analysis prior publishing artifacts. </p><h2>Multi-techno projects</h2><p>Beside <strong>building Java projects</strong>, Jerkar can be used for <strong>any automation purpose</strong>, for example, <a href="https://github.com/jerkar/jerkar.github.io/blob/master/_jbake-site-sources/build/def/jerkar/github/io/SiteBuild.java">Jerkar is used</a> to generate this site.</p><p>For building <strong>multi-techno</strong> projects embedding other technologies than java, we suggest the following approach : </p>
+</code></pre><p><br/>Jerkar also allows to activate plugins on the fly without explicitly instantiating it in the build class :<br/><code>jerkar sonar# jacoco# java#pack</code> processes test coverage along SonarQube analysis prior publishing artifacts. </p><h2>Multi-techno projects</h2><p>Beside <strong>building Java projects</strong>, Jerkar can be used for <strong>any automation purpose</strong>, for example, <a href="https://github.com/jerkar/jerkar.github.io/blob/master/_jbake-site-sources/build/def/jerkar/github/io/SiteBuild.java">Jerkar is used</a> to generate this site.</p><p>For building <strong>multi-techno</strong> projects embedding other technologies than java, we suggest the following approach : </p>
 <ul>
   <li>Each <strong>sub-project</strong> builds using its <strong>own 'native' tool</strong> (e.g. <em>nodejs/Webpack</em> for web-client, <em>Jerkar</em> for java server and <em>Haskell Cabal</em> for <em>Haskell</em> modules)</li>
   <li><strong>Jerkar</strong> performs the <strong>master build</strong> by <strong>orchestrating sub-builds</strong> and glues all together to pack the whole distribution.</li>
