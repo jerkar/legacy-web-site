@@ -117,7 +117,7 @@
    + src                &lt;---- Sources of the project to build according build class defined below.
    ...
 </code></pre><p><br/>The following <em>Build.java</em> mimics a Ant file defining various Jave build tasks. Every public no-args void methods is callable from the command line.<br/>Moreover, public fields value can be set from command line.<br/>For instance : <code>jerkar clean compile test -forkTest=true</code> will inject <code>true</code> value to <em>forkTest</em> field then invoke <em>clean</em>, <em>compile</em> and <em>test</em> methods. </p>
-<pre><code class="java">@JkImport(&quot;commons-httpclient:commons-httpclient:3.1&quot;)  // Import HttpClient and its deps in script classpath
+<pre><code class="java">@JkImport(&quot;commons-httpclient:commons-httpclient:3.1&quot;)  // Import HttpClient and its deps for usage in this script
 class Build extends JkRun {
 	
     @JkDoc(&quot;Run test in a forked process if true.&quot;)
